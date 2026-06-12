@@ -62,7 +62,7 @@ chore: add Supabase types generation script
 - [ ] **1.1** — Enable `pgvector` extension in Supabase dashboard (Database → Extensions → vector)
 
 - [ ] **1.2** — Write and run `001_init_tables.sql`
-  - Create: `profiles`, `products`, `cart_items`, `orders`, `order_items`, `wishlist_items`, `recently_viewed`
+  - Create: `profiles`, `products`, `cart_items`, `orders`, `order_items`, `wishlist_items`
   - Run in Supabase SQL Editor
 
 - [ ] **1.3** — Write and run `002_rls_policies.sql`
