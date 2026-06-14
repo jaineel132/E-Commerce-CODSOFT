@@ -29,13 +29,19 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Missing user_id in session metadata' }, { status: 400 })
     }
 
+    const productsMeta = session.metadata?.products
+    if (!productsMeta) {
+      return Response.json({ error: 'Missing products in session metadata' }, { status: 400 })
+    }
+
+    let products: { product_id: string; quantity: number }[]
+    try {
+      products = JSON.parse(productsMeta)
+    } catch {
+      return Response.json({ error: 'Invalid products metadata' }, { status: 400 })
+    }
+
     const supabase = createAdminClient()
-
-    // Get the Stripe session with line items to reconstruct order
-    const sessionWithItems = await stripe.checkout.sessions.retrieve(session.id, {
-      expand: ['line_items.data.price.product'],
-    })
-
     const totalAmount = session.amount_total ? session.amount_total / 100 : 0
 
     // Create order
@@ -54,13 +60,23 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: orderError.message }, { status: 500 })
     }
 
-    // Create order_items
-    const lineItems = sessionWithItems.line_items?.data || []
-    const orderItems = lineItems.map((item) => ({
+    // Fetch prices to build order_items
+    const { data: priceData, error: priceError } = await supabase
+      .from('products')
+      .select('id, price')
+      .in('id', products.map((p) => p.product_id))
+
+    if (priceError) {
+      return Response.json({ error: priceError.message }, { status: 500 })
+    }
+
+    const priceMap = new Map(priceData.map((p) => [p.id, Number(p.price)]))
+
+    const orderItems = products.map((p) => ({
       order_id: order.id,
-      product_id: (item.price?.product as Stripe.Product)?.id || '',
-      quantity: item.quantity || 1,
-      unit_price: item.price?.unit_amount ? item.price.unit_amount / 100 : 0,
+      product_id: p.product_id,
+      quantity: p.quantity,
+      unit_price: priceMap.get(p.product_id) || 0,
     }))
 
     const { error: itemsError } = await supabase
