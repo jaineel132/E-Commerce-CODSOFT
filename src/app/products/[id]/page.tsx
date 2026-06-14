@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { StockBadge } from '@/components/products/StockBadge'
+import { AddToCartButton } from '@/components/products/AddToCartButton'
 import { formatPrice } from '@/lib/utils'
 import type { Metadata } from 'next'
 
@@ -107,23 +108,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col gap-3">
-            <button
-              disabled={isOutOfStock}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-              </svg>
-              {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-            </button>
-
-            <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
-              Add to Wishlist
-            </button>
+          <div className="mt-8">
+            <AddToCartButton productId={product.id} isOutOfStock={isOutOfStock} />
           </div>
 
           <div className="mt-8 border-t pt-6 dark:border-zinc-800">

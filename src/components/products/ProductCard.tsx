@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
 import { formatPrice } from '@/lib/utils'
+import { useCartContext } from '@/context/CartContext'
 import type { Product } from '@/types'
 
 interface ProductCardProps {
@@ -14,7 +15,18 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
+  const [added, setAdded] = useState(false)
+  const { addToCart } = useCartContext()
   const isOutOfStock = product.stock_count <= 0
+
+  const handleAddToCart = async () => {
+    if (isOutOfStock || added) return
+    const success = await addToCart(product.id)
+    if (success) {
+      setAdded(true)
+      setTimeout(() => setAdded(false), 2000)
+    }
+  }
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-lg border bg-white transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900">
@@ -53,11 +65,21 @@ export function ProductCard({ product }: ProductCardProps) {
           <StockBadge stockCount={product.stock_count} />
         </div>
         <button
-          disabled={isOutOfStock}
+          onClick={handleAddToCart}
+          disabled={isOutOfStock || added}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
-          <ShoppingCart className="h-4 w-4" />
-          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+          {added ? (
+            <>
+              <Check className="h-4 w-4" />
+              Added!
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="h-4 w-4" />
+              {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+            </>
+          )}
         </button>
       </div>
     </div>

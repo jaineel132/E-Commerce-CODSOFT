@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { createClient } from "@/lib/supabase/server";
 
@@ -35,8 +36,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100`}
       >
         <AuthProvider initialUser={user}>
-          <Navbar />
-          <main>{children}</main>
+          <CartProvider>
+            <Navbar />
+            <main>{children}</main>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

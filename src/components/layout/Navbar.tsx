@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
+import { useCartContext } from '@/context/CartContext'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X } from 'lucide-react'
@@ -9,6 +10,7 @@ import { useState } from 'react'
 
 export function Navbar() {
   const { user, loading } = useAuth()
+  const { cartCount } = useCartContext()
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -35,6 +37,11 @@ export function Navbar() {
             <>
               <Link href="/cart" className="relative text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </span>
+                )}
               </Link>
               <Link href="/wishlist" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 <Heart className="h-5 w-5" />
@@ -81,8 +88,13 @@ export function Navbar() {
             </Link>
             {loading ? null : user ? (
               <>
-                <Link href="/cart" className="text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
+                <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
                   Cart
+                  {cartCount > 0 && (
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                      {cartCount > 99 ? '99+' : cartCount}
+                    </span>
+                  )}
                 </Link>
                 <Link href="/wishlist" className="text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
                   Wishlist
