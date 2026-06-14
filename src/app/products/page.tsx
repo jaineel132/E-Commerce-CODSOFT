@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { ProductGrid } from '@/components/products/ProductGrid'
+import { ProductList } from '@/components/products/ProductList'
 import { ProductFilter } from '@/components/products/ProductFilter'
 import type { Product } from '@/types'
 import type { Metadata } from 'next'
@@ -49,6 +49,7 @@ async function getProducts(searchParams: { [key: string]: string | string[] | un
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const products = await getProducts(searchParams)
+  const q = typeof searchParams.q === 'string' ? searchParams.q : undefined
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -57,7 +58,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           All Products
         </h1>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          {products.length} product{products.length !== 1 ? 's' : ''} found
+          Search with AI or browse with filters
         </p>
       </div>
 
@@ -69,7 +70,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <div className="flex-1">
-          <ProductGrid products={products} />
+          <ProductList initialProducts={products} initialQuery={q} />
         </div>
       </div>
     </div>

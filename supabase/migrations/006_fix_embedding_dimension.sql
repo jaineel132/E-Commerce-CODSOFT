@@ -1,13 +1,10 @@
--- Enable pgvector extension (must also be enabled in Dashboard → Database → Extensions)
-CREATE EXTENSION IF NOT EXISTS vector;
-
--- The embedding column was already created in 001_init_tables.sql
--- but we ensure it exists with the right dimensions
+-- Change embedding column from vector(1536) to vector(3072) for Gemini compatibility
 ALTER TABLE products
   ALTER COLUMN embedding TYPE vector(3072) USING embedding::vector(3072);
 
--- Create the match_products function for semantic similarity search
--- Uses cosine distance (<=>) with a minimum threshold
+-- Drop and recreate match_products function with vector(3072)
+DROP FUNCTION IF EXISTS match_products;
+
 CREATE OR REPLACE FUNCTION match_products(
   query_embedding vector(3072),
   match_threshold float DEFAULT 0.75,
