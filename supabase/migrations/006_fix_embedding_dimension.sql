@@ -7,7 +7,7 @@ DROP FUNCTION IF EXISTS match_products;
 
 CREATE OR REPLACE FUNCTION match_products(
   query_embedding vector(3072),
-  match_threshold float DEFAULT 0.75,
+  match_threshold float DEFAULT 0.5,
   match_count int DEFAULT 10
 )
 RETURNS TABLE(

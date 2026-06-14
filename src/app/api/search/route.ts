@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     const { data: products, error } = await supabase.rpc('match_products', {
       query_embedding: embedding,
-      match_threshold: 0.75,
+      match_threshold: 0.55,
       match_count: 10,
     })
 

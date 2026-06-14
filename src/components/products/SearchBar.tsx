@@ -9,12 +9,14 @@ interface SearchBarProps {
   onClear: () => void
   className?: string
   placeholder?: string
+  initialQuery?: string
 }
 
-export function SearchBar({ onResults, onClear, className, placeholder = 'Search products...' }: SearchBarProps) {
-  const [query, setQuery] = useState('')
+export function SearchBar({ onResults, onClear, className, placeholder = 'Search products...', initialQuery }: SearchBarProps) {
+  const [query, setQuery] = useState(initialQuery || '')
   const [searching, setSearching] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const hasInitialized = useRef(false)
 
   const performSearch = useCallback(async (q: string) => {
     if (!q.trim()) {
@@ -44,6 +46,12 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
   }, [onResults, onClear])
 
   useEffect(() => {
+    if (initialQuery && !hasInitialized.current) {
+      hasInitialized.current = true
+      performSearch(initialQuery)
+      return
+    }
+
     if (debounceRef.current) {
       clearTimeout(debounceRef.current)
     }

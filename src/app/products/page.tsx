@@ -50,6 +50,10 @@ async function getProducts(searchParams: { [key: string]: string | string[] | un
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const products = await getProducts(searchParams)
   const q = typeof searchParams.q === 'string' ? searchParams.q : undefined
+  const category = typeof searchParams.category === 'string' ? searchParams.category : ''
+  const minPrice = typeof searchParams.minPrice === 'string' ? searchParams.minPrice : ''
+  const maxPrice = typeof searchParams.maxPrice === 'string' ? searchParams.maxPrice : ''
+  const filterKey = `${category}-${minPrice}-${maxPrice}`
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -70,7 +74,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <div className="flex-1">
-          <ProductList initialProducts={products} initialQuery={q} />
+          <ProductList key={filterKey} initialProducts={products} initialQuery={q} />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback } from 'react'
 import { SearchBar } from './SearchBar'
 import { ProductGrid } from './ProductGrid'
 import type { Product } from '@/types'
@@ -13,22 +13,6 @@ interface ProductListProps {
 export function ProductList({ initialProducts, initialQuery }: ProductListProps) {
   const [searchResults, setSearchResults] = useState<Product[] | null>(null)
   const [isSearchActive, setIsSearchActive] = useState(false)
-  const hasInitialized = useRef(false)
-
-  useEffect(() => {
-    if (initialQuery && !hasInitialized.current) {
-      hasInitialized.current = true
-      setIsSearchActive(true)
-      fetch('/api/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: initialQuery }),
-      })
-        .then((res) => res.json())
-        .then((data) => setSearchResults(data.products || []))
-        .catch(() => setSearchResults([]))
-    }
-  }, [initialQuery])
 
   const handleResults = useCallback((products: Product[] | null) => {
     setSearchResults(products)
@@ -50,6 +34,7 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
           onResults={handleResults}
           onClear={handleClear}
           className="w-full max-w-md"
+          initialQuery={initialQuery}
         />
       </div>
 
