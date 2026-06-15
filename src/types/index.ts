@@ -59,9 +59,17 @@ export interface WishlistItem {
   created_at: string
 }
 
+export interface WishlistItemWithProduct extends WishlistItem {
+  product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
+}
+
 export interface RecentlyViewed {
   id: string
   user_id: string
   product_id: string
   viewed_at: string
+}
+
+export interface RecentlyViewedWithProduct extends RecentlyViewed {
+  product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
 }

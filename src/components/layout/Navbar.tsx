@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import { useCartContext } from '@/context/CartContext'
+import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X, Search } from 'lucide-react'
@@ -12,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export function Navbar() {
   const { user, loading } = useAuth()
   const { cartCount } = useCartContext()
+  const { wishlistItems } = useWishlistContext()
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -78,8 +80,13 @@ export function Navbar() {
                   )}
                 </AnimatePresence>
               </Link>
-              <Link href="/wishlist" className="text-muted-foreground hover:text-foreground transition-all duration-200">
+              <Link href="/wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                 <Heart className="h-5 w-5" />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {wishlistItems.length > 99 ? '99+' : wishlistItems.length}
+                  </span>
+                )}
               </Link>
               <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                 Orders

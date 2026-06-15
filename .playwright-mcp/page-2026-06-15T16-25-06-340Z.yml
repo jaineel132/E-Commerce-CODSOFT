@@ -1,0 +1,229 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Store" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Products" [ref=e6] [cursor=pointer]:
+          - /url: /products
+        - generic [ref=e9]:
+          - img [ref=e10]
+          - textbox "Search with AI..." [ref=e13]
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e19]:
+        - heading "Discover Something Amazing" [level=1] [ref=e20]
+        - paragraph [ref=e21]: Shop the latest trends across Electronics, Clothing, Books, and Home & Kitchen. Quality products at unbeatable prices.
+        - generic [ref=e22]:
+          - link "Shop Now" [ref=e23] [cursor=pointer]:
+            - /url: /products
+          - link "Browse Catalog →" [ref=e24] [cursor=pointer]:
+            - /url: /products
+      - generic [ref=e25]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - heading "Featured Products" [level=2] [ref=e29]
+            - paragraph [ref=e30]: Check out our latest arrivals
+          - link "View all →" [ref=e31] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=e32]:
+          - generic [ref=e34]:
+            - link [ref=e35] [cursor=pointer]:
+              - /url: /products/d6644b68-7f7f-49da-af1d-cf301be25f0c
+              - img [ref=e37]
+            - generic [ref=e39]:
+              - generic [ref=e40]: Electronics
+              - link "Wireless Noise-Cancelling Headphones" [ref=e41] [cursor=pointer]:
+                - /url: /products/d6644b68-7f7f-49da-af1d-cf301be25f0c
+                - heading "Wireless Noise-Cancelling Headphones" [level=3] [ref=e42]
+              - generic [ref=e43]:
+                - paragraph [ref=e44]: $249.99
+                - generic [ref=e45]: In Stock
+              - button "Add to Cart" [ref=e46] [cursor=pointer]:
+                - img [ref=e47]
+                - text: Add to Cart
+          - generic [ref=e52]:
+            - link [ref=e53] [cursor=pointer]:
+              - /url: /products/0fd7ac15-0476-40db-8f7d-5c164bb23802
+              - img [ref=e55]
+            - generic [ref=e57]:
+              - generic [ref=e58]: Electronics
+              - link "USB-C Hub 7-in-1" [ref=e59] [cursor=pointer]:
+                - /url: /products/0fd7ac15-0476-40db-8f7d-5c164bb23802
+                - heading "USB-C Hub 7-in-1" [level=3] [ref=e60]
+              - generic [ref=e61]:
+                - paragraph [ref=e62]: $39.99
+                - generic [ref=e63]: In Stock
+              - button "Add to Cart" [ref=e64] [cursor=pointer]:
+                - img [ref=e65]
+                - text: Add to Cart
+          - generic [ref=e70]:
+            - link [ref=e71] [cursor=pointer]:
+              - /url: /products/452b7a7b-93a5-4dab-b240-8d1b6dd93cc6
+              - img [ref=e73]
+            - generic [ref=e75]:
+              - generic [ref=e76]: Electronics
+              - link "Mechanical Keyboard" [ref=e77] [cursor=pointer]:
+                - /url: /products/452b7a7b-93a5-4dab-b240-8d1b6dd93cc6
+                - heading "Mechanical Keyboard" [level=3] [ref=e78]
+              - generic [ref=e79]:
+                - paragraph [ref=e80]: $129.99
+                - generic [ref=e81]: In Stock
+              - button "Add to Cart" [ref=e82] [cursor=pointer]:
+                - img [ref=e83]
+                - text: Add to Cart
+          - generic [ref=e88]:
+            - link [ref=e89] [cursor=pointer]:
+              - /url: /products/c404fc1e-ef52-442a-b9b0-1545f152da96
+              - img [ref=e91]
+            - generic [ref=e93]:
+              - generic [ref=e94]: Clothing
+              - link "Slim Fit Chinos" [ref=e95] [cursor=pointer]:
+                - /url: /products/c404fc1e-ef52-442a-b9b0-1545f152da96
+                - heading "Slim Fit Chinos" [level=3] [ref=e96]
+              - generic [ref=e97]:
+                - paragraph [ref=e98]: $59.99
+                - generic [ref=e99]: In Stock
+              - button "Add to Cart" [ref=e100] [cursor=pointer]:
+                - img [ref=e101]
+                - text: Add to Cart
+          - generic [ref=e106]:
+            - link [ref=e107] [cursor=pointer]:
+              - /url: /products/013f2b35-4b0e-4ced-b1e1-620edb2131b2
+              - img [ref=e109]
+            - generic [ref=e111]:
+              - generic [ref=e112]: Clothing
+              - link "Running Shoes" [ref=e113] [cursor=pointer]:
+                - /url: /products/013f2b35-4b0e-4ced-b1e1-620edb2131b2
+                - heading "Running Shoes" [level=3] [ref=e114]
+              - generic [ref=e115]:
+                - paragraph [ref=e116]: $119.99
+                - generic [ref=e117]: In Stock
+              - button "Add to Cart" [ref=e118] [cursor=pointer]:
+                - img [ref=e119]
+                - text: Add to Cart
+          - generic [ref=e124]:
+            - link [ref=e125] [cursor=pointer]:
+              - /url: /products/722dbd25-a21f-4032-9ed5-5e047cf7c111
+              - img [ref=e127]
+            - generic [ref=e129]:
+              - generic [ref=e130]: Books
+              - link "The Pragmatic Programmer" [ref=e131] [cursor=pointer]:
+                - /url: /products/722dbd25-a21f-4032-9ed5-5e047cf7c111
+                - heading "The Pragmatic Programmer" [level=3] [ref=e132]
+              - generic [ref=e133]:
+                - paragraph [ref=e134]: $49.99
+                - generic [ref=e135]: In Stock
+              - button "Add to Cart" [ref=e136] [cursor=pointer]:
+                - img [ref=e137]
+                - text: Add to Cart
+          - generic [ref=e142]:
+            - link [ref=e143] [cursor=pointer]:
+              - /url: /products/77fae55e-e652-4c57-9c68-c4c95b495be6
+              - img [ref=e145]
+            - generic [ref=e147]:
+              - generic [ref=e148]: Books
+              - link "Atomic Habits" [ref=e149] [cursor=pointer]:
+                - /url: /products/77fae55e-e652-4c57-9c68-c4c95b495be6
+                - heading "Atomic Habits" [level=3] [ref=e150]
+              - generic [ref=e151]:
+                - paragraph [ref=e152]: $24.99
+                - generic [ref=e153]: In Stock
+              - button "Add to Cart" [ref=e154] [cursor=pointer]:
+                - img [ref=e155]
+                - text: Add to Cart
+          - generic [ref=e160]:
+            - link [ref=e161] [cursor=pointer]:
+              - /url: /products/83986b45-6595-4a95-ab35-1fd47fecd1a5
+              - img [ref=e163]
+            - generic [ref=e165]:
+              - generic [ref=e166]: Books
+              - link "Designing Data-Intensive Applications" [ref=e167] [cursor=pointer]:
+                - /url: /products/83986b45-6595-4a95-ab35-1fd47fecd1a5
+                - heading "Designing Data-Intensive Applications" [level=3] [ref=e168]
+              - generic [ref=e169]:
+                - paragraph [ref=e170]: $44.99
+                - generic [ref=e171]: In Stock
+              - button "Add to Cart" [ref=e172] [cursor=pointer]:
+                - img [ref=e173]
+                - text: Add to Cart
+      - generic [ref=e178]:
+        - generic [ref=e179]:
+          - heading "Browse by Category" [level=2] [ref=e180]
+          - paragraph [ref=e181]: Find what you're looking for
+        - generic [ref=e182]:
+          - link "Electronics" [ref=e183] [cursor=pointer]:
+            - /url: /products?category=Electronics
+            - img [ref=e185]
+            - generic [ref=e187]: Electronics
+          - link "Clothing" [ref=e188] [cursor=pointer]:
+            - /url: /products?category=Clothing
+            - img [ref=e190]
+            - generic [ref=e192]: Clothing
+          - link "Books" [ref=e193] [cursor=pointer]:
+            - /url: /products?category=Books
+            - img [ref=e195]
+            - generic [ref=e197]: Books
+          - link "Home & Kitchen" [ref=e198] [cursor=pointer]:
+            - /url: /products?category=Home%20%26%20Kitchen
+            - img [ref=e200]
+            - generic [ref=e203]: Home & Kitchen
+      - generic [ref=e206]:
+        - generic [ref=e207]:
+          - heading "Why Shop With Us" [level=2] [ref=e208]
+          - paragraph [ref=e209]: We make shopping easy and enjoyable
+        - generic [ref=e210]:
+          - generic [ref=e211]:
+            - img [ref=e213]
+            - heading "Free Shipping" [level=3] [ref=e218]
+            - paragraph [ref=e219]: On orders over $50. Fast delivery to your doorstep.
+          - generic [ref=e220]:
+            - img [ref=e222]
+            - heading "Secure Payment" [level=3] [ref=e224]
+            - paragraph [ref=e225]: Your payment info is encrypted and protected.
+          - generic [ref=e226]:
+            - img [ref=e228]
+            - heading "Quality Products" [level=3] [ref=e230]
+            - paragraph [ref=e231]: Curated selection of premium items you can trust.
+      - generic [ref=e234]:
+        - generic [ref=e235]:
+          - generic [ref=e236]:
+            - link "Store" [ref=e237] [cursor=pointer]:
+              - /url: /
+            - paragraph [ref=e238]: Your one-stop shop for everything you need.
+          - generic [ref=e239]:
+            - heading "Shop" [level=3] [ref=e240]
+            - list [ref=e241]:
+              - listitem [ref=e242]:
+                - link "All Products" [ref=e243] [cursor=pointer]:
+                  - /url: /products
+              - listitem [ref=e244]:
+                - link "Electronics" [ref=e245] [cursor=pointer]:
+                  - /url: /products?category=Electronics
+              - listitem [ref=e246]:
+                - link "Clothing" [ref=e247] [cursor=pointer]:
+                  - /url: /products?category=Clothing
+              - listitem [ref=e248]:
+                - link "Books" [ref=e249] [cursor=pointer]:
+                  - /url: /products?category=Books
+              - listitem [ref=e250]:
+                - link "Home & Kitchen" [ref=e251] [cursor=pointer]:
+                  - /url: /products?category=Home+%26+Kitchen
+          - generic [ref=e252]:
+            - heading "Account" [level=3] [ref=e253]
+            - list [ref=e254]:
+              - listitem [ref=e255]:
+                - link "My Orders" [ref=e256] [cursor=pointer]:
+                  - /url: /orders
+              - listitem [ref=e257]:
+                - link "Wishlist" [ref=e258] [cursor=pointer]:
+                  - /url: /wishlist
+              - listitem [ref=e259]:
+                - link "Cart" [ref=e260] [cursor=pointer]:
+                  - /url: /cart
+          - generic [ref=e261]:
+            - heading "Support" [level=3] [ref=e262]
+            - list [ref=e263]:
+              - listitem [ref=e264]: help@store.com
+              - listitem [ref=e265]: 1-800-STORE
+        - paragraph [ref=e267]: © 2026 Store. All rights reserved.

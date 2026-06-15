@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { createClient } from "@/lib/supabase/server";
 
@@ -37,8 +38,10 @@ export default async function RootLayout({
       <body className="antialiased">
         <AuthProvider initialUser={user}>
           <CartProvider>
-            <Navbar />
-            <main>{children}</main>
+            <WishlistProvider>
+              <Navbar />
+              <main>{children}</main>
+            </WishlistProvider>
           </CartProvider>
         </AuthProvider>
       </body>

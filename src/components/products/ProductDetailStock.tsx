@@ -1,6 +1,8 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useRealtimeStock } from '@/hooks/useRealtimeStock'
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed'
 import { StockBadge } from './StockBadge'
 import { AddToCartButton } from './AddToCartButton'
 
@@ -12,6 +14,11 @@ interface ProductDetailStockProps {
 export function ProductDetailStock({ productId, initialStock }: ProductDetailStockProps) {
   const stockCount = useRealtimeStock(productId, initialStock)
   const isOutOfStock = stockCount <= 0
+  const { trackView } = useRecentlyViewed()
+
+  useEffect(() => {
+    trackView(productId)
+  }, [productId, trackView])
 
   return (
     <>

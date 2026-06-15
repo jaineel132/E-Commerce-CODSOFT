@@ -1,0 +1,41 @@
+[     232ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[    1164ms] [LOG] [Fast Refresh] done in 932ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[    3963ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react-dom/cjs/react-dom.development.js:38559
+[    4722ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3000/api/recently-viewed:0
+[    4723ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:3000/api/recently-viewed:0
+[  157895ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[  159643ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[  160219ms] [LOG] [Fast Refresh] done in 576ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[  160887ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[  160997ms] [LOG] [Fast Refresh] done in 109ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[  166277ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[  166395ms] [LOG] [Fast Refresh] done in 119ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[  169109ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/d6644b68-7f7f-49da-af1d-cf301be25f0c?_rsc=1agtp:0
+[  169569ms] [LOG] [Fast Refresh] done in 3293ms @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:43
+[  173446ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/d6644b68-7f7f-49da-af1d-cf301be25f0c?_rsc=1agtp:0
+[  174476ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:186
+[  178454ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/d6644b68-7f7f-49da-af1d-cf301be25f0c:0
+[  179395ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ webpack-internal:///./node_modules/react-dom/cjs/react-dom.development.js:29889
+[  179569ms] Error: Cannot find module './vendor-chunks/@supabase.js'
+Require stack:
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\.next\server\webpack-runtime.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\.next\server\app\products\[id]\page.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\server\require.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\server\load-components.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\build\utils.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\server\dev\static-paths-worker.js
+- C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1456:15)
+    at <unknown> (file://C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\server\require-hook.js:55:36)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1066:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1071:22)
+    at Module._load (node:internal/modules/cjs/loader:1242:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1556:12)
+    at mod.require (file://C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:152:16)
+    at __webpack_require__.f.require (file://C:\Users\Jaineel\OneDrive\Desktop\CODSOFT\E-Commerce\.next\server\webpack-runtime.js:198:28)
+[  179559ms] [LOG] [HMR] connected @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js:38
+[  418087ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js:63
+[  422130ms] [LOG] [HMR] connected @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/websocket.js:38
+[  422186ms] [LOG] [Fast Refresh] rebuilding @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:221
