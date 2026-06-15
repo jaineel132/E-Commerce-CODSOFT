@@ -29,7 +29,7 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
 
   return (
     <div>
-      <div className="mb-6">
+      <div className="mb-8">
         <SearchBar
           onResults={handleResults}
           onClear={handleClear}
@@ -40,14 +40,14 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
 
       {isSearchActive && (
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-muted-foreground">
             {resultCount === 0
               ? 'No results found. Try a different search.'
               : `${resultCount} result${resultCount !== 1 ? 's' : ''} for your search`}
           </p>
           <button
             onClick={handleClear}
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm font-medium text-primary hover:text-primary/80"
           >
             Show all products
           </button>

@@ -58,17 +58,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
           All Products
         </h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-2 text-sm text-muted-foreground">
           Search with AI or browse with filters
         </p>
       </div>
 
       <div className="flex flex-col gap-8 lg:flex-row">
         <aside className="w-full lg:w-64 lg:shrink-0">
-          <div className="sticky top-24 rounded-lg border bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+          <div className="sticky top-24 rounded-xl bg-card border border-border p-4 shadow-sm">
             <ProductFilter />
           </div>
         </aside>

@@ -1,0 +1,45 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Store" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Products" [ref=e6] [cursor=pointer]:
+          - /url: /products
+        - generic [ref=e7]:
+          - img [ref=e8]
+          - textbox "Search with AI..." [ref=e11]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - navigation [ref=e14]:
+        - link "Home" [ref=e15] [cursor=pointer]:
+          - /url: /
+        - text: /
+        - link "Products" [ref=e16] [cursor=pointer]:
+          - /url: /products
+        - text: /Wireless Noise-Cancelling Headphones
+      - generic [ref=e17]:
+        - img [ref=e20]
+        - generic [ref=e22]:
+          - generic [ref=e23]: Electronics
+          - heading "Wireless Noise-Cancelling Headphones" [level=1] [ref=e24]
+          - generic [ref=e25]:
+            - paragraph [ref=e26]: $249.99
+            - generic [ref=e27]: In Stock
+          - generic [ref=e28]:
+            - heading "Description" [level=2] [ref=e29]
+            - paragraph [ref=e30]: Premium over-ear headphones with active noise cancellation, 30-hour battery life, and Bluetooth 5.2.
+          - generic [ref=e32]:
+            - button "Add to Cart" [ref=e33] [cursor=pointer]:
+              - img [ref=e34]
+              - text: Add to Cart
+            - button "Add to Wishlist" [ref=e38] [cursor=pointer]:
+              - img [ref=e39]
+              - text: Add to Wishlist
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - term [ref=e44]: Category
+              - definition [ref=e45]: Electronics
+            - generic [ref=e46]:
+              - term [ref=e47]: Availability
+              - definition [ref=e48]: 15 in stock

@@ -1,0 +1,18 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Store" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Products" [ref=e6] [cursor=pointer]:
+          - /url: /products
+        - generic [ref=e7]:
+          - img [ref=e8]
+          - textbox "Search with AI..." [ref=e11]
+  - main [ref=e12]:
+    - generic [ref=e14]:
+      - img [ref=e16]
+      - heading "Your cart is empty" [level=1] [ref=e20]
+      - paragraph [ref=e21]: Looks like you haven't added anything to your cart yet.
+      - link "Start Shopping" [ref=e22] [cursor=pointer]:
+        - /url: /products

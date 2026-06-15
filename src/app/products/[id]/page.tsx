@@ -51,20 +51,20 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <nav className="mb-8 text-sm text-zinc-500 dark:text-zinc-400">
-        <Link href="/" className="hover:text-zinc-900 dark:hover:text-zinc-100">
+      <nav className="mb-8 text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">
           Home
         </Link>
         <span className="mx-2">/</span>
-        <Link href="/products" className="hover:text-zinc-900 dark:hover:text-zinc-100">
+        <Link href="/products" className="hover:text-foreground">
           Products
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-zinc-900 dark:text-zinc-100">{product.name}</span>
+        <span className="text-foreground">{product.name}</span>
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="relative aspect-square overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
+        <div className="relative aspect-square overflow-hidden rounded-xl bg-muted">
           {product.image_url ? (
             <Image
               src={product.image_url}
@@ -84,26 +84,26 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         </div>
 
         <div className="flex flex-col">
-          <span className="mb-2 text-sm font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <span className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
             {product.category}
           </span>
 
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             {product.name}
           </h1>
 
           <div className="mt-4 flex items-center gap-3">
-            <p className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+            <p className="text-3xl font-bold text-foreground">
               {formatPrice(product.price)}
             </p>
             <StockBadge stockCount={product.stock_count} />
           </div>
 
           <div className="mt-6 border-t pt-6 dark:border-zinc-800">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-900 dark:text-zinc-100">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Description
             </h2>
-            <p className="whitespace-pre-line text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
               {product.description || 'No description available for this product.'}
             </p>
           </div>
@@ -112,15 +112,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <AddToCartButton productId={product.id} isOutOfStock={isOutOfStock} />
           </div>
 
-          <div className="mt-8 border-t pt-6 dark:border-zinc-800">
+          <div className="mt-8 border-t pt-6 border-border">
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <dt className="font-medium text-zinc-500 dark:text-zinc-400">Category</dt>
-                <dd className="mt-1 text-zinc-900 dark:text-zinc-100">{product.category}</dd>
+                <dt className="text-muted-foreground">Category</dt>
+                <dd className="mt-1 text-foreground">{product.category}</dd>
               </div>
               <div>
-                <dt className="font-medium text-zinc-500 dark:text-zinc-400">Availability</dt>
-                <dd className="mt-1 text-zinc-900 dark:text-zinc-100">
+                <dt className="text-muted-foreground">Availability</dt>
+                <dd className="mt-1 text-foreground">
                   {isOutOfStock ? 'Out of stock' : `${product.stock_count} in stock`}
                 </dd>
               </div>

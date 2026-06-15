@@ -65,11 +65,11 @@ export function ProductFilter({ className }: ProductFilterProps) {
   return (
     <div className={className}>
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Filters</h2>
+        <h2 className="text-base font-semibold text-foreground">Filters</h2>
         {hasActiveFilters && (
           <button
             onClick={handleClearFilters}
-            className="flex items-center gap-1 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
           >
             <X className="h-3 w-3" />
             Clear all
@@ -78,7 +78,7 @@ export function ProductFilter({ className }: ProductFilterProps) {
       </div>
 
       <div className="mt-6">
-        <h3 className="mb-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">Category</h3>
+        <h3 className="mb-3 text-sm font-medium text-foreground">Category</h3>
         <div className="flex flex-col gap-2">
           {CATEGORIES.map((category) => (
             <button
@@ -86,8 +86,8 @@ export function ProductFilter({ className }: ProductFilterProps) {
               onClick={() => handleCategoryChange(category)}
               className={`rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
                 activeCategory === category
-                  ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-                  : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
               }`}
             >
               {category}
@@ -97,29 +97,29 @@ export function ProductFilter({ className }: ProductFilterProps) {
       </div>
 
       <div className="mt-6">
-        <h3 className="mb-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">Price Range</h3>
+        <h3 className="mb-3 text-sm font-medium text-foreground">Price Range</h3>
         <div className="flex items-center gap-2">
           <input
             type="number"
             placeholder="Min"
             value={localMinPrice}
             onChange={(e) => setLocalMinPrice(e.target.value)}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800"
+            className="w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring"
             min="0"
           />
-          <span className="text-zinc-400">–</span>
+          <span className="text-muted-foreground">–</span>
           <input
             type="number"
             placeholder="Max"
             value={localMaxPrice}
             onChange={(e) => setLocalMaxPrice(e.target.value)}
-            className="w-full rounded-lg border bg-white px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800"
+            className="w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring"
             min="0"
           />
         </div>
         <button
           onClick={handlePriceApply}
-          className="mt-3 w-full rounded-lg border bg-white px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          className="mt-3 w-full rounded-lg border border-input bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary/80"
         >
           Apply Price
         </button>
@@ -127,28 +127,28 @@ export function ProductFilter({ className }: ProductFilterProps) {
 
       {hasActiveFilters && (
         <div className="mt-6">
-          <h3 className="mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-100">Active Filters</h3>
+          <h3 className="mb-2 text-sm font-medium text-foreground">Active Filters</h3>
           <div className="flex flex-wrap gap-2">
             {activeCategory && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                 {activeCategory}
-                <button onClick={() => handleCategoryChange(activeCategory)} className="ml-0.5 hover:text-zinc-900 dark:hover:text-zinc-100">
+                <button onClick={() => handleCategoryChange(activeCategory)} className="ml-0.5 hover:text-foreground">
                   <X className="h-3 w-3" />
                 </button>
               </span>
             )}
             {minPrice && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                 Min: {formatPrice(parseFloat(minPrice))}
-                <button onClick={() => { setLocalMinPrice(''); updateParams('minPrice', '') }} className="ml-0.5 hover:text-zinc-900 dark:hover:text-zinc-100">
+                <button onClick={() => { setLocalMinPrice(''); updateParams('minPrice', '') }} className="ml-0.5 hover:text-foreground">
                   <X className="h-3 w-3" />
                 </button>
               </span>
             )}
             {maxPrice && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                 Max: {formatPrice(parseFloat(maxPrice))}
-                <button onClick={() => { setLocalMaxPrice(''); updateParams('maxPrice', '') }} className="ml-0.5 hover:text-zinc-900 dark:hover:text-zinc-100">
+                <button onClick={() => { setLocalMaxPrice(''); updateParams('maxPrice', '') }} className="ml-0.5 hover:text-foreground">
                   <X className="h-3 w-3" />
                 </button>
               </span>

@@ -24,7 +24,7 @@ interface Order {
 }
 
 const statusStyles: Record<string, string> = {
-  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+  pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
   shipped: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
   delivered: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
 }
@@ -45,11 +45,11 @@ export default function OrdersPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <div className="h-8 w-40 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+          <div className="h-8 w-40 animate-pulse rounded bg-muted" />
         </div>
         <div className="space-y-4">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-32 animate-pulse rounded-lg border bg-white dark:border-zinc-800 dark:bg-zinc-900" />
+            <div key={i} className="h-32 animate-pulse rounded-xl border bg-card shadow-sm border-border" />
           ))}
         </div>
       </div>
@@ -60,18 +60,18 @@ export default function OrdersPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-zinc-100 p-6 dark:bg-zinc-800">
-            <Package className="h-12 w-12 text-zinc-400" />
+          <div className="mb-6 rounded-full bg-muted p-6">
+            <Package className="h-12 w-12 text-muted-foreground" />
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h1 className="mb-2 text-2xl font-bold text-foreground">
             No orders yet
           </h1>
-          <p className="mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mb-8 text-sm text-muted-foreground">
             When you place an order, it will appear here.
           </p>
           <Link
             href="/products"
-            className="rounded-lg bg-zinc-900 px-6 py-3 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            className="rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
             Start Shopping
           </Link>
@@ -83,10 +83,10 @@ export default function OrdersPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           My Orders
         </h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-muted-foreground">
           {orders.length} order{orders.length !== 1 ? 's' : ''} total
         </p>
       </div>
@@ -95,12 +95,12 @@ export default function OrdersPage() {
         {orders.map((order) => (
           <div
             key={order.id}
-            className="rounded-lg border bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900"
+            className="rounded-xl border bg-card p-6 shadow-sm border-border"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex items-center gap-3">
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  <p className="text-sm font-semibold text-card-foreground">
                     Order #{order.id.slice(0, 8)}
                   </p>
                   <span
@@ -111,7 +111,7 @@ export default function OrdersPage() {
                     {order.status}
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mt-1 text-xs text-muted-foreground">
                   {new Date(order.created_at).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -121,26 +121,26 @@ export default function OrdersPage() {
               </div>
 
               <div className="text-right">
-                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                <p className="text-lg font-bold text-foreground">
                   {formatPrice(order.total_amount)}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted-foreground">
                   {order.order_items.length} item{order.order_items.length !== 1 ? 's' : ''}
                 </p>
               </div>
             </div>
 
-            <div className="mt-4 border-t pt-4 dark:border-zinc-800">
-              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Items
               </p>
               <div className="space-y-2">
                 {order.order_items.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-zinc-600 dark:text-zinc-400">
+                    <span className="text-muted-foreground">
                       Product {item.product_id.slice(0, 8)} &times; {item.quantity}
                     </span>
-                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                    <span className="font-medium text-card-foreground">
                       {formatPrice(item.unit_price * item.quantity)}
                     </span>
                   </div>

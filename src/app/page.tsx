@@ -33,16 +33,16 @@ export default async function Home() {
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Featured Products
             </h2>
-            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 text-sm text-muted-foreground">
               Check out our latest arrivals
             </p>
           </div>
           <Link
             href="/products"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-sm font-medium text-primary hover:text-primary/80"
           >
             View all →
           </Link>
@@ -55,8 +55,8 @@ export default async function Home() {
             ))}
           </div>
         ) : (
-          <div className="mt-8 flex flex-col items-center justify-center rounded-lg border border-dashed py-16 dark:border-zinc-800">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">No products available yet.</p>
+          <div className="mt-8 flex flex-col items-center justify-center rounded-lg border border-dashed py-16 border-border">
+            <p className="text-sm text-muted-foreground">No products available yet.</p>
           </div>
         )}
       </section>

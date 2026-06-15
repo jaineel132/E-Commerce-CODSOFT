@@ -33,47 +33,47 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b bg-white dark:bg-zinc-950 dark:border-zinc-800">
+    <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-bold tracking-tight">
+        <Link href="/" className="text-xl font-semibold tracking-tighter text-foreground transition-all duration-200">
           Store
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
-          <Link href="/products" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+          <Link href="/products" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
             Products
           </Link>
 
           <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search with AI..."
-              className="w-56 rounded-lg border bg-zinc-50 py-1.5 pl-9 pr-3 text-sm outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+              className="w-56 rounded-lg border border-input bg-muted py-1.5 pl-9 pr-3 text-sm text-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-all duration-200"
             />
           </form>
 
           {loading ? null : user ? (
             <>
-              <Link href="/cart" className="relative text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+              <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                 <ShoppingCart className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                     {cartCount > 99 ? '99+' : cartCount}
                   </span>
                 )}
               </Link>
-              <Link href="/wishlist" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+              <Link href="/wishlist" className="text-muted-foreground hover:text-foreground transition-all duration-200">
                 <Heart className="h-5 w-5" />
               </Link>
-              <Link href="/orders" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+              <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                 Orders
               </Link>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
               >
                 <LogOut className="h-4 w-4" />
                 Sign Out
@@ -82,7 +82,7 @@ export function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-all duration-200"
             >
               Sign In
             </Link>
@@ -92,13 +92,13 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <button
             onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-muted-foreground hover:text-foreground transition-all duration-200"
             aria-label="Search"
           >
             <Search className="h-5 w-5" />
           </button>
           <button
-            className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="text-muted-foreground hover:text-foreground transition-all duration-200"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -108,15 +108,15 @@ export function Navbar() {
       </div>
 
       {mobileSearchOpen && (
-        <div className="border-t px-4 py-3 md:hidden dark:border-zinc-800">
+        <div className="border-t border-border px-4 py-3 md:hidden">
           <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search with AI..."
-              className="w-full rounded-lg border bg-zinc-50 py-2 pl-10 pr-3 text-sm outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 dark:focus:border-zinc-500"
+              className="w-full rounded-lg border border-input bg-muted py-2 pl-10 pr-3 text-sm text-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-all duration-200"
               autoFocus
             />
           </form>
@@ -124,37 +124,37 @@ export function Navbar() {
       )}
 
       {menuOpen && (
-        <div className="border-t px-4 pb-4 md:hidden dark:border-zinc-800">
+        <div className="border-t border-border bg-background/95 px-4 pb-4 backdrop-blur-md md:hidden">
           <div className="mt-3 flex flex-col gap-3">
             <Link
               href="/products"
-              className="text-sm font-medium text-zinc-600 dark:text-zinc-400"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
               onClick={() => setMenuOpen(false)}
             >
               Products
             </Link>
             {loading ? null : user ? (
               <>
-                <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
+                <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                   Cart
                   {cartCount > 0 && (
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-zinc-900 text-[10px] font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
                 </Link>
-                <Link href="/wishlist" className="text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
+                <Link href="/wishlist" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                   Wishlist
                 </Link>
-                <Link href="/orders" className="text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
+                <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                   Orders
                 </Link>
-                <button onClick={handleSignOut} className="text-left text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                <button onClick={handleSignOut} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                   Sign Out
                 </button>
               </>
             ) : (
-              <Link href="/login" className="text-sm font-medium text-zinc-600 dark:text-zinc-400" onClick={() => setMenuOpen(false)}>
+              <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                 Sign In
               </Link>
             )}

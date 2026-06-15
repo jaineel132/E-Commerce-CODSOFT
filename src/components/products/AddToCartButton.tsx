@@ -27,7 +27,11 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
       <button
         onClick={handleAddToCart}
         disabled={isOutOfStock || added}
-        className="flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        className={`flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+          added
+            ? 'bg-green-600 text-white'
+            : 'bg-primary text-primary-foreground hover:bg-primary/90'
+        }`}
       >
         {added ? (
           <>
@@ -42,7 +46,7 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
         )}
       </button>
 
-      <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white px-6 py-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800">
+      <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-medium text-card-foreground transition-colors hover:bg-muted">
         <Heart className="h-5 w-5" />
         Add to Wishlist
       </button>

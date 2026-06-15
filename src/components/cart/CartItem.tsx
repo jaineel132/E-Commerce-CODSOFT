@@ -32,8 +32,8 @@ export function CartItem({ item }: CartItemProps) {
   }
 
   return (
-    <div className="flex gap-4 rounded-lg border bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-      <Link href={`/products/${product.id}`} className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md bg-zinc-100 dark:bg-zinc-800">
+    <div className="flex gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm">
+      <Link href={`/products/${product.id}`} className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
         {product.image_url && !imageError ? (
           <Image
             src={product.image_url}
@@ -44,7 +44,7 @@ export function CartItem({ item }: CartItemProps) {
             onError={() => setImageError(true)}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-zinc-400">
+          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
             <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
@@ -56,11 +56,11 @@ export function CartItem({ item }: CartItemProps) {
         <div>
           <Link
             href={`/products/${product.id}`}
-            className="text-sm font-semibold text-zinc-900 hover:underline dark:text-zinc-100"
+            className="text-sm font-semibold text-card-foreground hover:text-primary transition-all duration-200"
           >
             {product.name}
           </Link>
-          <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             {formatPrice(product.price)} each
           </p>
         </div>
@@ -70,7 +70,7 @@ export function CartItem({ item }: CartItemProps) {
             <button
               onClick={() => handleUpdateQuantity(item.quantity - 1)}
               disabled={item.quantity <= 1 || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border text-zinc-600 transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Minus className="h-3 w-3" />
             </button>
@@ -80,19 +80,19 @@ export function CartItem({ item }: CartItemProps) {
             <button
               onClick={() => handleUpdateQuantity(item.quantity + 1)}
               disabled={item.quantity >= maxStock || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border text-zinc-600 transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Plus className="h-3 w-3" />
             </button>
           </div>
 
           <div className="flex items-center gap-3">
-            <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            <p className="text-sm font-bold text-card-foreground">
               {formatPrice(product.price * item.quantity)}
             </p>
             <button
               onClick={handleRemove}
-              className="text-zinc-400 transition-colors hover:text-red-500 dark:hover:text-red-400"
+              className="text-muted-foreground transition-all duration-200 hover:text-destructive"
               aria-label="Remove item"
             >
               <Trash2 className="h-4 w-4" />

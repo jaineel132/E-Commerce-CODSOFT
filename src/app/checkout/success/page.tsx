@@ -16,40 +16,40 @@ export default async function CheckoutSuccessPage({
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md text-center">
         <div className="mb-6 flex justify-center">
-          <div className="rounded-full bg-green-100 p-4 dark:bg-green-900/30">
-            <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
+          <div className="rounded-full bg-primary/10 p-4">
+            <CheckCircle className="h-12 w-12 text-primary" />
           </div>
         </div>
 
-        <h1 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+        <h1 className="mb-2 text-2xl font-bold text-foreground">
           Order Confirmed!
         </h1>
 
-        <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mb-2 text-sm text-muted-foreground">
           Thank you for your purchase. Your order has been placed successfully.
         </p>
 
         {sessionId && (
-          <p className="mb-8 text-xs text-zinc-400">
+          <p className="mb-8 text-xs text-muted-foreground">
             Session ID: {sessionId.slice(0, 32)}...
           </p>
         )}
 
-        <div className="rounded-lg border bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="rounded-xl border bg-card p-6 shadow-sm border-border">
+          <p className="mb-4 text-sm text-muted-foreground">
             You will receive an email confirmation shortly. Your order is being processed and you can track its status below.
           </p>
 
           <div className="flex flex-col gap-3">
             <Link
               href="/orders"
-              className="flex w-full items-center justify-center rounded-lg bg-zinc-900 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               View My Orders
             </Link>
             <Link
               href="/products"
-              className="flex w-full items-center justify-center rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="flex w-full items-center justify-center rounded-lg border border-border bg-card px-4 py-3 text-sm font-medium text-card-foreground transition-colors hover:bg-muted"
             >
               Continue Shopping
             </Link>
