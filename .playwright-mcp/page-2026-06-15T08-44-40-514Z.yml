@@ -1,0 +1,23 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "Store" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Products" [ref=e6] [cursor=pointer]:
+          - /url: /products
+        - generic [ref=e9]:
+          - img [ref=e10]
+          - textbox "Search with AI..." [ref=e13]
+  - main [ref=e14]:
+    - generic [ref=e16]:
+      - img [ref=e18]
+      - heading "Order Confirmed!" [level=1] [ref=e21]
+      - paragraph [ref=e22]: Thank you for your purchase. Your order has been placed successfully.
+      - generic [ref=e23]:
+        - paragraph [ref=e24]: You will receive an email confirmation shortly. Your order is being processed and you can track its status below.
+        - generic [ref=e25]:
+          - link "View My Orders" [ref=e26] [cursor=pointer]:
+            - /url: /orders
+          - link "Continue Shopping" [ref=e27] [cursor=pointer]:
+            - /url: /products

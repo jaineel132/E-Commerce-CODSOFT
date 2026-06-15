@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X, Search } from 'lucide-react'
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export function Navbar() {
   const { user, loading } = useAuth()
@@ -33,9 +34,9 @@ export function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="text-xl font-semibold tracking-tighter text-foreground transition-all duration-200">
+        <Link href="/" className="font-serif text-xl font-semibold tracking-tighter text-foreground transition-all duration-200">
           Store
         </Link>
 
@@ -45,25 +46,37 @@ export function Navbar() {
           </Link>
 
           <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search with AI..."
-              className="w-56 rounded-lg border border-input bg-muted py-1.5 pl-9 pr-3 text-sm text-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-all duration-200"
-            />
+            <div className="ai-search-glow rounded-lg p-[1px]">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search with AI..."
+                  className="w-64 rounded-lg border-0 bg-background py-1.5 pl-9 pr-3 text-sm text-foreground outline-none transition-all duration-300 focus:w-80"
+                />
+              </div>
+            </div>
           </form>
 
           {loading ? null : user ? (
             <>
               <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                 <ShoppingCart className="h-5 w-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                    {cartCount > 99 ? '99+' : cartCount}
-                  </span>
-                )}
+                <AnimatePresence mode="wait">
+                  {cartCount > 0 && (
+                    <motion.span
+                      key={cartCount}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.5, opacity: 0 }}
+                      className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                    >
+                      {cartCount > 99 ? '99+' : cartCount}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </Link>
               <Link href="/wishlist" className="text-muted-foreground hover:text-foreground transition-all duration-200">
                 <Heart className="h-5 w-5" />
@@ -110,15 +123,19 @@ export function Navbar() {
       {mobileSearchOpen && (
         <div className="border-t border-border px-4 py-3 md:hidden">
           <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search with AI..."
-              className="w-full rounded-lg border border-input bg-muted py-2 pl-10 pr-3 text-sm text-foreground outline-none focus:border-ring focus:ring-1 focus:ring-ring transition-all duration-200"
-              autoFocus
-            />
+            <div className="ai-search-glow rounded-lg p-[1px]">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search with AI..."
+                  className="w-full rounded-lg border-0 bg-background py-2 pl-10 pr-3 text-sm text-foreground outline-none transition-all duration-300"
+                  autoFocus
+                />
+              </div>
+            </div>
           </form>
         </div>
       )}
@@ -137,11 +154,19 @@ export function Navbar() {
               <>
                 <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                   Cart
-                  {cartCount > 0 && (
-                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                      {cartCount > 99 ? '99+' : cartCount}
-                    </span>
-                  )}
+                  <AnimatePresence mode="wait">
+                    {cartCount > 0 && (
+                      <motion.span
+                        key={cartCount}
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }}
+                        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                      >
+                        {cartCount > 99 ? '99+' : cartCount}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </Link>
                 <Link href="/wishlist" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                   Wishlist

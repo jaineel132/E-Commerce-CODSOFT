@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { ShoppingCart, Heart, Check } from 'lucide-react'
 import { useCartContext } from '@/context/CartContext'
 
@@ -24,12 +25,13 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
 
   return (
     <div className="flex flex-col gap-3">
-      <button
+      <motion.button
         onClick={handleAddToCart}
         disabled={isOutOfStock || added}
+        whileTap={{ scale: 0.97 }}
         className={`flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
           added
-            ? 'bg-green-600 text-white'
+            ? 'bg-primary text-primary-foreground'
             : 'bg-primary text-primary-foreground hover:bg-primary/90'
         }`}
       >
@@ -44,12 +46,15 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
             {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
           </>
         )}
-      </button>
+      </motion.button>
 
-      <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-medium text-card-foreground transition-colors hover:bg-muted">
+      <motion.button
+        whileTap={{ scale: 0.97 }}
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-medium text-card-foreground transition-colors hover:bg-muted"
+      >
         <Heart className="h-5 w-5" />
         Add to Wishlist
-      </button>
+      </motion.button>
     </div>
   )
 }

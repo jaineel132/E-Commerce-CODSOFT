@@ -41,18 +41,18 @@ export default function CheckoutPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center text-center">
-          <h1 className="mb-2 text-2xl font-bold text-foreground">
+          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
             Your cart is empty
           </h1>
           <p className="mb-8 text-sm text-muted-foreground">
             Add some items to your cart before checking out.
           </p>
-            <Link
-              href="/products"
-              className="rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
-            >
-              Browse Products
-            </Link>
+          <Link
+            href="/products"
+            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+          >
+            Browse Products
+          </Link>
         </div>
       </div>
     )
@@ -68,15 +68,15 @@ export default function CheckoutPage() {
           <ArrowLeft className="h-4 w-4" />
           Back to cart
         </Link>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+        <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground">
           Checkout
         </h1>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <div className="rounded-xl border bg-card p-6 shadow-sm border-border">
-            <h2 className="mb-4 text-lg font-semibold text-foreground">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">
               Order Summary
             </h2>
 
@@ -120,8 +120,8 @@ export default function CheckoutPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-xl border bg-card p-6 shadow-sm border-border">
-            <h2 className="text-lg font-semibold text-foreground">
+          <div className="sticky top-24 rounded-xl border border-border bg-card p-6 shadow-sm">
+            <h2 className="font-serif text-lg font-semibold text-foreground">
               Payment Details
             </h2>
 
@@ -163,7 +163,7 @@ export default function CheckoutPage() {
             <button
               onClick={handlePayNow}
               disabled={loading || cartItems.length === 0}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
                 <>

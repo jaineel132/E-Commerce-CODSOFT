@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ShoppingCart } from 'lucide-react'
+import { AnimatePresence } from 'framer-motion'
 import { useCartContext } from '@/context/CartContext'
 import { CartItem } from '@/components/cart/CartItem'
 import { CartSummary } from '@/components/cart/CartSummary'
@@ -13,15 +14,15 @@ export default function CartPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <div className="h-8 w-32 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+          <div className="skeleton-shimmer h-8 w-32 rounded" />
         </div>
         <div className="grid gap-8 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-32 animate-pulse rounded-lg border bg-white dark:border-zinc-800 dark:bg-zinc-900" />
+              <div key={i} className="skeleton-shimmer h-32 rounded-lg border border-border" />
             ))}
           </div>
-          <div className="h-64 animate-pulse rounded-lg border bg-white dark:border-zinc-800 dark:bg-zinc-900" />
+          <div className="skeleton-shimmer h-64 rounded-lg border border-border" />
         </div>
       </div>
     )
@@ -31,18 +32,18 @@ export default function CartPage() {
     return (
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-zinc-100 p-6 dark:bg-zinc-800">
-            <ShoppingCart className="h-12 w-12 text-zinc-400" />
+          <div className="mb-6 rounded-full bg-muted p-6">
+            <ShoppingCart className="h-12 w-12 text-muted-foreground" />
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
             Your cart is empty
           </h1>
-          <p className="mb-8 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mb-8 text-sm text-muted-foreground">
             Looks like you haven&apos;t added anything to your cart yet.
           </p>
           <Link
             href="/products"
-            className="rounded-lg bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Start Shopping
           </Link>
@@ -54,19 +55,21 @@ export default function CartPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground">
           Shopping Cart
         </h1>
-        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-sm text-muted-foreground">
           {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart
         </p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-4">
-          {cartItems.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
+        <div className="space-y-4 lg:col-span-2">
+          <AnimatePresence>
+            {cartItems.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </AnimatePresence>
         </div>
 
         <div className="lg:col-span-1">

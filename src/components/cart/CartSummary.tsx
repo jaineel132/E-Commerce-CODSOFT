@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
 
@@ -13,7 +14,7 @@ export function CartSummary() {
 
   return (
     <div className="rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm">
-      <h2 className="text-lg font-semibold text-card-foreground">
+      <h2 className="font-serif text-lg font-semibold text-card-foreground">
         Order Summary
       </h2>
 
@@ -43,8 +44,8 @@ export function CartSummary() {
 
         <div className="border-t border-border pt-3">
           <div className="flex justify-between">
-            <span className="text-base font-bold text-foreground">Total</span>
-            <span className="text-base font-bold text-foreground">
+            <span className="text-lg font-bold text-foreground">Total</span>
+            <span className="text-lg font-bold text-foreground">
               {formatPrice(total)}
             </span>
           </div>
@@ -57,12 +58,14 @@ export function CartSummary() {
         </p>
       )}
 
-      <Link
-        href="/checkout"
-        className="mt-6 flex w-full items-center justify-center rounded-lg bg-primary py-3 text-sm font-medium text-primary-foreground transition-all duration-200 hover:bg-primary/90"
-      >
-        Proceed to Checkout
-      </Link>
+      <motion.div whileTap={{ scale: 0.97 }} className="mt-6">
+        <Link
+          href="/checkout"
+          className="flex w-full items-center justify-center rounded-xl bg-accent py-3 text-sm font-medium text-accent-foreground transition-all duration-200 hover:bg-accent/90"
+        >
+          Proceed to Checkout
+        </Link>
+      </motion.div>
 
       <Link
         href="/products"

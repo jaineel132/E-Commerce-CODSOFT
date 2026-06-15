@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
 import { formatPrice } from '@/lib/utils'
@@ -29,7 +30,11 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+    <motion.div
+      whileHover={{ y: -4, boxShadow: "0 10px 40px -10px rgba(0,0,0,0.12)" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm"
+    >
       <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-muted">
         {product.image_url && !imageError ? (
           <Image
@@ -59,17 +64,18 @@ export function ProductCard({ product }: ProductCardProps) {
           </h3>
         </Link>
         <div className="mt-auto flex items-center justify-between">
-          <p className="text-lg font-bold text-card-foreground">
+          <p className="text-lg font-bold text-foreground">
             {formatPrice(product.price)}
           </p>
           <StockBadge stockCount={product.stock_count} />
         </div>
-        <button
+        <motion.button
           onClick={handleAddToCart}
           disabled={isOutOfStock || added}
+          whileTap={{ scale: 0.97 }}
           className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
             added
-              ? 'bg-green-600 text-white'
+              ? 'bg-primary text-primary-foreground'
               : 'bg-primary text-primary-foreground hover:bg-primary/90'
           }`}
         >
@@ -84,8 +90,8 @@ export function ProductCard({ product }: ProductCardProps) {
               {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
             </>
           )}
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   )
 }

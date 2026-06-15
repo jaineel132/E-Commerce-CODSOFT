@@ -65,7 +65,7 @@ export function ProductFilter({ className }: ProductFilterProps) {
   return (
     <div className={className}>
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-foreground">Filters</h2>
+        <h2 className="text-base font-semibold font-serif text-foreground">Filters</h2>
         {hasActiveFilters && (
           <button
             onClick={handleClearFilters}

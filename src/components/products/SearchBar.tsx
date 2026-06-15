@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, X, Loader2 } from 'lucide-react'
+import { AnimatePresence } from 'framer-motion'
+import { Search, X } from 'lucide-react'
 import type { Product } from '@/types'
 
 interface SearchBarProps {
@@ -81,28 +82,36 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
 
   return (
     <div className={className}>
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={placeholder}
-          className="w-full rounded-xl border border-input bg-muted py-2 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:border-ring focus:ring-ring"
-        />
-        {query && (
-          <button
-            onClick={handleClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        )}
-        {searching && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+      <div className="relative w-full focus:w-80 transition-all duration-300">
+        <div className="p-[1px] ai-search-glow rounded-xl">
+          <div className="relative bg-background rounded-[11px]">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={placeholder}
+              className="w-full bg-transparent rounded-[11px] py-2 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none"
+            />
+            <AnimatePresence>
+              {query && !searching && (
+                <button
+                  onClick={handleClear}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </AnimatePresence>
+            {searching && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0ms' }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '150ms' }} />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '300ms' }} />
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )

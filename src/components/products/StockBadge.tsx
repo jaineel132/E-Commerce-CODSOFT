@@ -16,7 +16,10 @@ export function StockBadge({ stockCount, className }: StockBadgeProps) {
 
   if (stockCount <= 5) {
     return (
-      <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-accent/10 text-accent-foreground dark:bg-accent/20', className)}>
+      <span
+        className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-accent/10 text-accent dark:bg-accent/20', className)}
+        style={{ animation: 'pulse 2s ease-in-out infinite' }}
+      >
         Only {stockCount} left
       </span>
     )

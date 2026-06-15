@@ -6,7 +6,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="text-xl font-bold tracking-tighter text-foreground">
+            <Link href="/" className="font-serif text-xl font-bold tracking-tighter text-foreground">
               Store
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">
