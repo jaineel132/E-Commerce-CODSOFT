@@ -5,12 +5,18 @@ import Link from 'next/link'
 import { Package } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 
+interface OrderItemProduct {
+  name: string
+  image_url: string | null
+}
+
 interface OrderItem {
   id: string
   order_id: string
   product_id: string
   quantity: number
   unit_price: number
+  product: OrderItemProduct
 }
 
 interface Order {
@@ -138,7 +144,7 @@ export default function OrdersPage() {
                 {order.order_items.map((item) => (
                   <div key={item.id} className="flex justify-between text-sm">
                     <span className="text-muted-foreground">
-                      Product {item.product_id.slice(0, 8)} &times; {item.quantity}
+                      {item.product.name} &times; {item.quantity}
                     </span>
                     <span className="font-medium text-card-foreground">
                       {formatPrice(item.unit_price * item.quantity)}

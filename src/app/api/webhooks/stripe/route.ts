@@ -60,17 +60,17 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: orderError.message }, { status: 500 })
     }
 
-    // Fetch prices to build order_items
-    const { data: priceData, error: priceError } = await supabase
+    // Fetch prices and stock to build order_items & decrement stock
+    const { data: productData, error: productError } = await supabase
       .from('products')
-      .select('id, price')
+      .select('id, price, stock_count')
       .in('id', products.map((p) => p.product_id))
 
-    if (priceError) {
-      return Response.json({ error: priceError.message }, { status: 500 })
+    if (productError) {
+      return Response.json({ error: productError.message }, { status: 500 })
     }
 
-    const priceMap = new Map(priceData.map((p) => [p.id, Number(p.price)]))
+    const priceMap = new Map(productData.map((p) => [p.id, Number(p.price)]))
 
     const orderItems = products.map((p) => ({
       order_id: order.id,
@@ -85,6 +85,22 @@ export async function POST(request: NextRequest) {
 
     if (itemsError) {
       return Response.json({ error: itemsError.message }, { status: 500 })
+    }
+
+    // Decrement stock for each purchased product
+    for (const p of products) {
+      const product = productData.find((pd) => pd.id === p.product_id)
+      if (product) {
+        const newStock = Math.max(0, Number(product.stock_count) - p.quantity)
+        const { error: stockError } = await supabase
+          .from('products')
+          .update({ stock_count: newStock })
+          .eq('id', p.product_id)
+
+        if (stockError) {
+          console.error(`Failed to update stock for product ${p.product_id}:`, stockError)
+        }
+      }
     }
 
     // Clear user's cart

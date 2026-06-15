@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { StockBadge } from '@/components/products/StockBadge'
-import { AddToCartButton } from '@/components/products/AddToCartButton'
+import { ProductDetailStock } from '@/components/products/ProductDetailStock'
 import { formatPrice } from '@/lib/utils'
 import type { Metadata } from 'next'
 
@@ -46,8 +45,6 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   if (!product) {
     notFound()
   }
-
-  const isOutOfStock = product.stock_count <= 0
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -92,14 +89,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             {product.name}
           </h1>
 
-          <div className="mt-4 flex items-center gap-3">
-            <p className="text-3xl font-bold text-foreground">
-              {formatPrice(product.price)}
-            </p>
-            <StockBadge stockCount={product.stock_count} />
-          </div>
+          <p className="mt-4 text-3xl font-bold text-foreground">
+            {formatPrice(product.price)}
+          </p>
 
-          <div className="mt-6 border-t pt-6 dark:border-zinc-800">
+          <div className="mt-6 border-t pt-6 border-border">
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               Description
             </h2>
@@ -108,21 +102,13 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             </p>
           </div>
 
-          <div className="mt-8">
-            <AddToCartButton productId={product.id} isOutOfStock={isOutOfStock} />
-          </div>
+          <ProductDetailStock productId={product.id} initialStock={product.stock_count} />
 
           <div className="mt-8 border-t pt-6 border-border">
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <dt className="text-muted-foreground">Category</dt>
                 <dd className="mt-1 text-foreground">{product.category}</dd>
-              </div>
-              <div>
-                <dt className="text-muted-foreground">Availability</dt>
-                <dd className="mt-1 text-foreground">
-                  {isOutOfStock ? 'Out of stock' : `${product.stock_count} in stock`}
-                </dd>
               </div>
             </dl>
           </div>

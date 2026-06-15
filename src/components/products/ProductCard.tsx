@@ -8,6 +8,7 @@ import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
 import { formatPrice } from '@/lib/utils'
 import { useCartContext } from '@/context/CartContext'
+import { useRealtimeStock } from '@/hooks/useRealtimeStock'
 import type { Product } from '@/types'
 
 interface ProductCardProps {
@@ -18,7 +19,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
   const [added, setAdded] = useState(false)
   const { addToCart } = useCartContext()
-  const isOutOfStock = product.stock_count <= 0
+  const stockCount = useRealtimeStock(product.id, product.stock_count)
+  const isOutOfStock = stockCount <= 0
 
   const handleAddToCart = async () => {
     if (isOutOfStock || added) return
@@ -67,7 +69,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <p className="text-lg font-bold text-foreground">
             {formatPrice(product.price)}
           </p>
-          <StockBadge stockCount={product.stock_count} />
+          <StockBadge stockCount={stockCount} />
         </div>
         <motion.button
           onClick={handleAddToCart}
