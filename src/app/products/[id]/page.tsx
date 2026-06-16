@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { ProductDetailStock } from '@/components/products/ProductDetailStock'
 import { ProductImage } from '@/components/products/ProductImage'
 import { SimilarProducts } from '@/components/products/SimilarProducts'
+import { ReviewSection } from '@/components/products/ReviewSection'
 import { formatPrice } from '@/lib/utils'
 import type { Metadata } from 'next'
 
@@ -112,6 +113,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             </dl>
           </div>
         </div>
+      </div>
+
+      <div className="mt-16">
+        <ReviewSection productId={product.id} />
       </div>
 
       <SimilarProducts productId={product.id} />

@@ -36,7 +36,16 @@ export interface Order {
   user_id: string
   stripe_session: string
   total_amount: number
-  status: 'pending' | 'shipped' | 'delivered'
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+  shipping_address_id: string | null
+  shipping_amount: number
+  tax_amount: number
+  tracking_number: string | null
+  tracking_carrier: string | null
+  shipped_at: string | null
+  delivered_at: string | null
+  cancelled_at: string | null
+  notes: string | null
   created_at: string
 }
 
@@ -87,4 +96,19 @@ export interface Address {
   phone: string | null
   is_default: boolean
   created_at: string
+}
+
+export interface Review {
+  id: string
+  product_id: string
+  user_id: string
+  rating: number
+  title: string | null
+  body: string | null
+  is_verified_purchase: boolean
+  created_at: string
+}
+
+export interface ReviewWithUser extends Review {
+  user: Pick<Profile, 'full_name'>
 }

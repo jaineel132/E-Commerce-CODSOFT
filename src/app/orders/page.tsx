@@ -1,43 +1,52 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Package } from 'lucide-react'
+import { Package, MapPin } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { Skeleton } from 'boneyard-js/react'
 import { EmptyState } from '@/components/ui/EmptyState'
+import type { Address, OrderItem } from '@/types'
 
 interface OrderItemProduct {
   name: string
   image_url: string | null
 }
 
-interface OrderItem {
-  id: string
-  order_id: string
-  product_id: string
-  quantity: number
-  unit_price: number
+interface OrderItemWithProduct extends OrderItem {
   product: OrderItemProduct
 }
 
-interface Order {
+interface OrderWithAddress {
   id: string
   user_id: string
   stripe_session: string
   total_amount: number
-  status: 'pending' | 'shipped' | 'delivered'
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
+  shipping_address_id: string | null
+  shipping_amount: number
+  tax_amount: number
+  tracking_number: string | null
+  tracking_carrier: string | null
+  shipped_at: string | null
+  delivered_at: string | null
+  cancelled_at: string | null
+  notes: string | null
   created_at: string
-  order_items: OrderItem[]
+  order_items: OrderItemWithProduct[]
+  shipping_address: Address | null
 }
 
 const statusStyles: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-  shipped: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+  processing: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+  shipped: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400',
   delivered: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+  cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+  refunded: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
 }
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<OrderWithAddress[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -48,7 +57,7 @@ export default function OrdersPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (orders.length === 0) {
+  if (!loading && orders.length === 0) {
     return (
       <EmptyState
         icon={Package}
@@ -110,6 +119,28 @@ export default function OrdersPage() {
                 </p>
               </div>
             </div>
+
+            {order.shipping_address && (
+              <div className="mt-4 border-t border-border pt-4">
+                <div className="flex items-start gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground shrink-0" />
+                  <div className="text-xs text-muted-foreground">
+                    <p className="font-medium text-foreground">{order.shipping_address.full_name}</p>
+                    <p>{order.shipping_address.street}</p>
+                    <p>{order.shipping_address.city}, {order.shipping_address.state} {order.shipping_address.zip_code}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {order.tracking_number && (
+              <div className="mt-2 border-t border-border pt-2">
+                <p className="text-xs text-muted-foreground">
+                  Tracking: {order.tracking_number}
+                  {order.tracking_carrier && ` (${order.tracking_carrier})`}
+                </p>
+              </div>
+            )}
 
             <div className="mt-4 border-t border-border pt-4">
               <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">

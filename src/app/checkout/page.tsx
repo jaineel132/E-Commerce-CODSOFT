@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
+import { AddressPicker } from '@/components/address/AddressPicker'
 import { CreditCard, ArrowLeft, Lock, ShoppingCart } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 
@@ -12,6 +13,7 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, loading: cartLoading } = useCartContext()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [addressId, setAddressId] = useState<string | null>(null)
 
   const shipping = cartTotal > 50 ? 0 : 9.99
   const tax = cartTotal * 0.08
@@ -22,7 +24,11 @@ export default function CheckoutPage() {
     setError('')
 
     try {
-      const res = await fetch('/api/checkout', { method: 'POST' })
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address_id: addressId }),
+      })
       const data = await res.json()
 
       if (!res.ok) {
@@ -84,7 +90,14 @@ export default function CheckoutPage() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="space-y-6 lg:col-span-2">
+          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <AddressPicker
+              selectedId={addressId}
+              onSelect={setAddressId}
+            />
+          </div>
+
           <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
             <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">
               Order Summary

@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
+import { NextRequest } from 'next/server'
 
-export async function POST() {
+export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -9,6 +10,11 @@ export async function POST() {
     if (authError || !user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    let body: { address_id?: string } = {}
+    try {
+      body = await request.json()
+    } catch {}
 
     // Fetch cart items with product details
     const { data: cartItems, error: cartError } = await supabase
@@ -23,6 +29,22 @@ export async function POST() {
     if (!cartItems || cartItems.length === 0) {
       return Response.json({ error: 'Cart is empty' }, { status: 400 })
     }
+
+    // Server-side price and stock verification
+    for (const item of cartItems) {
+      if (Number(item.product.stock_count) < item.quantity) {
+        return Response.json({
+          error: `"${item.product.name}" only has ${item.product.stock_count} in stock. Please adjust your cart.`,
+        }, { status: 409 })
+      }
+    }
+
+    // Calculate shipping and tax
+    const cartTotal = cartItems.reduce(
+      (sum, item) => sum + Number(item.product.price) * item.quantity, 0
+    )
+    const shipping = cartTotal > 50 ? 0 : 9.99
+    const tax = cartTotal * 0.08
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({
@@ -39,6 +61,9 @@ export async function POST() {
       })),
       metadata: {
         user_id: user.id,
+        address_id: body.address_id || '',
+        shipping_amount: String(shipping),
+        tax_amount: String(tax),
         products: JSON.stringify(cartItems.map((i) => ({
           product_id: i.product.id,
           quantity: i.quantity,

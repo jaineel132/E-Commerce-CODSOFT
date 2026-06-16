@@ -11,10 +11,24 @@ export async function GET(request: NextRequest) {
 
     const supabase = await createClient()
 
+    const { data: { user } } = await supabase.auth.getUser()
+    let isAdmin = false
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+      isAdmin = profile?.role === 'admin'
+    }
+
     let query = supabase
       .from('products')
       .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
-      .eq('is_active', true)
+
+    if (!isAdmin) {
+      query = query.eq('is_active', true)
+    }
 
     if (category) {
       query = query.eq('category', category)

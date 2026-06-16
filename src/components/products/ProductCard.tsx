@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
+import { ReviewBadge } from './ReviewBadge'
 import { FlyToCart } from '@/components/ui/FlyToCart'
 import { formatPrice } from '@/lib/utils'
 import { useRealtimeStock } from '@/hooks/useRealtimeStock'
@@ -56,10 +57,13 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.category}
         </div>
         <Link href={`/products/${product.id}`}>
-          <h3 className="mb-2 line-clamp-2 text-sm font-semibold leading-snug text-card-foreground transition-colors hover:text-primary">
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-card-foreground transition-colors hover:text-primary">
             {product.name}
           </h3>
         </Link>
+        <div className="mt-1 mb-2">
+          <ReviewBadge productId={product.id} />
+        </div>
         <div className="mt-auto flex items-center justify-between">
           <p className="text-lg font-bold text-foreground">
             {formatPrice(product.price)}

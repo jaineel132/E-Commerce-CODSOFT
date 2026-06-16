@@ -42,7 +42,22 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createAdminClient()
+
+    // Idempotency check — skip if order already exists
+    const { data: existing } = await supabase
+      .from('orders')
+      .select('id')
+      .eq('stripe_session', session.id)
+      .single()
+
+    if (existing) {
+      return Response.json({ received: true }, { status: 200 })
+    }
+
     const totalAmount = session.amount_total ? session.amount_total / 100 : 0
+    const addressId = session.metadata?.address_id || null
+    const shippingAmount = session.metadata?.shipping_amount ? parseFloat(session.metadata.shipping_amount) : 0
+    const taxAmount = session.metadata?.tax_amount ? parseFloat(session.metadata.tax_amount) : 0
 
     // Create order
     const { data: order, error: orderError } = await supabase
@@ -52,6 +67,9 @@ export async function POST(request: NextRequest) {
         stripe_session: session.id,
         total_amount: totalAmount,
         status: 'pending',
+        shipping_address_id: addressId,
+        shipping_amount: shippingAmount,
+        tax_amount: taxAmount,
       })
       .select('id')
       .single()
@@ -60,7 +78,7 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: orderError.message }, { status: 500 })
     }
 
-    // Fetch prices and stock to build order_items & decrement stock
+    // Fetch prices from DB
     const { data: productData, error: productError } = await supabase
       .from('products')
       .select('id, price, stock_count')
@@ -87,19 +105,15 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: itemsError.message }, { status: 500 })
     }
 
-    // Decrement stock for each purchased product
+    // Atomic stock decrement via RPC
     for (const p of products) {
-      const product = productData.find((pd) => pd.id === p.product_id)
-      if (product) {
-        const newStock = Math.max(0, Number(product.stock_count) - p.quantity)
-        const { error: stockError } = await supabase
-          .from('products')
-          .update({ stock_count: newStock })
-          .eq('id', p.product_id)
+      const { error: stockError } = await supabase.rpc('decrement_stock', {
+        pid: p.product_id,
+        qty: p.quantity,
+      })
 
-        if (stockError) {
-          console.error(`Failed to update stock for product ${p.product_id}:`, stockError)
-        }
+      if (stockError) {
+        console.error(`Failed to decrement stock for product ${p.product_id}:`, stockError)
       }
     }
 

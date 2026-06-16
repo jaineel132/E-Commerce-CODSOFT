@@ -109,6 +109,15 @@ export interface Database {
           stripe_session: string
           total_amount: number
           status: string
+          shipping_address_id: string | null
+          shipping_amount: number
+          tax_amount: number
+          tracking_number: string | null
+          tracking_carrier: string | null
+          shipped_at: string | null
+          delivered_at: string | null
+          cancelled_at: string | null
+          notes: string | null
           created_at: string
         }
         Insert: {
@@ -117,6 +126,15 @@ export interface Database {
           stripe_session: string
           total_amount: number
           status?: string
+          shipping_address_id?: string | null
+          shipping_amount?: number
+          tax_amount?: number
+          tracking_number?: string | null
+          tracking_carrier?: string | null
+          shipped_at?: string | null
+          delivered_at?: string | null
+          cancelled_at?: string | null
+          notes?: string | null
         }
         Update: {
           id?: string
@@ -124,6 +142,15 @@ export interface Database {
           stripe_session?: string
           total_amount?: number
           status?: string
+          shipping_address_id?: string | null
+          shipping_amount?: number
+          tax_amount?: number
+          tracking_number?: string | null
+          tracking_carrier?: string | null
+          shipped_at?: string | null
+          delivered_at?: string | null
+          cancelled_at?: string | null
+          notes?: string | null
         }
         Relationships: [
           {
@@ -295,6 +322,52 @@ export interface Database {
           }
         ]
       }
+      reviews: {
+        Row: {
+          id: string
+          product_id: string
+          user_id: string
+          rating: number
+          title: string | null
+          body: string | null
+          is_verified_purchase: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          user_id: string
+          rating: number
+          title?: string | null
+          body?: string | null
+          is_verified_purchase?: boolean
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          user_id?: string
+          rating?: number
+          title?: string | null
+          body?: string | null
+          is_verified_purchase?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: Record<string, never>
     Functions: {
@@ -318,6 +391,13 @@ export interface Database {
           stock_count: number
           similarity: number
         }[]
+      }
+      decrement_stock: {
+        Args: {
+          pid: unknown
+          qty: unknown
+        }
+        Returns: boolean
       }
     }
     Enums: Record<string, never>
