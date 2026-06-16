@@ -5,8 +5,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useCartContext } from '@/context/CartContext'
 import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import { ShoppingCart, Heart, LogOut, Menu, X } from 'lucide-react'
+import { useRouter, usePathname } from 'next/navigation'
+import { ShoppingCart, Heart, LogOut, Menu, X, LayoutDashboard, Package, ShoppingCart as CartIcon } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -16,7 +16,9 @@ export function Navbar() {
   const { cartCount } = useCartContext()
   const { wishlistItems } = useWishlistContext()
   const router = useRouter()
+  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
+  const isAdminPage = pathname.startsWith('/admin')
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -33,40 +35,61 @@ export function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
-          <Link href="/products" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
-            Products
-          </Link>
+          {isAdminPage ? (
+            <>
+              <Link href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Link>
+              <Link href="/admin/products" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
+                <Package className="h-4 w-4" />
+                Products
+              </Link>
+              <Link href="/admin/orders" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
+                <CartIcon className="h-4 w-4" />
+                Orders
+              </Link>
+            </>
+          ) : (
+            <Link href="/products" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
+              Products
+            </Link>
+          )}
 
           <ThemeToggle />
           {loading ? null : user ? (
             <>
-              <Link id="cart-icon-desktop" href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
-                <ShoppingCart className="h-5 w-5" />
-                <AnimatePresence mode="wait">
-                  {cartCount > 0 && (
-                    <motion.span
-                      key={cartCount}
-                      initial={{ scale: 0.5, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.5, opacity: 0 }}
-                      className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
-                    >
-                      {cartCount > 99 ? '99+' : cartCount}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-              </Link>
-              <Link href="/wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
-                <Heart className="h-5 w-5" />
-                {wishlistItems.length > 0 && (
-                  <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                    {wishlistItems.length > 99 ? '99+' : wishlistItems.length}
-                  </span>
-                )}
-              </Link>
-              <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
-                Orders
-              </Link>
+              {!isAdminPage && (
+                <>
+                  <Link id="cart-icon-desktop" href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+                    <ShoppingCart className="h-5 w-5" />
+                    <AnimatePresence mode="wait">
+                      {cartCount > 0 && (
+                        <motion.span
+                          key={cartCount}
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                        >
+                          {cartCount > 99 ? '99+' : cartCount}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                  <Link href="/wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+                    <Heart className="h-5 w-5" />
+                    {wishlistItems.length > 0 && (
+                      <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                        {wishlistItems.length > 99 ? '99+' : wishlistItems.length}
+                      </span>
+                    )}
+                  </Link>
+                  <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
+                    Orders
+                  </Link>
+                </>
+              )}
               <button
                 onClick={handleSignOut}
                 className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
@@ -76,12 +99,14 @@ export function Navbar() {
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-all duration-200"
-            >
-              Sign In
-            </Link>
+            !isAdminPage && (
+              <Link
+                href="/login"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-all duration-200"
+              >
+                Sign In
+              </Link>
+            )
           )}
         </div>
 
@@ -100,46 +125,69 @@ export function Navbar() {
       {menuOpen && (
         <div className="border-t border-border bg-background/95 px-4 pb-4 backdrop-blur-md md:hidden">
           <div className="mt-3 flex flex-col gap-3">
-            <Link
-              href="/products"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
-              onClick={() => setMenuOpen(false)}
-            >
-              Products
-            </Link>
+            {isAdminPage ? (
+              <>
+                <Link href="/admin" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                  <LayoutDashboard className="h-4 w-4" />
+                  Dashboard
+                </Link>
+                <Link href="/admin/products" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                  <Package className="h-4 w-4" />
+                  Products
+                </Link>
+                <Link href="/admin/orders" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                  <CartIcon className="h-4 w-4" />
+                  Orders
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/products"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200"
+                onClick={() => setMenuOpen(false)}
+              >
+                Products
+              </Link>
+            )}
             <ThemeToggle />
             {loading ? null : user ? (
               <>
-                <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
-                  Cart
-                  <AnimatePresence mode="wait">
-                    {cartCount > 0 && (
-                      <motion.span
-                        key={cartCount}
-                        initial={{ scale: 0.5, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.5, opacity: 0 }}
-                        className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
-                      >
-                        {cartCount > 99 ? '99+' : cartCount}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </Link>
-                <Link href="/wishlist" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
-                  Wishlist
-                </Link>
-                <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
-                  Orders
-                </Link>
+                {!isAdminPage && (
+                  <>
+                    <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                      Cart
+                      <AnimatePresence mode="wait">
+                        {cartCount > 0 && (
+                          <motion.span
+                            key={cartCount}
+                            initial={{ scale: 0.5, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.5, opacity: 0 }}
+                            className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                          >
+                            {cartCount > 99 ? '99+' : cartCount}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </Link>
+                    <Link href="/wishlist" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                      Wishlist
+                    </Link>
+                    <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                      Orders
+                    </Link>
+                  </>
+                )}
                 <button onClick={handleSignOut} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                   Sign Out
                 </button>
               </>
             ) : (
-              <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
-                Sign In
-              </Link>
+              !isAdminPage && (
+                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                  Sign In
+                </Link>
+              )
             )}
           </div>
         </div>

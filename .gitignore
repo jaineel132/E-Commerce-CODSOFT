@@ -34,3 +34,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# screenshots
+*.png
+
+# planning & design docs (not part of source)
+prd.md
+ai_rules.md
+architecture.md
+plan.md
+DESIGN.md
+
+# testing artifacts
+.playwright-mcp/
