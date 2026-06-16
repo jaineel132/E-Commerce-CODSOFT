@@ -29,7 +29,7 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="font-serif text-xl font-semibold tracking-tighter text-foreground transition-all duration-200">
-          Store
+          Verdant
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">

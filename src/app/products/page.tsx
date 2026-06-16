@@ -5,7 +5,7 @@ import type { Product } from '@/types'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Products | E-Commerce Store',
+  title: 'Products | Verdant',
   description: 'Browse our collection of products across Electronics, Clothing, Books, and Home & Kitchen.',
 }
 

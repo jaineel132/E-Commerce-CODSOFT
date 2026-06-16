@@ -23,8 +23,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "E-Commerce Store",
-  description: "Browse products, add to cart, and checkout with Stripe.",
+  title: "Verdant",
+  description: "Discover thoughtfully curated products — from electronics and books to home essentials.",
 };
 
 export default async function RootLayout({

@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   }
 
   return {
-    title: `${product.name} | E-Commerce Store`,
+    title: `${product.name} | Verdant`,
     description: product.description?.slice(0, 160) || `Buy ${product.name} for ${formatPrice(product.price)}`,
   }
 }
