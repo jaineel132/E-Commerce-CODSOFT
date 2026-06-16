@@ -22,9 +22,31 @@ const inter = Inter({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+
 export const metadata: Metadata = {
-  title: "Verdant",
+  title: {
+    default: "Verdant",
+    template: "%s | Verdant",
+  },
   description: "Discover thoughtfully curated products — from electronics and books to home essentials.",
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: 'website',
+    siteName: 'Verdant',
+    title: 'Verdant',
+    description: 'Discover thoughtfully curated products — from electronics and books to home essentials.',
+    url: siteUrl,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Verdant',
+    description: 'Discover thoughtfully curated products — from electronics and books to home essentials.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({

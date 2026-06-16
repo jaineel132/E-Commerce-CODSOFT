@@ -58,6 +58,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '5.imimg.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'muxrvuzxshjmfoujyjhy.supabase.co',
+      },
     ],
   },
 };

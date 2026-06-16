@@ -73,3 +73,18 @@ export interface RecentlyViewed {
 export interface RecentlyViewedWithProduct extends RecentlyViewed {
   product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
 }
+
+export interface Address {
+  id: string
+  user_id: string
+  label: string
+  full_name: string
+  street: string
+  city: string
+  state: string
+  zip_code: string
+  country: string
+  phone: string | null
+  is_default: boolean
+  created_at: string
+}

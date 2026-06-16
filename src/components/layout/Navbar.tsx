@@ -6,7 +6,7 @@ import { useCartContext } from '@/context/CartContext'
 import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter, usePathname } from 'next/navigation'
-import { ShoppingCart, Heart, LogOut, Menu, X, LayoutDashboard, Package, ShoppingCart as CartIcon } from 'lucide-react'
+import { ShoppingCart, Heart, LogOut, Menu, X, LayoutDashboard, Package, ShoppingCart as CartIcon, User } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -87,6 +87,9 @@ export function Navbar() {
                   </Link>
                   <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                     Orders
+                  </Link>
+                  <Link href="/profile" className="text-muted-foreground hover:text-foreground transition-all duration-200">
+                    <User className="h-5 w-5" />
                   </Link>
                 </>
               )}
@@ -175,6 +178,10 @@ export function Navbar() {
                     </Link>
                     <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
                       Orders
+                    </Link>
+                    <Link href="/profile" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>
+                      <User className="h-4 w-4" />
+                      Profile
                     </Link>
                   </>
                 )}

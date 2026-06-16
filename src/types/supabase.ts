@@ -244,6 +244,57 @@ export interface Database {
           }
         ]
       }
+      addresses: {
+        Row: {
+          id: string
+          user_id: string
+          label: string
+          full_name: string
+          street: string
+          city: string
+          state: string
+          zip_code: string
+          country: string
+          phone: string | null
+          is_default: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          label?: string
+          full_name: string
+          street: string
+          city: string
+          state: string
+          zip_code: string
+          country?: string
+          phone?: string | null
+          is_default?: boolean
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          label?: string
+          full_name?: string
+          street?: string
+          city?: string
+          state?: string
+          zip_code?: string
+          country?: string
+          phone?: string | null
+          is_default?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: Record<string, never>
     Functions: {

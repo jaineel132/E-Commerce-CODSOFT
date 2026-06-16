@@ -9,7 +9,7 @@ import { CreditCard, ArrowLeft, Lock, ShoppingCart } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function CheckoutPage() {
-  const { cartItems, cartTotal } = useCartContext()
+  const { cartItems, cartTotal, loading: cartLoading } = useCartContext()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -36,6 +36,24 @@ export default function CheckoutPage() {
       setError('Something went wrong. Please try again.')
       setLoading(false)
     }
+  }
+
+  if (cartLoading) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <div className="skeleton-shimmer h-8 w-40 rounded" />
+        </div>
+        <div className="grid gap-8 lg:grid-cols-3">
+          <div className="space-y-4 lg:col-span-2">
+            <div className="skeleton-shimmer h-64 rounded-xl border border-border" />
+          </div>
+          <div className="lg:col-span-1">
+            <div className="skeleton-shimmer h-80 rounded-xl border border-border" />
+          </div>
+        </div>
+      </div>
+    )
   }
 
   if (cartItems.length === 0 && !loading) {
