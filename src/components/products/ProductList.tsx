@@ -2,17 +2,24 @@
 
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { SearchX } from 'lucide-react'
 import { SearchBar } from './SearchBar'
 import { ProductGrid } from './ProductGrid'
+import { Pagination } from './Pagination'
 import type { Product } from '@/types'
 
 interface ProductListProps {
   initialProducts: Product[]
   initialQuery?: string
+  total?: number
+  page?: number
+  totalPages?: number
 }
 
-export function ProductList({ initialProducts, initialQuery }: ProductListProps) {
+export function ProductList({ initialProducts, initialQuery, total, page = 1, totalPages = 1 }: ProductListProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [searchResults, setSearchResults] = useState<Product[] | null>(null)
   const [isSearchActive, setIsSearchActive] = useState(false)
 
@@ -26,19 +33,44 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
     setIsSearchActive(false)
   }, [])
 
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', String(newPage))
+    router.push(`/products?${params.toString()}`)
+  }
+
+  const handleSortChange = (sortBy: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('sortBy', sortBy)
+    params.delete('page')
+    router.push(`/products?${params.toString()}`)
+  }
+
   const products = searchResults ?? initialProducts
-  const resultCount = searchResults !== null ? searchResults.length : initialProducts.length
+  const resultCount = searchResults !== null ? searchResults.length : total ?? initialProducts.length
   const isSearchEmpty = isSearchActive && resultCount === 0
+  const currentSortBy = searchParams.get('sortBy') || 'created_at'
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <SearchBar
           onResults={handleResults}
           onClear={handleClear}
           className="w-full max-w-md"
           initialQuery={initialQuery}
         />
+        {!isSearchActive && (
+          <select
+            value={currentSortBy}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
+          >
+            <option value="created_at">Newest</option>
+            <option value="price">Price</option>
+            <option value="name">Name</option>
+          </select>
+        )}
       </div>
 
       {isSearchActive && !isSearchEmpty && (
@@ -53,6 +85,12 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
             Show all products
           </button>
         </div>
+      )}
+
+      {!isSearchActive && total !== undefined && (
+        <p className="mb-4 text-sm text-muted-foreground">
+          {total} product{total !== 1 ? 's' : ''}
+        </p>
       )}
 
       {isSearchEmpty ? (
@@ -75,7 +113,16 @@ export function ProductList({ initialProducts, initialQuery }: ProductListProps)
           </Link>
         </div>
       ) : (
-        <ProductGrid products={products} />
+        <>
+          <ProductGrid products={products} />
+          {!isSearchActive && (
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
       )}
     </div>
   )

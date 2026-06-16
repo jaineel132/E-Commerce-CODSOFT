@@ -16,44 +16,77 @@ interface ProductsPageProps {
 async function getProducts(searchParams: { [key: string]: string | string[] | undefined }) {
   const supabase = await createClient()
 
-  let query = supabase
-    .from('products')
-    .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
-    .eq('is_active', true)
-
-  const category = typeof searchParams.category === 'string' ? searchParams.category : ''
+  const categorySlug = typeof searchParams.category === 'string' ? searchParams.category : ''
   const minPrice = typeof searchParams.minPrice === 'string' ? searchParams.minPrice : ''
   const maxPrice = typeof searchParams.maxPrice === 'string' ? searchParams.maxPrice : ''
+  const page = Math.max(1, parseInt(typeof searchParams.page === 'string' ? searchParams.page : '1', 10))
+  const limit = Math.min(100, Math.max(1, parseInt(typeof searchParams.limit === 'string' ? searchParams.limit : '20', 10)))
+  const sortBy = typeof searchParams.sortBy === 'string' ? searchParams.sortBy : 'created_at'
+  const sortOrder = typeof searchParams.sortOrder === 'string' ? searchParams.sortOrder : 'desc'
 
-  if (category) {
-    query = query.eq('category', category)
+  let countQuery = supabase.from('products').select('*', { count: 'exact', head: true }).eq('is_active', true)
+  let dataQuery = supabase
+    .from('products')
+    .select('*, category:categories(name, slug)')
+    .eq('is_active', true)
+
+  if (categorySlug) {
+    const { data: cat } = await supabase.from('categories').select('id').eq('slug', categorySlug).single()
+    if (cat) {
+      countQuery = countQuery.eq('category_id', cat.id)
+      dataQuery = dataQuery.eq('category_id', cat.id)
+    }
   }
 
   if (minPrice) {
-    query = query.gte('price', parseFloat(minPrice))
+    countQuery = countQuery.gte('price', parseFloat(minPrice))
+    dataQuery = dataQuery.gte('price', parseFloat(minPrice))
   }
 
   if (maxPrice) {
-    query = query.lte('price', parseFloat(maxPrice))
+    countQuery = countQuery.lte('price', parseFloat(maxPrice))
+    dataQuery = dataQuery.lte('price', parseFloat(maxPrice))
   }
 
-  const { data: products, error } = await query.order('created_at', { ascending: false })
+  const { count, error: countError } = await countQuery
+  if (countError) {
+    console.error('Error counting products:', countError)
+    return { products: [], total: 0, page: 1, limit, totalPages: 0 }
+  }
+
+  const from = (page - 1) * limit
+  const to = from + limit - 1
+
+  const allowedSorts = ['created_at', 'price', 'name']
+  const actualSortBy = allowedSorts.includes(sortBy) ? sortBy : 'created_at'
+
+  const { data: products, error } = await dataQuery
+    .order(actualSortBy, { ascending: sortOrder === 'asc' })
+    .range(from, to)
 
   if (error) {
     console.error('Error fetching products:', error)
-    return []
+    return { products: [], total: 0, page: 1, limit, totalPages: 0 }
   }
 
-  return (products || []) as Product[]
+  const total = count ?? 0
+
+  return {
+    products: (products || []) as Product[],
+    total,
+    page,
+    limit,
+    totalPages: Math.ceil(total / limit),
+  }
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const products = await getProducts(searchParams)
+  const { products, total, page, totalPages } = await getProducts(searchParams)
   const q = typeof searchParams.q === 'string' ? searchParams.q : undefined
   const category = typeof searchParams.category === 'string' ? searchParams.category : ''
   const minPrice = typeof searchParams.minPrice === 'string' ? searchParams.minPrice : ''
   const maxPrice = typeof searchParams.maxPrice === 'string' ? searchParams.maxPrice : ''
-  const filterKey = `${category}-${minPrice}-${maxPrice}`
+  const filterKey = `${category}-${minPrice}-${maxPrice}-${page}`
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -74,7 +107,14 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <div className="flex-1">
-          <ProductList key={filterKey} initialProducts={products} initialQuery={q} />
+          <ProductList
+            key={filterKey}
+            initialProducts={products}
+            initialQuery={q}
+            total={total}
+            page={page}
+            totalPages={totalPages}
+          />
         </div>
       </div>
     </div>

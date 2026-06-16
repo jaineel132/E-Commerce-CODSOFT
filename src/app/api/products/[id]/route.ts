@@ -10,7 +10,7 @@ export async function GET(
 
     const { data: product, error } = await supabase
       .from('products')
-      .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
+      .select('*, category:categories(name, slug)')
       .eq('id', params.id)
       .single()
 
@@ -52,7 +52,7 @@ export async function PATCH(
       name?: string
       description?: string | null
       price?: number
-      category?: string
+      category_id?: string
       image_url?: string | null
       stock_count?: number
       is_active?: boolean
@@ -61,7 +61,7 @@ export async function PATCH(
     if (body.name !== undefined) updates.name = body.name
     if (body.description !== undefined) updates.description = body.description
     if (body.price !== undefined) updates.price = body.price
-    if (body.category !== undefined) updates.category = body.category
+    if (body.category_id !== undefined) updates.category_id = body.category_id
     if (body.image_url !== undefined) updates.image_url = body.image_url
     if (body.stock_count !== undefined) updates.stock_count = body.stock_count
     if (body.is_active !== undefined) updates.is_active = body.is_active
@@ -74,7 +74,7 @@ export async function PATCH(
       .from('products')
       .update(updates)
       .eq('id', params.id)
-      .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
+      .select('*, category:categories(name, slug)')
       .single()
 
     if (error) {

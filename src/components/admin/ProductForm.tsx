@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Upload, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
-import type { Product } from '@/types'
-
-const CATEGORIES = ['Electronics', 'Clothing', 'Books', 'Home & Kitchen']
+import type { Product, Category } from '@/types'
 
 interface ProductFormProps {
   product?: Product
@@ -18,11 +16,19 @@ interface ProductFormProps {
 export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
   const isEdit = !!product
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((r) => r.json())
+      .then((data) => setCategories(data.categories ?? []))
+      .catch(() => {})
+  }, [])
 
   const [name, setName] = useState(product?.name || '')
   const [description, setDescription] = useState(product?.description || '')
   const [price, setPrice] = useState(String(product?.price || ''))
-  const [category, setCategory] = useState(product?.category || CATEGORIES[0])
+  const [categoryId, setCategoryId] = useState(product?.category_id || '')
   const [imageUrl, setImageUrl] = useState(product?.image_url || '')
   const [stockCount, setStockCount] = useState(String(product?.stock_count ?? 0))
   const [isActive, setIsActive] = useState(product?.is_active ?? true)
@@ -76,6 +82,11 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
       return
     }
 
+    if (!categoryId) {
+      setError('Please select a category')
+      return
+    }
+
     setSaving(true)
 
     try {
@@ -83,7 +94,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
         name: name.trim(),
         description: description.trim() || null,
         price: parseFloat(price),
-        category,
+        category_id: categoryId,
         image_url: imageUrl || null,
         stock_count: parseInt(stockCount, 10) || 0,
         is_active: isActive,
@@ -220,12 +231,13 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                 Category
               </label>
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
                 className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
               >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
+                <option value="">Select a category</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
               </select>
             </div>

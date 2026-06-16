@@ -27,7 +27,21 @@ export async function GET(
     return NextResponse.json({ products: [] })
   }
 
-  const filtered = matches.filter((m: { id: string }) => m.id !== params.id).slice(0, 4)
+  const filtered = matches
+    .filter((m: { id: string }) => m.id !== params.id)
+    .slice(0, 4)
+    .map((m: { category_slug: string; id: string; name: string; description: string; price: number; image_url: string; stock_count: number; similarity: number }) => ({
+      id: m.id,
+      name: m.name,
+      description: m.description,
+      price: m.price,
+      image_url: m.image_url,
+      stock_count: m.stock_count,
+      category_id: '',
+      category: { name: '', slug: m.category_slug },
+      is_active: true,
+      created_at: '',
+    }))
 
   return NextResponse.json({ products: filtered })
 }

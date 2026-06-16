@@ -17,7 +17,7 @@ async function getProduct(id: string) {
 
   const { data: product, error } = await supabase
     .from('products')
-    .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
+    .select('*, category:categories(name, slug)')
     .eq('id', id)
     .single()
 
@@ -82,7 +82,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
         <div className="flex flex-col">
           <span className="mb-2 text-xs font-semibold uppercase tracking-widest text-primary">
-            {product.category}
+            {product.category?.name ?? ''}
           </span>
 
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
@@ -108,7 +108,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
             <dl className="grid grid-cols-2 gap-4 text-sm">
               <div>
                 <dt className="text-muted-foreground">Category</dt>
-                <dd className="mt-1 text-foreground">{product.category}</dd>
+                <dd className="mt-1 text-foreground">{product.category?.name ?? ''}</dd>
               </div>
             </dl>
           </div>

@@ -73,7 +73,7 @@ export default function AdminProductsPage() {
             {products.map((product) => (
               <tr key={product.id} className="border-b last:border-0 hover:bg-muted/30">
                 <td className="px-4 py-3 font-medium text-foreground">{product.name}</td>
-                <td className="px-4 py-3 text-muted-foreground">{product.category}</td>
+                <td className="px-4 py-3 text-muted-foreground">{product.category?.name ?? ''}</td>
                 <td className="px-4 py-3 text-right text-foreground">{formatPrice(product.price)}</td>
                 <td className="px-4 py-3 text-right text-foreground">{product.stock_count}</td>
                 <td className="px-4 py-3 text-center">

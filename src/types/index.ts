@@ -12,7 +12,8 @@ export interface Product {
   name: string
   description: string | null
   price: number
-  category: string
+  category_id: string
+  category: { name: string; slug: string } | null
   image_url: string | null
   stock_count: number
   is_active: boolean
@@ -81,6 +82,17 @@ export interface RecentlyViewed {
 
 export interface RecentlyViewedWithProduct extends RecentlyViewed {
   product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  description: string | null
+  image_url: string | null
+  is_active: boolean
+  created_at: string
+  product_count?: number
 }
 
 export interface Address {

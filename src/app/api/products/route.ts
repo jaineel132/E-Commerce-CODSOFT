@@ -5,9 +5,13 @@ import { generateEmbedding } from '@/lib/embeddings'
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category')
+    const categorySlug = searchParams.get('category')
     const minPrice = searchParams.get('minPrice')
     const maxPrice = searchParams.get('maxPrice')
+    const page = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10))
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') ?? '20', 10)))
+    const sortBy = searchParams.get('sortBy') || 'created_at'
+    const sortOrder = searchParams.get('sortOrder') === 'asc' ? 'asc' : 'desc'
 
     const supabase = await createClient()
 
@@ -22,33 +26,63 @@ export async function GET(request: NextRequest) {
       isAdmin = profile?.role === 'admin'
     }
 
-    let query = supabase
+    let countQuery = supabase.from('products').select('*', { count: 'exact', head: true })
+    let dataQuery = supabase
       .from('products')
-      .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
+      .select('*, category:categories(name, slug)')
 
     if (!isAdmin) {
-      query = query.eq('is_active', true)
+      countQuery = countQuery.eq('is_active', true)
+      dataQuery = dataQuery.eq('is_active', true)
     }
 
-    if (category) {
-      query = query.eq('category', category)
+    if (categorySlug) {
+      countQuery = countQuery.eq('category_id', (
+        await supabase.from('categories').select('id').eq('slug', categorySlug).single()
+      ).data?.id ?? '')
+      dataQuery = dataQuery.eq('category_id', (
+        await supabase.from('categories').select('id').eq('slug', categorySlug).single()
+      ).data?.id ?? '')
     }
 
     if (minPrice) {
-      query = query.gte('price', parseFloat(minPrice))
+      countQuery = countQuery.gte('price', parseFloat(minPrice))
+      dataQuery = dataQuery.gte('price', parseFloat(minPrice))
     }
 
     if (maxPrice) {
-      query = query.lte('price', parseFloat(maxPrice))
+      countQuery = countQuery.lte('price', parseFloat(maxPrice))
+      dataQuery = dataQuery.lte('price', parseFloat(maxPrice))
     }
 
-    const { data: products, error } = await query.order('created_at', { ascending: false })
+    const { count, error: countError } = await countQuery
+    if (countError) {
+      return Response.json({ error: countError.message }, { status: 500 })
+    }
+
+    const from = (page - 1) * limit
+    const to = from + limit - 1
+
+    const allowedSorts = ['created_at', 'price', 'name']
+    const actualSortBy = allowedSorts.includes(sortBy) ? sortBy : 'created_at'
+
+    const { data: products, error } = await dataQuery
+      .order(actualSortBy, { ascending: sortOrder === 'asc' })
+      .range(from, to)
 
     if (error) {
       return Response.json({ error: error.message }, { status: 500 })
     }
 
-    return Response.json({ products }, { status: 200 })
+    const total = count ?? 0
+
+    return Response.json({
+      products,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    }, { status: 200 })
   } catch {
     return Response.json({ error: 'Failed to fetch products' }, { status: 500 })
   }
@@ -74,10 +108,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { name, description, price, category, image_url, stock_count } = body
+    const { name, description, category_id, image_url, stock_count } = body
 
-    if (!name || !price || !category) {
-      return Response.json({ error: 'name, price, and category are required' }, { status: 400 })
+    if (!name || !category_id) {
+      return Response.json({ error: 'name and category_id are required' }, { status: 400 })
     }
 
     const { data: product, error: insertError } = await supabase
@@ -85,12 +119,12 @@ export async function POST(request: NextRequest) {
       .insert({
         name,
         description,
-        price,
-        category,
+        price: body.price,
+        category_id,
         image_url,
         stock_count: stock_count ?? 0,
       })
-      .select('id, name, description, price, category, image_url, stock_count, is_active, created_at')
+      .select('*, category:categories(name, slug)')
       .single()
 
     if (insertError) {

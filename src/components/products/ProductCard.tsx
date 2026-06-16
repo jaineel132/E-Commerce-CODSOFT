@@ -54,7 +54,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <div className="flex flex-1 flex-col p-4">
         <div className="mb-1 text-[11px] font-semibold uppercase tracking-widest text-primary">
-          {product.category}
+          {product.category?.name ?? ''}
         </div>
         <Link href={`/products/${product.id}`}>
           <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-card-foreground transition-colors hover:text-primary">
