@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
@@ -12,7 +13,7 @@ interface ProductDetailPageProps {
   params: { id: string }
 }
 
-async function getProduct(id: string) {
+const getProduct = cache(async (id: string) => {
   const supabase = await createClient()
 
   const { data: product, error } = await supabase
@@ -26,7 +27,7 @@ async function getProduct(id: string) {
   }
 
   return product
-}
+})
 
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
   const product = await getProduct(params.id)

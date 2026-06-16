@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
 import { generateEmbedding } from '@/lib/embeddings'
 
@@ -36,13 +37,15 @@ export async function GET(request: NextRequest) {
       dataQuery = dataQuery.eq('is_active', true)
     }
 
+    let categoryId: string | null = null
     if (categorySlug) {
-      countQuery = countQuery.eq('category_id', (
-        await supabase.from('categories').select('id').eq('slug', categorySlug).single()
-      ).data?.id ?? '')
-      dataQuery = dataQuery.eq('category_id', (
-        await supabase.from('categories').select('id').eq('slug', categorySlug).single()
-      ).data?.id ?? '')
+      const { data: cat } = await supabase.from('categories').select('id').eq('slug', categorySlug).single()
+      categoryId = cat?.id ?? null
+    }
+
+    if (categoryId) {
+      countQuery = countQuery.eq('category_id', categoryId)
+      dataQuery = dataQuery.eq('category_id', categoryId)
     }
 
     if (minPrice) {
@@ -90,22 +93,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient()
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if ('error' in auth) {
+      return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    if (profile?.role !== 'admin') {
-      return Response.json({ error: 'Forbidden' }, { status: 403 })
-    }
+    const { supabase } = auth
 
     const body = await request.json()
     const { name, description, category_id, image_url, stock_count } = body

@@ -96,18 +96,12 @@ export function useCart(): UseCartReturn {
 
   const clearCart = useCallback(async () => {
     try {
-      for (const item of cartItems) {
-        await fetch('/api/cart', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ product_id: item.product_id }),
-        })
-      }
+      await fetch('/api/cart?all=true', { method: 'DELETE' })
       setCartItems([])
     } catch {
       console.error('Failed to clear cart')
     }
-  }, [cartItems])
+  }, [])
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
   const cartTotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0)

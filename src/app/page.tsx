@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { getReviewStats } from '@/lib/reviews'
 import { HeroBanner } from '@/components/layout/HeroBanner'
 import { Footer } from '@/components/layout/Footer'
 import { ProductCard } from '@/components/products/ProductCard'
@@ -29,6 +30,8 @@ async function getFeaturedProducts() {
 
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts()
+  const productIds = featuredProducts.map((p) => p.id)
+  const ratingStats = await getReviewStats(productIds)
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -58,7 +61,7 @@ export default async function Home() {
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {featuredProducts.map((product, i) => (
               <ScrollReveal key={product.id} delay={i * 80}>
-                <ProductCard product={product} />
+                <ProductCard product={product} priority={i === 0} ratingStats={ratingStats.get(product.id)} />
               </ScrollReveal>
             ))}
           </div>

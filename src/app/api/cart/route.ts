@@ -136,6 +136,23 @@ export async function DELETE(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { searchParams } = new URL(request.url)
+
+    // Support clearing entire cart: DELETE /api/cart?all=true
+    if (searchParams.get('all') === 'true') {
+      const { error } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('user_id', user.id)
+
+      if (error) {
+        return Response.json({ error: error.message }, { status: 500 })
+      }
+
+      return Response.json({ message: 'Cart cleared' }, { status: 200 })
+    }
+
+    // Single item removal
     const body = await request.json()
     const { product_id } = body
 

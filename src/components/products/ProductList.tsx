@@ -8,6 +8,7 @@ import { SearchBar } from './SearchBar'
 import { ProductGrid } from './ProductGrid'
 import { Pagination } from './Pagination'
 import type { Product } from '@/types'
+import type { ReviewStatsMap } from '@/lib/reviews'
 
 interface ProductListProps {
   initialProducts: Product[]
@@ -15,9 +16,10 @@ interface ProductListProps {
   total?: number
   page?: number
   totalPages?: number
+  initialReviewStats?: ReviewStatsMap
 }
 
-export function ProductList({ initialProducts, initialQuery, total, page = 1, totalPages = 1 }: ProductListProps) {
+export function ProductList({ initialProducts, initialQuery, total, page = 1, totalPages = 1, initialReviewStats }: ProductListProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [searchResults, setSearchResults] = useState<Product[] | null>(null)
@@ -114,7 +116,7 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
         </div>
       ) : (
         <>
-          <ProductGrid products={products} />
+          <ProductGrid products={products} ratingStats={initialReviewStats} />
           {!isSearchActive && (
             <Pagination
               page={page}

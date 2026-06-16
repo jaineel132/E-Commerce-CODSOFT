@@ -8,29 +8,33 @@ export async function GET(
   try {
     const supabase = await createClient()
 
-    const { data: reviews, error } = await supabase
-      .from('reviews')
-      .select('id, product_id, user_id, rating, title, body, is_verified_purchase, created_at, user:profiles(full_name)')
-      .eq('product_id', params.id)
-      .order('created_at', { ascending: false })
+    const [reviewsResult, statsResult] = await Promise.all([
+      supabase
+        .from('reviews')
+        .select('id, product_id, user_id, rating, title, body, is_verified_purchase, created_at, user:profiles(full_name)')
+        .eq('product_id', params.id)
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('reviews')
+        .select('rating')
+        .eq('product_id', params.id),
+    ])
 
-    if (error) {
-      return Response.json({ error: error.message }, { status: 500 })
+    if (reviewsResult.error) {
+      return Response.json({ error: reviewsResult.error.message }, { status: 500 })
     }
 
-    const { data: stats } = await supabase
-      .from('reviews')
-      .select('rating')
-      .eq('product_id', params.id)
+    const reviews = reviewsResult.data ?? []
+    const stats = statsResult.data ?? []
 
-    const averageRating = stats && stats.length > 0
+    const averageRating = stats.length > 0
       ? stats.reduce((sum, r) => sum + r.rating, 0) / stats.length
       : 0
 
     return Response.json({
-      reviews: reviews || [],
+      reviews,
       averageRating: Math.round(averageRating * 10) / 10,
-      totalReviews: stats?.length || 0,
+      totalReviews: stats.length,
     }, { status: 200 })
   } catch {
     return Response.json({ error: 'Failed to fetch reviews' }, { status: 500 })

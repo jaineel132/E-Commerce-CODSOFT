@@ -3,9 +3,11 @@
 import { motion, type Variants } from 'framer-motion'
 import { ProductCard } from './ProductCard'
 import type { Product } from '@/types'
+import type { ReviewStatsMap } from '@/lib/reviews'
 
 interface ProductGridProps {
   products: Product[]
+  ratingStats?: ReviewStatsMap
 }
 
 const containerVariants: Variants = {
@@ -21,7 +23,7 @@ const itemVariants: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
 } as const
 
-export function ProductGrid({ products }: ProductGridProps) {
+export function ProductGrid({ products, ratingStats }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -43,7 +45,7 @@ export function ProductGrid({ products }: ProductGridProps) {
     >
       {products.map((product) => (
         <motion.div key={product.id} variants={itemVariants}>
-          <ProductCard product={product} />
+          <ProductCard product={product} ratingStats={ratingStats?.get(product.id)} />
         </motion.div>
       ))}
     </motion.div>

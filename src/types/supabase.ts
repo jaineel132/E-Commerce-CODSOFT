@@ -422,7 +422,7 @@ export interface Database {
           name: string
           description: string
           price: number
-          category_slug: string
+          category: string
           image_url: string
           stock_count: number
           similarity: number
@@ -434,6 +434,12 @@ export interface Database {
           qty: unknown
         }
         Returns: boolean
+      }
+      decrement_stock_batch: {
+        Args: {
+          items: unknown
+        }
+        Returns: void
       }
     }
     Enums: Record<string, never>

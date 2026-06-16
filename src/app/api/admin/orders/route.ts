@@ -1,29 +1,19 @@
-import { createClient } from '@/lib/supabase/server'
+import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient()
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if ('error' in auth) {
+      return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    if (profile?.role !== 'admin') {
-      return Response.json({ error: 'Forbidden' }, { status: 403 })
-    }
+    const { supabase } = auth
 
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')
-    const page = parseInt(searchParams.get('page') || '1', 10)
-    const limit = parseInt(searchParams.get('limit') || '50', 10)
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)))
     const offset = (page - 1) * limit
 
     let query = supabase
@@ -42,7 +32,15 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: error.message }, { status: 500 })
     }
 
-    return Response.json({ orders: orders || [], total: count || 0, page, limit }, { status: 200 })
+    const total = count ?? 0
+
+    return Response.json({
+      orders: orders || [],
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    }, { status: 200 })
   } catch {
     return Response.json({ error: 'Failed to fetch orders' }, { status: 500 })
   }

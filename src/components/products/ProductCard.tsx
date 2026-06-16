@@ -14,9 +14,11 @@ import type { Product } from '@/types'
 
 interface ProductCardProps {
   product: Product
+  priority?: boolean
+  ratingStats?: { averageRating: number; totalReviews: number }
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, priority, ratingStats }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
   const [added, setAdded] = useState(false)
   const stockCount = useRealtimeStock(product.id, product.stock_count)
@@ -39,6 +41,7 @@ export function ProductCard({ product }: ProductCardProps) {
             src={product.image_url}
             alt={product.name}
             fill
+            priority={priority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             onError={() => setImageError(true)}
@@ -62,7 +65,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </h3>
         </Link>
         <div className="mt-1 mb-2">
-          <ReviewBadge productId={product.id} />
+          <ReviewBadge
+            productId={product.id}
+            rating={ratingStats?.averageRating}
+            reviewCount={ratingStats?.totalReviews}
+          />
         </div>
         <div className="mt-auto flex items-center justify-between">
           <p className="text-lg font-bold text-foreground">

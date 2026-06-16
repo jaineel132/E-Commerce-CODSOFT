@@ -19,5 +19,10 @@ export async function GET() {
     products: undefined,
   }))
 
-  return NextResponse.json({ categories: result })
+  return NextResponse.json({ categories: result }, {
+    status: 200,
+    headers: {
+      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+    },
+  })
 }

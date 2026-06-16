@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { ProductList } from '@/components/products/ProductList'
 import { ProductFilter } from '@/components/products/ProductFilter'
+import { getReviewStats } from '@/lib/reviews'
 import type { Product } from '@/types'
 import type { Metadata } from 'next'
 
@@ -88,6 +89,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const maxPrice = typeof searchParams.maxPrice === 'string' ? searchParams.maxPrice : ''
   const filterKey = `${category}-${minPrice}-${maxPrice}-${page}`
 
+  // Fetch review stats for all displayed products in one query
+  const productIds = products.map((p) => p.id)
+  const ratingStats = await getReviewStats(productIds)
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -114,6 +119,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             total={total}
             page={page}
             totalPages={totalPages}
+            initialReviewStats={ratingStats}
           />
         </div>
       </div>

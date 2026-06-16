@@ -105,16 +105,13 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: itemsError.message }, { status: 500 })
     }
 
-    // Atomic stock decrement via RPC
-    for (const p of products) {
-      const { error: stockError } = await supabase.rpc('decrement_stock', {
-        pid: p.product_id,
-        qty: p.quantity,
-      })
+    // Atomic stock decrement via batch RPC
+    const { error: stockError } = await supabase.rpc('decrement_stock_batch', {
+      items: JSON.stringify(products.map((p) => ({ pid: p.product_id, qty: p.quantity }))),
+    })
 
-      if (stockError) {
-        console.error(`Failed to decrement stock for product ${p.product_id}:`, stockError)
-      }
+    if (stockError) {
+      console.error('Failed to decrement stock:', stockError)
     }
 
     // Clear user's cart

@@ -30,7 +30,7 @@ export async function GET(
   const filtered = matches
     .filter((m: { id: string }) => m.id !== params.id)
     .slice(0, 4)
-    .map((m: { category_slug: string; id: string; name: string; description: string; price: number; image_url: string; stock_count: number; similarity: number }) => ({
+    .map((m: { category: string; id: string; name: string; description: string; price: number; image_url: string; stock_count: number; similarity: number }) => ({
       id: m.id,
       name: m.name,
       description: m.description,
@@ -38,7 +38,7 @@ export async function GET(
       image_url: m.image_url,
       stock_count: m.stock_count,
       category_id: '',
-      category: { name: '', slug: m.category_slug },
+      category: { name: m.category, slug: '' },
       is_active: true,
       created_at: '',
     }))
