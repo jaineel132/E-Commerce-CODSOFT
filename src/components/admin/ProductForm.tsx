@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Upload, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -266,10 +267,12 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
               </div>
               {imageUrl && (
                 <div className="mt-2 relative h-20 w-20 overflow-hidden rounded-lg border border-border bg-muted">
-                  <img
+                  <Image
                     src={imageUrl}
                     alt="Preview"
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="80px"
+                    className="object-cover"
                   />
                 </div>
               )}

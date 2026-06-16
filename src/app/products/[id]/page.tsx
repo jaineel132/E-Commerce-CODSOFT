@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { ProductDetailStock } from '@/components/products/ProductDetailStock'
 import { ProductImage } from '@/components/products/ProductImage'
+import { SimilarProducts } from '@/components/products/SimilarProducts'
 import { formatPrice } from '@/lib/utils'
 import type { Metadata } from 'next'
 
@@ -112,6 +113,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
         </div>
       </div>
+
+      <SimilarProducts productId={product.id} />
     </div>
   )
 }

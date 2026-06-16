@@ -6,8 +6,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
+import { FlyToCart } from '@/components/ui/FlyToCart'
 import { formatPrice } from '@/lib/utils'
-import { useCartContext } from '@/context/CartContext'
 import { useRealtimeStock } from '@/hooks/useRealtimeStock'
 import type { Product } from '@/types'
 
@@ -18,17 +18,12 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
   const [added, setAdded] = useState(false)
-  const { addToCart } = useCartContext()
   const stockCount = useRealtimeStock(product.id, product.stock_count)
   const isOutOfStock = stockCount <= 0
 
-  const handleAddToCart = async () => {
-    if (isOutOfStock || added) return
-    const success = await addToCart(product.id)
-    if (success) {
-      setAdded(true)
-      setTimeout(() => setAdded(false), 2000)
-    }
+  const handleAddComplete = () => {
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2000)
   }
 
   return (
@@ -71,28 +66,34 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
           <StockBadge stockCount={stockCount} />
         </div>
-        <motion.button
-          onClick={handleAddToCart}
-          disabled={isOutOfStock || added}
-          whileTap={{ scale: 0.97 }}
-          className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
-            added
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-primary text-primary-foreground hover:bg-primary/90'
-          }`}
+        <FlyToCart
+          product={{ id: product.id, name: product.name, image_url: product.image_url, price: product.price }}
+          isOutOfStock={isOutOfStock || added}
+          onAdd={handleAddComplete}
+          className="mt-3"
         >
-          {added ? (
-            <>
-              <Check className="h-4 w-4" />
-              Added!
-            </>
-          ) : (
-            <>
-              <ShoppingCart className="h-4 w-4" />
-              {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
-            </>
-          )}
-        </motion.button>
+          <motion.button
+            disabled={isOutOfStock || added}
+            whileTap={{ scale: 0.97 }}
+            className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
+              added
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-primary text-primary-foreground hover:bg-primary/90'
+            }`}
+          >
+            {added ? (
+              <>
+                <Check className="h-4 w-4" />
+                Added!
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4" />
+                {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+              </>
+            )}
+          </motion.button>
+        </FlyToCart>
       </div>
     </motion.div>
   )

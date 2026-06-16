@@ -6,7 +6,7 @@ import { useCartContext } from '@/context/CartContext'
 import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { ShoppingCart, Heart, LogOut, Menu, X, Search } from 'lucide-react'
+import { ShoppingCart, Heart, LogOut, Menu, X } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -17,23 +17,12 @@ export function Navbar() {
   const { wishlistItems } = useWishlistContext()
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
 
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/')
     router.refresh()
-  }
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/products?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchQuery('')
-      setMobileSearchOpen(false)
-    }
   }
 
   return (
@@ -48,25 +37,10 @@ export function Navbar() {
             Products
           </Link>
 
-          <form onSubmit={handleSearch} className="relative">
-            <div className="ai-search-glow rounded-lg p-[1px]">
-              <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search with AI..."
-                  className="w-64 rounded-lg border-0 bg-background py-1.5 pl-9 pr-3 text-sm text-foreground outline-none transition-all duration-300 focus:w-80"
-                />
-              </div>
-            </div>
-          </form>
-
           <ThemeToggle />
           {loading ? null : user ? (
             <>
-              <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+              <Link id="cart-icon-desktop" href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                 <ShoppingCart className="h-5 w-5" />
                 <AnimatePresence mode="wait">
                   {cartCount > 0 && (
@@ -112,13 +86,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <button
-            onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-            className="text-muted-foreground hover:text-foreground transition-all duration-200"
-            aria-label="Search"
-          >
-            <Search className="h-5 w-5" />
-          </button>
+          <ThemeToggle />
           <button
             className="text-muted-foreground hover:text-foreground transition-all duration-200"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -128,26 +96,6 @@ export function Navbar() {
           </button>
         </div>
       </div>
-
-      {mobileSearchOpen && (
-        <div className="border-t border-border px-4 py-3 md:hidden">
-          <form onSubmit={handleSearch} className="relative">
-            <div className="ai-search-glow rounded-lg p-[1px]">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search with AI..."
-                  className="w-full rounded-lg border-0 bg-background py-2 pl-10 pr-3 text-sm text-foreground outline-none transition-all duration-300"
-                  autoFocus
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      )}
 
       {menuOpen && (
         <div className="border-t border-border bg-background/95 px-4 pb-4 backdrop-blur-md md:hidden">
