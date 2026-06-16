@@ -7,6 +7,7 @@ import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X, Search } from 'lucide-react'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -62,6 +63,7 @@ export function Navbar() {
             </div>
           </form>
 
+          <ThemeToggle />
           {loading ? null : user ? (
             <>
               <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
@@ -157,6 +159,7 @@ export function Navbar() {
             >
               Products
             </Link>
+            <ThemeToggle />
             {loading ? null : user ? (
               <>
                 <Link href="/cart" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200" onClick={() => setMenuOpen(false)}>

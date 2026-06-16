@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { TrendingUp, ShoppingCart, Package, DollarSign } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { Skeleton } from 'boneyard-js/react'
 
 interface DashboardStats {
   totalRevenue: number
@@ -26,19 +27,6 @@ export default function AdminDashboard() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="h-28 animate-pulse rounded-xl border bg-card" />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   const statCards = [
     { label: 'Total Revenue', value: `$${stats?.totalRevenue.toFixed(2) || '0.00'}`, icon: DollarSign, color: 'text-green-600 dark:text-green-400' },
     { label: 'Total Orders', value: String(stats?.totalOrders || 0), icon: ShoppingCart, color: 'text-blue-600 dark:text-blue-400' },
@@ -47,7 +35,8 @@ export default function AdminDashboard() {
   ]
 
   return (
-    <div className="space-y-8">
+    <Skeleton name="admin-dashboard" loading={loading}>
+      <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Dashboard</h1>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -109,5 +98,6 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+    </Skeleton>
   )
 }

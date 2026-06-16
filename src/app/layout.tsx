@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Fraunces } from 'next/font/google';
 import { Inter } from 'next/font/google';
 import "./globals.css";
+import { ThemeProvider } from 'next-themes';
+import { Toaster } from 'sonner';
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
@@ -34,16 +36,19 @@ export default async function RootLayout({
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="antialiased">
-        <AuthProvider initialUser={user}>
-          <CartProvider>
-            <WishlistProvider>
-              <Navbar />
-              <main>{children}</main>
-            </WishlistProvider>
-          </CartProvider>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider initialUser={user}>
+            <CartProvider>
+              <WishlistProvider>
+                <Navbar />
+                <main>{children}</main>
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
+          <Toaster richColors position="top-right" />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import { Heart, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function WishlistPage() {
   const { wishlistItems, loading, removeFromWishlist } = useWishlistContext()
@@ -33,25 +34,13 @@ export default function WishlistPage() {
 
   if (wishlistItems.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-muted p-6">
-            <Heart className="h-12 w-12 text-muted-foreground" />
-          </div>
-          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
-            Your wishlist is empty
-          </h1>
-          <p className="mb-8 text-sm text-muted-foreground">
-            Save products you love to revisit them later.
-          </p>
-          <Link
-            href="/products"
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Browse Products
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={Heart}
+        title="Your wishlist is empty"
+        description="Save products you love to revisit them later."
+        actionLabel="Browse Products"
+        actionHref="/products"
+      />
     )
   }
 

@@ -5,7 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
-import { CreditCard, ArrowLeft, Lock } from 'lucide-react'
+import { CreditCard, ArrowLeft, Lock, ShoppingCart } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal } = useCartContext()
@@ -39,22 +40,13 @@ export default function CheckoutPage() {
 
   if (cartItems.length === 0 && !loading) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center text-center">
-          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
-            Your cart is empty
-          </h1>
-          <p className="mb-8 text-sm text-muted-foreground">
-            Add some items to your cart before checking out.
-          </p>
-          <Link
-            href="/products"
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Browse Products
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={ShoppingCart}
+        title="Your cart is empty"
+        description="Add some items to your cart before checking out."
+        actionLabel="Browse Products"
+        actionHref="/products"
+      />
     )
   }
 

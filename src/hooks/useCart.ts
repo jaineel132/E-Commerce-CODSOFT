@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { toast } from 'sonner'
 import type { CartItemWithProduct } from '@/types'
 
 interface UseCartReturn {
@@ -44,11 +45,13 @@ export function useCart(): UseCartReturn {
 
       if (res.ok) {
         await fetchCart()
+        toast.success('Added to cart')
         return true
       }
+      toast.error('Failed to add to cart')
       return false
     } catch {
-      console.error('Failed to add to cart')
+      toast.error('Failed to add to cart')
       return false
     }
   }, [fetchCart])
@@ -63,9 +66,12 @@ export function useCart(): UseCartReturn {
 
       if (res.ok) {
         await fetchCart()
+        toast.success('Removed from cart')
+      } else {
+        toast.error('Failed to remove from cart')
       }
     } catch {
-      console.error('Failed to remove from cart')
+      toast.error('Failed to remove from cart')
     }
   }, [fetchCart])
 
@@ -79,9 +85,12 @@ export function useCart(): UseCartReturn {
 
       if (res.ok) {
         await fetchCart()
+        toast.success('Cart updated')
+      } else {
+        toast.error('Failed to update cart')
       }
     } catch {
-      console.error('Failed to update quantity')
+      toast.error('Failed to update cart')
     }
   }, [fetchCart])
 

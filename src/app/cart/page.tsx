@@ -1,11 +1,11 @@
 'use client'
 
-import Link from 'next/link'
 import { ShoppingCart } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
 import { useCartContext } from '@/context/CartContext'
 import { CartItem } from '@/components/cart/CartItem'
 import { CartSummary } from '@/components/cart/CartSummary'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function CartPage() {
   const { cartItems, loading } = useCartContext()
@@ -30,25 +30,13 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-muted p-6">
-            <ShoppingCart className="h-12 w-12 text-muted-foreground" />
-          </div>
-          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
-            Your cart is empty
-          </h1>
-          <p className="mb-8 text-sm text-muted-foreground">
-            Looks like you haven&apos;t added anything to your cart yet.
-          </p>
-          <Link
-            href="/products"
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Start Shopping
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={ShoppingCart}
+        title="Your cart is empty"
+        description="Looks like you haven&apos;t added anything to your cart yet."
+        actionLabel="Start Shopping"
+        actionHref="/products"
+      />
     )
   }
 

@@ -6,6 +6,7 @@ import { ProductCard } from '@/components/products/ProductCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { CategoryCards } from '@/components/layout/CategoryCards'
 import { WhyShopSection } from '@/components/layout/WhyShopSection'
+import { RecentlyViewedSection } from '@/components/products/RecentlyViewedSection'
 import type { Product } from '@/types'
 
 async function getFeaturedProducts() {
@@ -67,6 +68,8 @@ export default async function Home() {
           </div>
         )}
       </section>
+
+      <RecentlyViewedSection />
 
       <ScrollReveal>
         <CategoryCards />

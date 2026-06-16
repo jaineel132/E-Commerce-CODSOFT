@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/utils'
 import { History } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function RecentlyViewedPage() {
   const { recentlyViewed, loading, fetchRecentlyViewed } = useRecentlyViewed()
@@ -37,25 +38,13 @@ export default function RecentlyViewedPage() {
 
   if (recentlyViewed.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-muted p-6">
-            <History className="h-12 w-12 text-muted-foreground" />
-          </div>
-          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
-            No recently viewed products
-          </h1>
-          <p className="mb-8 text-sm text-muted-foreground">
-            Products you view will appear here for quick access.
-          </p>
-          <Link
-            href="/products"
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Browse Products
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={History}
+        title="No recently viewed products"
+        description="Products you view will appear here for quick access."
+        actionLabel="Browse Products"
+        actionHref="/products"
+      />
     )
   }
 

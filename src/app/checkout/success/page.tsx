@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 
 export default function CheckoutSuccessPage() {
   const [mounted, setMounted] = useState(false)
@@ -12,6 +13,7 @@ export default function CheckoutSuccessPage() {
     setMounted(true)
     const params = new URLSearchParams(window.location.search)
     setSessionId(params.get('session_id'))
+    toast.success('Order placed successfully!')
   }, [])
 
   const confettiPieces = mounted ? Array.from({ length: 40 }, (_, i) => {

@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { Package } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
+import { Skeleton } from 'boneyard-js/react'
+import { EmptyState } from '@/components/ui/EmptyState'
 
 interface OrderItemProduct {
   name: string
@@ -47,47 +48,21 @@ export default function OrdersPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <div className="h-8 w-40 animate-pulse rounded bg-muted" />
-        </div>
-        <div className="space-y-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="h-32 animate-pulse rounded-xl border bg-card shadow-sm border-border" />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
   if (orders.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center text-center">
-          <div className="mb-6 rounded-full bg-muted p-6">
-            <Package className="h-12 w-12 text-muted-foreground" />
-          </div>
-          <h1 className="mb-2 text-2xl font-bold text-foreground">
-            No orders yet
-          </h1>
-          <p className="mb-8 text-sm text-muted-foreground">
-            When you place an order, it will appear here.
-          </p>
-          <Link
-            href="/products"
-            className="rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            Start Shopping
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={Package}
+        title="No orders yet"
+        description="When you place an order, it will appear here."
+        actionLabel="Start Shopping"
+        actionHref="/products"
+      />
     )
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <Skeleton name="orders-page" loading={loading}>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           My Orders
@@ -157,5 +132,6 @@ export default function OrdersPage() {
         ))}
       </div>
     </div>
+    </Skeleton>
   )
 }

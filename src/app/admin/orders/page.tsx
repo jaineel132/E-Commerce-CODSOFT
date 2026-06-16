@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { formatPrice } from '@/lib/utils'
+import { Skeleton } from 'boneyard-js/react'
 
 interface AdminOrder {
   id: string
@@ -53,17 +54,9 @@ export default function AdminOrdersPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
-        <div className="h-64 animate-pulse rounded-xl border bg-card" />
-      </div>
-    )
-  }
-
   return (
-    <div className="space-y-6">
+    <Skeleton name="admin-orders" loading={loading}>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Orders</h1>
@@ -136,5 +129,6 @@ export default function AdminOrdersPage() {
         </table>
       </div>
     </div>
+    </Skeleton>
   )
 }

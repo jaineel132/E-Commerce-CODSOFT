@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { ProductForm } from '@/components/admin/ProductForm'
+import { Skeleton } from 'boneyard-js/react'
 import type { Product } from '@/types'
 
 export default function AdminProductsPage() {
@@ -39,17 +40,9 @@ export default function AdminProductsPage() {
     fetchProducts()
   }
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        <div className="h-8 w-48 animate-pulse rounded bg-muted" />
-        <div className="h-64 animate-pulse rounded-xl border bg-card" />
-      </div>
-    )
-  }
-
   return (
-    <div className="space-y-6">
+    <Skeleton name="admin-products" loading={loading}>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Products</h1>
@@ -116,5 +109,6 @@ export default function AdminProductsPage() {
         />
       )}
     </div>
+    </Skeleton>
   )
 }

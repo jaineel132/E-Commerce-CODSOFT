@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { toast } from 'sonner'
 import type { WishlistItemWithProduct } from '@/types'
 
 interface UseWishlistReturn {
@@ -41,11 +42,13 @@ export function useWishlist(): UseWishlistReturn {
 
       if (res.ok) {
         await fetchWishlist()
+        toast.success('Added to wishlist')
         return true
       }
+      toast.error('Failed to add to wishlist')
       return false
     } catch {
-      console.error('Failed to add to wishlist')
+      toast.error('Failed to add to wishlist')
       return false
     }
   }, [fetchWishlist])
@@ -60,9 +63,12 @@ export function useWishlist(): UseWishlistReturn {
 
       if (res.ok) {
         await fetchWishlist()
+        toast.success('Removed from wishlist')
+      } else {
+        toast.error('Failed to remove from wishlist')
       }
     } catch {
-      console.error('Failed to remove from wishlist')
+      toast.error('Failed to remove from wishlist')
     }
   }, [fetchWishlist])
 
