@@ -1,28 +1,18 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
 import { generateEmbedding } from '@/lib/embeddings'
+import { requireAdmin } from '@/lib/auth'
 
 export async function POST(
   _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createClient()
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 })
+    const auth = await requireAdmin()
+    if ('error' in auth) {
+      return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single()
-
-    if (profile?.role !== 'admin') {
-      return Response.json({ error: 'Forbidden' }, { status: 403 })
-    }
+    const { supabase } = auth
 
     const { data: product, error: fetchError } = await supabase
       .from('products')

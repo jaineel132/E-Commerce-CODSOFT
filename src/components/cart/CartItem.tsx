@@ -2,8 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { memo, useState } from 'react'
 import { Trash2, Minus, Plus } from 'lucide-react'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
@@ -13,7 +12,7 @@ interface CartItemProps {
   item: CartItemWithProduct
 }
 
-export function CartItem({ item }: CartItemProps) {
+export const CartItem = memo(function CartItem({ item }: CartItemProps) {
   const { updateQuantity, removeFromCart } = useCartContext()
   const [imageError, setImageError] = useState(false)
   const [updating, setUpdating] = useState(false)
@@ -33,13 +32,7 @@ export function CartItem({ item }: CartItemProps) {
   }
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100, height: 0, marginBottom: 0, padding: 0, overflow: 'hidden' }}
-      transition={{ duration: 0.3 }}
-      className="flex gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm"
+    <div className="animate-slide-in-right flex gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm"
     >
       <Link href={`/products/${product.id}`} className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
         {product.image_url && !imageError ? (
@@ -75,42 +68,39 @@ export function CartItem({ item }: CartItemProps) {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={() => handleUpdateQuantity(item.quantity - 1)}
               disabled={item.quantity <= 1 || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Minus className="h-3 w-3" />
-            </motion.button>
+            </button>
             <span className="w-10 text-center text-sm font-medium">
               {updating ? '...' : item.quantity}
             </span>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={() => handleUpdateQuantity(item.quantity + 1)}
               disabled={item.quantity >= maxStock || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Plus className="h-3 w-3" />
-            </motion.button>
+            </button>
           </div>
 
           <div className="flex items-center gap-3">
             <p className="text-sm font-bold text-card-foreground">
               {formatPrice(product.price * item.quantity)}
             </p>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={handleRemove}
-              className="text-muted-foreground transition-all duration-200 hover:text-destructive"
+              className="text-muted-foreground transition-all duration-200 hover:text-destructive active:scale-90"
               aria-label="Remove item"
             >
               <Trash2 className="h-4 w-4" />
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
-}
+})

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
+import { parseBody, cartAddSchema, cartUpdateSchema } from '@/lib/validations'
 
 export async function GET() {
   try {
@@ -35,12 +36,10 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
-    const { product_id } = body
+    const { data: body, error: parseError } = await parseBody(request, cartAddSchema)
+    if (parseError) return parseError
 
-    if (!product_id) {
-      return Response.json({ error: 'product_id is required' }, { status: 400 })
-    }
+    const { product_id } = body
 
     // Check if item already in cart → upsert
     const { data: existing, error: fetchError } = await supabase
@@ -98,16 +97,10 @@ export async function PATCH(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, cartUpdateSchema)
+    if (parseError) return parseError
+
     const { product_id, quantity } = body
-
-    if (!product_id || quantity === undefined) {
-      return Response.json({ error: 'product_id and quantity are required' }, { status: 400 })
-    }
-
-    if (quantity < 1) {
-      return Response.json({ error: 'Quantity must be at least 1' }, { status: 400 })
-    }
 
     const { data, error } = await supabase
       .from('cart_items')

@@ -1,5 +1,3 @@
-'use client'
-
 import { Truck, Shield, Star } from 'lucide-react'
 
 const features = [

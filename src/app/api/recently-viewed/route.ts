@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
+import { parseBody, recentlyViewedSchema } from '@/lib/validations'
 
 export async function GET() {
   try {
@@ -36,12 +37,9 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, recentlyViewedSchema)
+    if (parseError) return parseError
     const { product_id } = body
-
-    if (!product_id) {
-      return Response.json({ error: 'product_id is required' }, { status: 400 })
-    }
 
     // Upsert: update viewed_at if already exists, insert if not
     const { error } = await supabase

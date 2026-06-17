@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
+import { parseBody, productPatchSchema } from '@/lib/validations'
 
 export async function GET(
   _request: NextRequest,
@@ -37,7 +38,8 @@ export async function PATCH(
 
     const { supabase } = auth
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, productPatchSchema)
+    if (parseError) return parseError
 
     const updates: {
       name?: string

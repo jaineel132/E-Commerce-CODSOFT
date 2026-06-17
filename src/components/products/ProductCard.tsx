@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { memo, useState } from 'react'
+
 import { ShoppingCart, Check } from 'lucide-react'
 import { StockBadge } from './StockBadge'
 import { ReviewBadge } from './ReviewBadge'
@@ -18,7 +18,7 @@ interface ProductCardProps {
   ratingStats?: { averageRating: number; totalReviews: number }
 }
 
-export function ProductCard({ product, priority, ratingStats }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({ product, priority, ratingStats }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
   const [added, setAdded] = useState(false)
   const stockCount = useRealtimeStock(product.id, product.stock_count)
@@ -30,11 +30,7 @@ export function ProductCard({ product, priority, ratingStats }: ProductCardProps
   }
 
   return (
-    <motion.div
-      whileHover={{ y: -4, boxShadow: "0 10px 40px -10px rgba(0,0,0,0.12)" }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm"
-    >
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-muted">
         {product.image_url && !imageError ? (
           <Image
@@ -83,10 +79,9 @@ export function ProductCard({ product, priority, ratingStats }: ProductCardProps
           onAdd={handleAddComplete}
           className="mt-3"
         >
-          <motion.button
+          <button
             disabled={isOutOfStock || added}
-            whileTap={{ scale: 0.97 }}
-            className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 ${
               added
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-primary text-primary-foreground hover:bg-primary/90'
@@ -103,9 +98,9 @@ export function ProductCard({ product, priority, ratingStats }: ProductCardProps
                 {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
               </>
             )}
-          </motion.button>
+          </button>
         </FlyToCart>
       </div>
-    </motion.div>
+    </div>
   )
-}
+})

@@ -5,7 +5,7 @@ import { formatPrice } from '@/lib/utils'
 import { Heart, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function WishlistPage() {
@@ -56,15 +56,10 @@ export default function WishlistPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <AnimatePresence mode="popLayout">
           {wishlistItems.map((item) => (
-            <motion.div
+            <div
               key={item.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm"
+              className="animate-fade-in-up group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm"
             >
               <Link href={`/products/${item.product_id}`} className="relative aspect-square overflow-hidden bg-muted">
                 {item.product.image_url ? (
@@ -94,19 +89,17 @@ export default function WishlistPage() {
                   <p className="text-lg font-bold text-foreground">
                     {formatPrice(item.product.price)}
                   </p>
-                  <motion.button
+                  <button
                     onClick={() => removeFromWishlist(item.product_id)}
-                    whileTap={{ scale: 0.9 }}
-                    className="text-muted-foreground transition-colors hover:text-destructive"
+                    className="text-muted-foreground transition-colors hover:text-destructive active:scale-90"
                     aria-label="Remove from wishlist"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </motion.button>
+                  </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </AnimatePresence>
       </div>
     </div>
   )

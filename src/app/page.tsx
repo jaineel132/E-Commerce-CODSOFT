@@ -1,14 +1,16 @@
 import Link from 'next/link'
+import { Suspense, lazy } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { getReviewStats } from '@/lib/reviews'
 import { HeroBanner } from '@/components/layout/HeroBanner'
 import { Footer } from '@/components/layout/Footer'
 import { ProductCard } from '@/components/products/ProductCard'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import { CategoryCards } from '@/components/layout/CategoryCards'
-import { WhyShopSection } from '@/components/layout/WhyShopSection'
-import { RecentlyViewedSection } from '@/components/products/RecentlyViewedSection'
 import type { Product } from '@/types'
+
+const CategoryCards = lazy(() => import('@/components/layout/CategoryCards').then(m => ({ default: m.CategoryCards })))
+const WhyShopSection = lazy(() => import('@/components/layout/WhyShopSection').then(m => ({ default: m.WhyShopSection })))
+const RecentlyViewedSection = lazy(() => import('@/components/products/RecentlyViewedSection').then(m => ({ default: m.RecentlyViewedSection })))
 
 async function getFeaturedProducts() {
   const supabase = await createClient()
@@ -72,14 +74,20 @@ export default async function Home() {
         )}
       </section>
 
-      <RecentlyViewedSection />
+      <Suspense fallback={null}>
+        <RecentlyViewedSection />
+      </Suspense>
 
       <ScrollReveal>
-        <CategoryCards />
+        <Suspense fallback={null}>
+          <CategoryCards />
+        </Suspense>
       </ScrollReveal>
 
       <ScrollReveal>
-        <WhyShopSection />
+        <Suspense fallback={null}>
+          <WhyShopSection />
+        </Suspense>
       </ScrollReveal>
 
       <div className="mt-auto">

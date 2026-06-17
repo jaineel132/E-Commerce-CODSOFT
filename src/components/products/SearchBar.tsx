@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 import type { Product } from '@/types'
 
@@ -93,7 +92,6 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
               placeholder={placeholder}
               className="w-full bg-transparent rounded-[11px] py-2 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none"
             />
-            <AnimatePresence>
               {query && !searching && (
                 <button
                   onClick={handleClear}
@@ -102,7 +100,6 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
                   <X className="h-4 w-4" />
                 </button>
               )}
-            </AnimatePresence>
             {searching && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0ms' }} />

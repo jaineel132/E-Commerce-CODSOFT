@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { generateEmbedding } from '@/lib/embeddings'
 import { NextRequest } from 'next/server'
+import { parseBody, searchSchema } from '@/lib/validations'
 
 function filterByElbow(
   products: Array<{ similarity: number; [key: string]: unknown }>,
@@ -20,11 +21,9 @@ function filterByElbow(
 
 export async function POST(request: NextRequest) {
   try {
-    const { query } = await request.json()
-
-    if (!query || typeof query !== 'string') {
-      return Response.json({ error: 'Query is required' }, { status: 400 })
-    }
+    const { data: body, error: parseError } = await parseBody(request, searchSchema)
+    if (parseError) return parseError
+    const { query } = body
 
     const embedding = await generateEmbedding(query)
 

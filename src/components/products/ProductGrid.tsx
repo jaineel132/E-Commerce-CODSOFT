@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, type Variants } from 'framer-motion'
 import { ProductCard } from './ProductCard'
 import type { Product } from '@/types'
 import type { ReviewStatsMap } from '@/lib/reviews'
@@ -9,19 +8,6 @@ interface ProductGridProps {
   products: Product[]
   ratingStats?: ReviewStatsMap
 }
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.06 }
-  }
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
-} as const
 
 export function ProductGrid({ products, ratingStats }: ProductGridProps) {
   if (products.length === 0) {
@@ -37,17 +23,12 @@ export function ProductGrid({ products, ratingStats }: ProductGridProps) {
   }
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-    >
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {products.map((product) => (
-        <motion.div key={product.id} variants={itemVariants}>
+        <div key={product.id} className="animate-fade-in-up">
           <ProductCard product={product} ratingStats={ratingStats?.get(product.id)} />
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   )
 }

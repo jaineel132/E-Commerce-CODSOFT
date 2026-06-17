@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+
 import { toast } from 'sonner'
 
 export default function CheckoutSuccessPage() {
@@ -60,40 +60,31 @@ export default function CheckoutSuccessPage() {
       ))}
 
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mx-auto max-w-md text-center"
-        >
+        <div className="animate-fade-in-up mx-auto max-w-md text-center">
           <div className="mb-6 flex justify-center">
-            <motion.svg
-              className="h-16 w-16 text-primary"
+            <svg
+              className="h-16 w-16 text-primary checkmark-svg"
               viewBox="0 0 52 52"
             >
-              <motion.circle
+              <circle
                 cx="26"
                 cy="26"
                 r="25"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+                className="checkmark-circle"
               />
-              <motion.path
+              <path
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M14.1 27.2l7.1 7.2 16.7-16.8"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.4, delay: 0.6 }}
+                className="checkmark-path"
               />
-            </motion.svg>
+            </svg>
           </div>
 
           <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
@@ -130,7 +121,7 @@ export default function CheckoutSuccessPage() {
               </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </>
   )

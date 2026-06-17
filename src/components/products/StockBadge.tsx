@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { cn } from '@/lib/utils'
 
 interface StockBadgeProps {
@@ -5,7 +6,7 @@ interface StockBadgeProps {
   className?: string
 }
 
-export function StockBadge({ stockCount, className }: StockBadgeProps) {
+export const StockBadge = memo(function StockBadge({ stockCount, className }: StockBadgeProps) {
   if (stockCount <= 0) {
     return (
       <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-destructive/10 text-destructive dark:bg-destructive/20', className)}>
@@ -30,4 +31,4 @@ export function StockBadge({ stockCount, className }: StockBadgeProps) {
       In Stock
     </span>
   )
-}
+})

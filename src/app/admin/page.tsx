@@ -1,10 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { TrendingUp, ShoppingCart, Package, DollarSign } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import dynamic from 'next/dynamic'
+import { TrendingUp, ShoppingCart, Package, DollarSign, type LucideIcon } from 'lucide-react'
 import { Skeleton } from 'boneyard-js/react'
+
+const OrdersChart = dynamic(
+  () => import('@/components/admin/OrdersChart'),
+  { ssr: false }
+)
 
 interface DashboardStats {
   totalRevenue: number
@@ -13,6 +18,29 @@ interface DashboardStats {
   ordersByDay: { date: string; count: number }[]
   topProducts: { name: string; total_sold: number; revenue: number }[]
 }
+
+const StatCard = memo(function StatCard({ label, value, icon: Icon, color }: { label: string; value: string; icon: LucideIcon; color: string }) {
+  return (
+    <div className="rounded-xl border bg-card p-5 shadow-sm">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-muted-foreground">{label}</p>
+        <Icon className={`h-5 w-5 ${color}`} />
+      </div>
+      <p className="mt-2 text-2xl font-bold text-foreground">{value}</p>
+    </div>
+  )
+})
+
+const TopProductRow = memo(function TopProductRow({ name, totalSold, revenue }: { name: string; totalSold: number; revenue: number }) {
+  return (
+    <div className="flex items-center justify-between text-sm">
+      <span className="text-foreground">{name}</span>
+      <span className="text-muted-foreground">
+        {totalSold} sold (${revenue.toFixed(2)})
+      </span>
+    </div>
+  )
+})
 
 export default function AdminDashboard() {
   const { profile } = useAuth()
@@ -45,18 +73,9 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((card) => {
-          const Icon = card.icon
-          return (
-            <div key={card.label} className="rounded-xl border bg-card p-5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
-                <Icon className={`h-5 w-5 ${card.color}`} />
-              </div>
-              <p className="mt-2 text-2xl font-bold text-foreground">{card.value}</p>
-            </div>
-          )
-        })}
+        {statCards.map((card) => (
+          <StatCard key={card.label} {...card} />
+        ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -65,14 +84,7 @@ export default function AdminDashboard() {
             Orders Per Day
           </h2>
           {stats?.ordersByDay?.length ? (
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={stats.ordersByDay}>
-                <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Bar dataKey="count" fill="var(--chart-1)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <OrdersChart data={stats.ordersByDay} />
           ) : (
             <p className="text-sm text-muted-foreground">No orders yet</p>
           )}
@@ -84,12 +96,7 @@ export default function AdminDashboard() {
           </h2>
           <div className="space-y-3">
             {stats?.topProducts?.slice(0, 5).map((product, i) => (
-              <div key={i} className="flex items-center justify-between text-sm">
-                <span className="text-foreground">{product.name}</span>
-                <span className="text-muted-foreground">
-                  {product.total_sold} sold (${product.revenue.toFixed(2)})
-                </span>
-              </div>
+              <TopProductRow key={i} name={product.name} totalSold={product.total_sold} revenue={product.revenue} />
             ))}
             {(!stats?.topProducts || stats.topProducts.length === 0) && (
               <p className="text-sm text-muted-foreground">No orders yet</p>

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
 import { generateEmbedding } from '@/lib/embeddings'
+import { parseBody, productSchema } from '@/lib/validations'
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       isAdmin = profile?.role === 'admin'
     }
 
-    let countQuery = supabase.from('products').select('*', { count: 'exact', head: true })
+    let countQuery = supabase.from('products').select('id', { count: 'exact', head: true })
     let dataQuery = supabase
       .from('products')
       .select('*, category:categories(name, slug)')
@@ -100,12 +101,9 @@ export async function POST(request: NextRequest) {
 
     const { supabase } = auth
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, productSchema)
+    if (parseError) return parseError
     const { name, description, category_id, image_url, stock_count } = body
-
-    if (!name || !category_id) {
-      return Response.json({ error: 'name and category_id are required' }, { status: 400 })
-    }
 
     const { data: product, error: insertError } = await supabase
       .from('products')

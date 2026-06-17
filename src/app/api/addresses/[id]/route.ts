@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
+import { NextRequest } from 'next/server'
+import { parseBody, addressPatchSchema } from '@/lib/validations'
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -8,7 +10,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await request.json()
+  const { data: body, error: parseError } = await parseBody(request, addressPatchSchema)
+  if (parseError) return parseError
   const { label, full_name, street, city, state, zip_code, country, phone, is_default } = body
 
   const updateData: {

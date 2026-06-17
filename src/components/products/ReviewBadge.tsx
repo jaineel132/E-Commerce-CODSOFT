@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Star } from 'lucide-react'
 
 interface ReviewBadgeProps {
@@ -9,7 +9,7 @@ interface ReviewBadgeProps {
   reviewCount?: number
 }
 
-export function ReviewBadge({ productId, rating, reviewCount }: ReviewBadgeProps) {
+export const ReviewBadge = memo(function ReviewBadge({ productId, rating, reviewCount }: ReviewBadgeProps) {
   const [data, setData] = useState<{ averageRating: number; totalReviews: number } | null>(null)
 
   const hasPrefetched = rating !== undefined && reviewCount !== undefined
@@ -36,4 +36,4 @@ export function ReviewBadge({ productId, rating, reviewCount }: ReviewBadgeProps
       </span>
     </div>
   )
-}
+})

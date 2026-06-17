@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
+import { parseBody, reviewSchema } from '@/lib/validations'
 
 export async function GET(
   _request: NextRequest,
@@ -53,12 +54,9 @@ export async function POST(
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, reviewSchema)
+    if (parseError) return parseError
     const { rating, title, body: reviewBody } = body
-
-    if (!rating || rating < 1 || rating > 5) {
-      return Response.json({ error: 'Rating must be between 1 and 5' }, { status: 400 })
-    }
 
     // Check for verified purchase
     const { data: orders } = await supabase

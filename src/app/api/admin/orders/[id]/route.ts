@@ -1,7 +1,6 @@
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
-
-const VALID_STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']
+import { parseBody, adminOrderUpdateSchema } from '@/lib/validations'
 
 export async function PATCH(
   request: NextRequest,
@@ -15,7 +14,8 @@ export async function PATCH(
 
     const { supabase } = auth
 
-    const body = await request.json()
+    const { data: body, error: parseError } = await parseBody(request, adminOrderUpdateSchema)
+    if (parseError) return parseError
     const updates: {
       status?: string
       shipped_at?: string
@@ -27,9 +27,6 @@ export async function PATCH(
     } = {}
 
     if (body.status !== undefined) {
-      if (!VALID_STATUSES.includes(body.status)) {
-        return Response.json({ error: `status must be one of: ${VALID_STATUSES.join(', ')}` }, { status: 400 })
-      }
       updates.status = body.status
 
       if (body.status === 'shipped') updates.shipped_at = new Date().toISOString()

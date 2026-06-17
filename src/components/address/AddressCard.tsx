@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { Home, MapPin, Pencil, Trash2, Star } from 'lucide-react'
 import type { Address } from '@/types'
 
@@ -15,7 +16,7 @@ const labelIcons: Record<string, typeof Home> = {
   Work: MapPin,
 }
 
-export function AddressCard({ address, onEdit, onDelete, onSetDefault }: AddressCardProps) {
+export const AddressCard = memo(function AddressCard({ address, onEdit, onDelete, onSetDefault }: AddressCardProps) {
   const LabelIcon = labelIcons[address.label] || Home
 
   return (
@@ -69,4 +70,4 @@ export function AddressCard({ address, onEdit, onDelete, onSetDefault }: Address
       </div>
     </div>
   )
-}
+})

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 import { NextRequest } from 'next/server'
+import { parseBody, checkoutSchema } from '@/lib/validations'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,10 +12,8 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    let body: { address_id?: string } = {}
-    try {
-      body = await request.json()
-    } catch {}
+    const { data: body, error: parseError } = await parseBody(request, checkoutSchema)
+    if (parseError) return parseError
 
     // Fetch cart items with product details
     const { data: cartItems, error: cartError } = await supabase

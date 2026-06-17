@@ -1,4 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
+import { NextRequest } from 'next/server'
+import { parseBody, addressSchema } from '@/lib/validations'
 
 export async function GET() {
   const supabase = await createClient()
@@ -21,7 +23,7 @@ export async function GET() {
   return Response.json({ addresses }, { status: 200 })
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -29,12 +31,9 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await request.json()
+  const { data: body, error: parseError } = await parseBody(request, addressSchema)
+  if (parseError) return parseError
   const { label, full_name, street, city, state, zip_code, country, phone, is_default } = body
-
-  if (!full_name || !street || !city || !state || !zip_code) {
-    return Response.json({ error: 'Missing required fields' }, { status: 400 })
-  }
 
   if (is_default) {
     await supabase

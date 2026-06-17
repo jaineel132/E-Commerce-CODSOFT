@@ -121,67 +121,67 @@
 
 ## Medium
 
-### 17. Unnecessary `use client` — WhyShopSection
+### 17. ✅ Unnecessary `use client` — WhyShopSection
 
 - **File:** `src/components/layout/WhyShopSection.tsx`
 - **Fix:** Remove `'use client'`.
 
-### 18. Missing `use client` — button.tsx
+### 18. ✅ Missing `use client` — button.tsx
 
 - **File:** `src/components/ui/button.tsx`
 - **Root cause:** Imports `@base-ui/react/button` (client library) without `'use client'`.
 - **Fix:** Add `'use client'`.
 
-### 19. Real-time Stock Subscription Per Card
+### 19. ✅ Real-time Stock Subscription Per Card
 
 - **File:** `src/hooks/useRealtimeStock.ts`, used in `ProductCard.tsx`
 - **Root cause:** Each card creates its own Supabase Realtime channel.
 - **Fix:** Subscribe once at the page level.
 
-### 20. Missing React.memo on List Components
+### 20. ✅ Missing React.memo on List Components
 
 - **Files:** `ProductCard.tsx`, `CartItem.tsx`, `ReviewBadge.tsx`, `StockBadge.tsx`, `AddressCard.tsx`
 - **Fix:** Wrap in `React.memo`.
 
-### 21. Missing useMemo for Derived State
+### 21. ✅ Missing useMemo for Derived State
 
 - **Files:** `src/hooks/useCart.ts` (lines 112–113), `src/app/admin/page.tsx` (lines 30–35)
 - **Fix:** Add `useMemo` wrappers.
 
-### 22. Context Provider Cascade
+### 22. ✅ Context Provider Cascade
 
 - **File:** `src/app/layout.tsx`
 - **Root cause:** `AuthProvider > CartProvider > WishlistProvider` wrapping entire app.
 - **Fix:** Consider splitting providers or using Zustand.
 
-### 23. Auth Re-checked in Every Protected API Route
+### 23. ✅ Auth Re-checked in Every Protected API Route
 
 - **Pattern in** 15 of 21 route files
 - **Fix:** Create a `withAuth()` helper.
 
-### 24. Semantic Search — SimilarProducts Runs Client-Side API Call
+### 24. ✅ Semantic Search — SimilarProducts Runs Client-Side API Call
 
 - **File:** `src/components/products/SimilarProducts.tsx`
 - **Fix:** Prefetch similar products server-side.
 
-### 25. framer-motion Heavy Usage
+### 25. ✅ framer-motion Heavy Usage (kept by choice)
 
 - **Files:** 18+ components
 - **Bundle impact:** ~35KB gzipped
 - **Fix:** Replace decorative animations with CSS.
 
-### 26. recharts — Heavy for Single Admin Page
+### 26. ✅ recharts — Heavy for Single Admin Page
 
 - **File:** `src/app/admin/page.tsx`
 - **Bundle impact:** ~40KB gzipped
 - **Fix:** Use `next/dynamic()`.
 
-### 27. Missing `SELECT *` Reduction in Count Queries
+### 27. ✅ Missing `SELECT *` Reduction in Count Queries
 
 - **Files:** Multiple routes use `select('*', { count: 'exact', head: true })`
 - **Fix:** Change to `select('id', ...)`.
 
-### 28. Inline Function Definitions in map() Callbacks
+### 28. ✅ Inline Function Definitions in map() Callbacks
 
 - **Files:** 15+ components/pages
 - **Fix:** Extract list rendering to sub-components.
@@ -195,21 +195,21 @@
 - **Files:** Admin pages import `<Skeleton>` from `boneyard-js`, rest use CSS
 - **Fix:** Remove `boneyard-js`, use existing CSS shimmer.
 
-### 30. shadcn in Production Dependencies
+### 30. ✅ shadcn in Production Dependencies
 
 - **File:** `package.json`
 - **Fix:** Move to `devDependencies`.
 
-### 31. No Input Validation Library
+### 31. ✅ No Input Validation Library
 
 - **Fix:** Add Zod for all POST/PATCH routes.
 
-### 32. Split `profile/page.tsx` into Sub-components
+### 32. ✅ Split `profile/page.tsx` into Sub-components
 
 - **File:** `src/app/profile/page.tsx` (768 lines)
 - **Fix:** Extract `ProfileCard`, `QuickLinks`, `AddressSection`.
 
-### 33. No Connection Pool Limits
+### 33. ✅ No Connection Pool Limits
 
 - **Fix:** Ensure `createClient()` is reused per request.
 

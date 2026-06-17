@@ -1,4 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
+import { NextRequest } from 'next/server'
+import { parseBody, profileUpdateSchema } from '@/lib/validations'
 
 export async function GET() {
   const supabase = await createClient()
@@ -21,7 +23,7 @@ export async function GET() {
   return Response.json({ profile }, { status: 200 })
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
@@ -29,12 +31,9 @@ export async function PATCH(request: Request) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await request.json()
+  const { data: body, error: parseError } = await parseBody(request, profileUpdateSchema)
+  if (parseError) return parseError
   const { full_name } = body
-
-  if (full_name !== undefined && (typeof full_name !== 'string' || full_name.trim().length === 0)) {
-    return Response.json({ error: 'full_name must be a non-empty string' }, { status: 400 })
-  }
 
   const { data: profile, error } = await supabase
     .from('profiles')

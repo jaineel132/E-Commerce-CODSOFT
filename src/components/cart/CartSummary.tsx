@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
 
@@ -58,14 +57,14 @@ export function CartSummary() {
         </p>
       )}
 
-      <motion.div whileTap={{ scale: 0.97 }} className="mt-6">
+      <div className="mt-6 active:scale-[0.97]">
         <Link
           href="/checkout"
           className="flex w-full items-center justify-center rounded-xl bg-accent py-3 text-sm font-medium text-accent-foreground transition-all duration-200 hover:bg-accent/90"
         >
           Proceed to Checkout
         </Link>
-      </motion.div>
+      </div>
 
       <Link
         href="/products"

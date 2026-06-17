@@ -8,6 +8,7 @@ import { SimilarProducts } from '@/components/products/SimilarProducts'
 import { ReviewSection } from '@/components/products/ReviewSection'
 import { formatPrice } from '@/lib/utils'
 import type { Metadata } from 'next'
+import type { Product } from '@/types'
 
 interface ProductDetailPageProps {
   params: { id: string }
@@ -42,12 +43,53 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
   }
 }
 
+async function getSimilarProducts(productId: string): Promise<Product[]> {
+  try {
+    const supabase = await createClient()
+    const { data: product } = await supabase
+      .from('products')
+      .select('embedding')
+      .eq('id', productId)
+      .single()
+
+    if (!product?.embedding) return []
+
+    const { data: matches } = await supabase.rpc('match_products', {
+      query_embedding: product.embedding,
+      match_count: 5,
+      match_threshold: 0.3,
+    })
+
+    if (!matches) return []
+
+    return matches
+      .filter((m: { id: string }) => m.id !== productId)
+      .slice(0, 4)
+      .map((m: { id: string; name: string; description: string; price: number; image_url: string; stock_count: number }) => ({
+        id: m.id,
+        name: m.name,
+        description: m.description || '',
+        price: m.price,
+        image_url: m.image_url || '',
+        stock_count: m.stock_count,
+        category_id: '',
+        category: null,
+        is_active: true,
+        created_at: '',
+      }))
+  } catch {
+    return []
+  }
+}
+
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const product = await getProduct(params.id)
 
   if (!product) {
     notFound()
   }
+
+  const similarProducts = await getSimilarProducts(product.id)
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -120,7 +162,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         <ReviewSection productId={product.id} />
       </div>
 
-      <SimilarProducts productId={product.id} />
+      <SimilarProducts products={similarProducts} />
     </div>
   )
 }
