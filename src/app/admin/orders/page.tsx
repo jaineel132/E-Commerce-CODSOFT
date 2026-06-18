@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { X, Package, Truck, CheckCircle, Clock, Ban, RotateCcw, ExternalLink } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { Skeleton } from 'boneyard-js/react'
+import { Pagination } from '@/components/products/Pagination'
 
 type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
 
@@ -60,21 +61,34 @@ export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<AdminOrder[]>([])
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<OrderStatus | ''>('')
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
   const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null)
 
-  const fetchOrders = useCallback(() => {
+  const fetchOrders = useCallback((p: number, f: OrderStatus | '') => {
     setLoading(true)
-    const url = filter ? `/api/admin/orders?status=${filter}` : '/api/admin/orders'
-    fetch(url)
+    const params = new URLSearchParams({ page: String(p), limit: '50' })
+    if (f) params.set('status', f)
+    fetch(`/api/admin/orders?${params}`)
       .then((res) => res.json())
-      .then((data) => setOrders(data.orders || []))
+      .then((data) => {
+        setOrders(data.orders || [])
+        setTotal(data.total ?? 0)
+        setTotalPages(data.totalPages ?? 0)
+        setPage(data.page ?? p)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [filter])
+  }, [])
 
   useEffect(() => {
-    fetchOrders()
-  }, [fetchOrders])
+    fetchOrders(1, filter)
+  }, [fetchOrders, filter])
+
+  const handlePageChange = (newPage: number) => {
+    fetchOrders(newPage, filter)
+  }
 
   const handleStatusChange = async (orderId: string, newStatus: OrderStatus) => {
     const res = await fetch(`/api/admin/orders/${orderId}`, {
@@ -110,7 +124,7 @@ export default function AdminOrdersPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground">Orders</h1>
-            <p className="mt-1 text-sm text-muted-foreground">{orders.length} orders{filter ? ` (${filter})` : ''}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{total} orders{filter ? ` (${filter})` : ''}</p>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {ALL_STATUSES.map((s) => (
@@ -189,6 +203,8 @@ export default function AdminOrdersPage() {
           </table>
         </div>
       </div>
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
 
       {/* Order Detail Modal */}
       {selectedOrder && (

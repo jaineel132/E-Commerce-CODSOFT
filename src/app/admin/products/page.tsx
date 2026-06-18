@@ -5,25 +5,34 @@ import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { ProductForm } from '@/components/admin/ProductForm'
 import { Skeleton } from 'boneyard-js/react'
+import { Pagination } from '@/components/products/Pagination'
 import type { Product } from '@/types'
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
-  const fetchProducts = useCallback(() => {
+  const fetchProducts = useCallback((p: number) => {
     setLoading(true)
-    fetch('/api/products')
+    fetch(`/api/products?page=${p}&limit=20`)
       .then((res) => res.json())
-      .then((data) => setProducts(data.products || []))
+      .then((data) => {
+        setProducts(data.products || [])
+        setTotal(data.total ?? 0)
+        setTotalPages(data.totalPages ?? 0)
+        setPage(data.page ?? p)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 
   useEffect(() => {
-    fetchProducts()
+    fetchProducts(1)
   }, [fetchProducts])
 
   const handleDelete = async (id: string) => {
@@ -37,7 +46,11 @@ export default function AdminProductsPage() {
   const handleSaved = () => {
     setModalOpen(false)
     setEditingProduct(null)
-    fetchProducts()
+    fetchProducts(page > 1 && products.length <= 1 ? page - 1 : page)
+  }
+
+  const handlePageChange = (newPage: number) => {
+    fetchProducts(newPage)
   }
 
   return (
@@ -46,7 +59,7 @@ export default function AdminProductsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Products</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{products.length} products total</p>
+          <p className="mt-1 text-sm text-muted-foreground">{total} products total</p>
         </div>
         <button
           onClick={() => { setEditingProduct(null); setModalOpen(true) }}
@@ -108,6 +121,8 @@ export default function AdminProductsPage() {
           onSaved={handleSaved}
         />
       )}
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
     </div>
     </Skeleton>
   )

@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Package, MapPin } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { Skeleton } from 'boneyard-js/react'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { Pagination } from '@/components/products/Pagination'
 import type { Address, OrderItem } from '@/types'
 
 interface OrderItemProduct {
@@ -48,14 +49,31 @@ const statusStyles: Record<string, string> = {
 export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderWithAddress[]>([])
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
 
-  useEffect(() => {
-    fetch('/api/orders')
+  const fetchOrders = useCallback((p: number) => {
+    setLoading(true)
+    fetch(`/api/orders?page=${p}&limit=10`)
       .then((res) => res.json())
-      .then((data) => setOrders(data.orders || []))
+      .then((data) => {
+        setOrders(data.orders || [])
+        setTotal(data.total ?? 0)
+        setTotalPages(data.totalPages ?? 0)
+        setPage(data.page ?? p)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
+
+  useEffect(() => {
+    fetchOrders(1)
+  }, [fetchOrders])
+
+  const handlePageChange = (newPage: number) => {
+    fetchOrders(newPage)
+  }
 
   if (!loading && orders.length === 0) {
     return (
@@ -77,7 +95,7 @@ export default function OrdersPage() {
           My Orders
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {orders.length} order{orders.length !== 1 ? 's' : ''} total
+          {total} order{total !== 1 ? 's' : ''} total
         </p>
       </div>
 
@@ -162,6 +180,8 @@ export default function OrdersPage() {
           </div>
         ))}
       </div>
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
     </div>
     </Skeleton>
   )

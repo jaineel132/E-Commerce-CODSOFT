@@ -7,12 +7,15 @@ import type { Product } from '@/types'
 interface SearchBarProps {
   onResults: (products: Product[] | null) => void
   onClear: () => void
+  onQueryChange?: (query: string) => void
   className?: string
   placeholder?: string
   initialQuery?: string
+  page?: number
+  limit?: number
 }
 
-export function SearchBar({ onResults, onClear, className, placeholder = 'Search products...', initialQuery }: SearchBarProps) {
+export function SearchBar({ onResults, onClear, onQueryChange, className, placeholder = 'Search products...', initialQuery, page = 1, limit = 8 }: SearchBarProps) {
   const [query, setQuery] = useState(initialQuery || '')
   const [searching, setSearching] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -25,11 +28,12 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
     }
 
     setSearching(true)
+    onQueryChange?.(q.trim())
     try {
       const res = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: q.trim() }),
+        body: JSON.stringify({ query: q.trim(), page, limit }),
       })
 
       if (res.ok) {
@@ -43,7 +47,7 @@ export function SearchBar({ onResults, onClear, className, placeholder = 'Search
     } finally {
       setSearching(false)
     }
-  }, [onResults, onClear])
+  }, [onResults, onClear, onQueryChange, page, limit])
 
   useEffect(() => {
     if (initialQuery && !hasInitialized.current) {

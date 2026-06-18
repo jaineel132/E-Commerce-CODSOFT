@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { generateEmbedding } from '@/lib/embeddings'
 import { NextRequest } from 'next/server'
 import { parseBody, searchSchema } from '@/lib/validations'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 function filterByElbow(
   products: Array<{ similarity: number; [key: string]: unknown }>,
@@ -23,16 +24,21 @@ export async function POST(request: NextRequest) {
   try {
     const { data: body, error: parseError } = await parseBody(request, searchSchema)
     if (parseError) return parseError
-    const { query } = body
-
-    const embedding = await generateEmbedding(query)
+    const { query, page, limit } = body
 
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      const rateLimitResponse = await checkUserRateLimit(user.id)
+      if (rateLimitResponse) return rateLimitResponse
+    }
+
+    const embedding = await generateEmbedding(query)
 
     const { data: products, error } = await supabase.rpc('match_products', {
       query_embedding: embedding,
       match_threshold: 0.5,
-      match_count: 8,
+      match_count: page * limit,
     })
 
     if (error) {
@@ -40,8 +46,18 @@ export async function POST(request: NextRequest) {
     }
 
     const filtered = filterByElbow(products || [])
+    const total = filtered.length
+    const from = (page - 1) * limit
+    const paginatedProducts = filtered.slice(from, from + limit)
+    const totalPages = Math.max(1, Math.ceil(total / limit))
 
-    return Response.json({ products: filtered }, { status: 200 })
+    return Response.json({
+      products: paginatedProducts,
+      page,
+      limit,
+      total,
+      totalPages,
+    }, { status: 200 })
   } catch {
     return Response.json({ error: 'Search failed' }, { status: 500 })
   }

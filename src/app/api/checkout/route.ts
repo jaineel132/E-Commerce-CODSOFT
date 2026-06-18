@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 import { NextRequest } from 'next/server'
 import { parseBody, checkoutSchema } from '@/lib/validations'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,6 +12,9 @@ export async function POST(request: NextRequest) {
     if (authError || !user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const rateLimitResponse = await checkUserRateLimit(user.id)
+    if (rateLimitResponse) return rateLimitResponse
 
     const { data: body, error: parseError } = await parseBody(request, checkoutSchema)
     if (parseError) return parseError

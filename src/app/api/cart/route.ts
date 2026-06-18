@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest } from 'next/server'
 import { parseBody, cartAddSchema, cartUpdateSchema } from '@/lib/validations'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 export async function GET() {
   try {
@@ -10,6 +11,9 @@ export async function GET() {
     if (authError || !user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const rateLimitResponse = await checkUserRateLimit(user.id)
+    if (rateLimitResponse) return rateLimitResponse
 
     const { data: cartItems, error } = await supabase
       .from('cart_items')
@@ -35,6 +39,9 @@ export async function POST(request: NextRequest) {
     if (authError || !user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const rateLimitResponsePost = await checkUserRateLimit(user.id)
+    if (rateLimitResponsePost) return rateLimitResponsePost
 
     const { data: body, error: parseError } = await parseBody(request, cartAddSchema)
     if (parseError) return parseError
@@ -97,6 +104,9 @@ export async function PATCH(request: NextRequest) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const rateLimitResponsePatch = await checkUserRateLimit(user.id)
+    if (rateLimitResponsePatch) return rateLimitResponsePatch
+
     const { data: body, error: parseError } = await parseBody(request, cartUpdateSchema)
     if (parseError) return parseError
 
@@ -128,6 +138,9 @@ export async function DELETE(request: NextRequest) {
     if (authError || !user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const rateLimitResponseDelete = await checkUserRateLimit(user.id)
+    if (rateLimitResponseDelete) return rateLimitResponseDelete
 
     const { searchParams } = new URL(request.url)
 

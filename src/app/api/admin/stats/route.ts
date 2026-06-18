@@ -1,4 +1,5 @@
 import { requireAdmin } from '@/lib/auth'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 export async function GET() {
   try {
@@ -7,7 +8,10 @@ export async function GET() {
       return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { supabase } = auth
+    const { supabase, user } = auth
+    const rateLimitResponse = await checkUserRateLimit(user.id)
+    if (rateLimitResponse) return rateLimitResponse
+
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
     // Total revenue and order count from all time

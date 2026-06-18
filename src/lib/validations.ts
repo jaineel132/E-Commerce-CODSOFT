@@ -81,4 +81,6 @@ export const recentlyViewedSchema = z.object({
 
 export const searchSchema = z.object({
   query: z.string().min(1, 'Query is required').max(500),
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(50).default(8),
 })

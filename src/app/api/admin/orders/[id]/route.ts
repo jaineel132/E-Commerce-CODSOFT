@@ -1,6 +1,7 @@
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
 import { parseBody, adminOrderUpdateSchema } from '@/lib/validations'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 export async function PATCH(
   request: NextRequest,
@@ -12,7 +13,9 @@ export async function PATCH(
       return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { supabase } = auth
+    const { supabase, user } = auth
+    const rateLimitResponse = await checkUserRateLimit(user.id)
+    if (rateLimitResponse) return rateLimitResponse
 
     const { data: body, error: parseError } = await parseBody(request, adminOrderUpdateSchema)
     if (parseError) return parseError

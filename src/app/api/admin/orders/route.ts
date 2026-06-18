@@ -1,5 +1,6 @@
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
+import { checkUserRateLimit } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,7 +9,9 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: auth.error }, { status: auth.status })
     }
 
-    const { supabase } = auth
+    const { supabase, user } = auth
+    const rateLimitResponse = await checkUserRateLimit(user.id)
+    if (rateLimitResponse) return rateLimitResponse
 
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status')

@@ -205,10 +205,10 @@ Files needed to complete the performance audit:
 
 ## 12. Recommended Implementation Timeline
 
-| Step | Phase | Description | Depends On |
+| Step | Phase | Description | Depends On | Status |
 |------|-------|-------------|------------|
-| 1 | Phase 4 | Wire pagination into orders, admin, search — quick wins, no new infra | Nothing |
-| 2 | Phase 1 | Install Upstash packages, create utility, integrate into middleware + key routes | Nothing |
+| 1 | Phase 4 | Wire pagination into orders, admin, search — quick wins, no new infra | Nothing | ✅ Done |
+| 2 | Phase 1 | Install Upstash packages, create utility, integrate into middleware + key routes | Nothing | ✅ Done |
 | 3 | Phase 3 | Add `unstable_cache` to product GET routes, add `revalidateTag` to mutations | Phase 1 (shares Redis if using Upstash for cache too) |
 | 4 | Phase 2 | Add search result caching using Upstash Redis | Phase 1 Redis instance |
 | 5 | Phase 5 | Audit `"use client"`, parallel fetches, missing indexes, bundle size | Steps 1-4 |

@@ -24,6 +24,10 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
   const searchParams = useSearchParams()
   const [searchResults, setSearchResults] = useState<Product[] | null>(null)
   const [isSearchActive, setIsSearchActive] = useState(false)
+  const [searchQuery, setSearchQuery] = useState(initialQuery || '')
+  const [searchPage, setSearchPage] = useState(1)
+  const [searchTotalPages, setSearchTotalPages] = useState(0)
+  const [searchTotal, setSearchTotal] = useState(0)
 
   const handleResults = useCallback((products: Product[] | null) => {
     setSearchResults(products)
@@ -33,9 +37,41 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
   const handleClear = useCallback(() => {
     setSearchResults(null)
     setIsSearchActive(false)
+    setSearchQuery('')
+    setSearchPage(1)
+    setSearchTotalPages(0)
+    setSearchTotal(0)
   }, [])
 
+  const handleQueryChange = useCallback((q: string) => {
+    setSearchQuery(q)
+    setSearchPage(1)
+  }, [])
+
+  const handleSearchPageChange = useCallback(async (newPage: number) => {
+    setSearchPage(newPage)
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchQuery, page: newPage, limit: 8 }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSearchResults(data.products || [])
+        setSearchTotalPages(data.totalPages ?? 0)
+        setSearchTotal(data.total ?? 0)
+      }
+    } catch {
+      // ignore
+    }
+  }, [searchQuery])
+
   const handlePageChange = (newPage: number) => {
+    if (isSearchActive) {
+      handleSearchPageChange(newPage)
+      return
+    }
     const params = new URLSearchParams(searchParams.toString())
     params.set('page', String(newPage))
     router.push(`/products?${params.toString()}`)
@@ -52,6 +88,8 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
   const resultCount = searchResults !== null ? searchResults.length : total ?? initialProducts.length
   const isSearchEmpty = isSearchActive && resultCount === 0
   const currentSortBy = searchParams.get('sortBy') || 'created_at'
+  const displayPage = isSearchActive ? searchPage : page
+  const displayTotalPages = isSearchActive ? searchTotalPages : totalPages
 
   return (
     <div>
@@ -59,8 +97,10 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
         <SearchBar
           onResults={handleResults}
           onClear={handleClear}
+          onQueryChange={handleQueryChange}
           className="w-full max-w-md"
           initialQuery={initialQuery}
+          page={searchPage}
         />
         {!isSearchActive && (
           <select
@@ -78,7 +118,7 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
       {isSearchActive && !isSearchEmpty && (
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            {resultCount} result{resultCount !== 1 ? 's' : ''} for your search
+            {searchTotal || resultCount} result{(searchTotal || resultCount) !== 1 ? 's' : ''} for your search
           </p>
           <button
             onClick={handleClear}
@@ -117,13 +157,11 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
       ) : (
         <>
           <ProductGrid products={products} ratingStats={initialReviewStats} />
-          {!isSearchActive && (
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
+          <Pagination
+            page={displayPage}
+            totalPages={displayTotalPages}
+            onPageChange={handlePageChange}
+          />
         </>
       )}
     </div>
