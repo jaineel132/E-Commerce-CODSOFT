@@ -3,6 +3,7 @@ import { generateEmbedding } from '@/lib/embeddings'
 import { NextRequest } from 'next/server'
 import { parseBody, searchSchema } from '@/lib/validations'
 import { checkUserRateLimit } from '@/lib/rate-limit'
+import { getCachedSearch, setCachedSearch } from '@/lib/search-cache'
 
 function filterByElbow(
   products: Array<{ similarity: number; [key: string]: unknown }>,
@@ -33,6 +34,23 @@ export async function POST(request: NextRequest) {
       if (rateLimitResponse) return rateLimitResponse
     }
 
+    const cached = await getCachedSearch(query)
+    if (cached) {
+      const filtered = cached.products as Array<{ similarity: number; [key: string]: unknown }>
+      const total = filtered.length
+      const from = (page - 1) * limit
+      const paginatedProducts = filtered.slice(from, from + limit)
+      const totalPages = Math.max(1, Math.ceil(total / limit))
+
+      return Response.json({
+        products: paginatedProducts,
+        page,
+        limit,
+        total,
+        totalPages,
+      }, { status: 200 })
+    }
+
     const embedding = await generateEmbedding(query)
 
     const { data: products, error } = await supabase.rpc('match_products', {
@@ -46,6 +64,9 @@ export async function POST(request: NextRequest) {
     }
 
     const filtered = filterByElbow(products || [])
+
+    await setCachedSearch(query, { products: filtered })
+
     const total = filtered.length
     const from = (page - 1) * limit
     const paginatedProducts = filtered.slice(from, from + limit)
