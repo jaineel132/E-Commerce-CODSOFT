@@ -9,14 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@base-ui/react": "^1.5.0",
-    "@stripe/stripe-js": "^9.8.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "boneyard-js": "^1.8.1",
-    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.18.0",
     "next": "14.2.35",

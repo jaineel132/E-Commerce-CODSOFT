@@ -18,7 +18,6 @@ async function main() {
     env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
-  const OPENAI_API_KEY = env.OPENAI_API_KEY
   const GOOGLE_GEMINI_API_KEY = env.GOOGLE_GEMINI_API_KEY
 
   const { data: products, error } = await supabase
@@ -73,7 +72,7 @@ async function main() {
       console.log(`  ✓ ${product.name}`)
     }
 
-    // Small delay to avoid OpenAI rate limits
+    // Small delay to avoid Gemini rate limits
     await new Promise((r) => setTimeout(r, 500))
   }
 

@@ -1,10 +1,17 @@
 import { Redis } from '@upstash/redis'
 import crypto from 'crypto'
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
+const getRedis = () => {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return null
+  }
+  return new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  })
+}
+
+const redis = getRedis()
 
 const CACHE_TTL = 300
 
@@ -21,6 +28,7 @@ function cacheKey(query: string): string {
 }
 
 export async function getCachedSearch(query: string): Promise<{ products: unknown[] } | null> {
+  if (!redis) return null
   const key = cacheKey(query)
   const cached = await redis.get<{ products: unknown[] }>(key)
   if (cached) {
@@ -32,6 +40,7 @@ export async function getCachedSearch(query: string): Promise<{ products: unknow
 }
 
 export async function setCachedSearch(query: string, data: { products: unknown[] }): Promise<void> {
+  if (!redis) return
   const key = cacheKey(query)
   await redis.set(key, data, { ex: CACHE_TTL })
   console.log(`[CACHE STORE] search - "${normalizeQuery(query)}" (TTL ${CACHE_TTL}s)`)
