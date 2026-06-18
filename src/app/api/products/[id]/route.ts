@@ -1,28 +1,44 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/server'
 import { requireAdmin } from '@/lib/auth'
 import { NextRequest } from 'next/server'
+import { unstable_cache } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 import { parseBody, productPatchSchema } from '@/lib/validations'
+
+const getCachedProduct = unstable_cache(
+  async (id: string) => {
+    console.log(`[CACHE MISS] product-detail - fetching id=${id}`)
+    const supabase = createPublicClient()
+
+    const { data: product, error } = await supabase
+      .from('products')
+      .select('*, category:categories(name, slug)')
+      .eq('id', id)
+      .single()
+
+    if (error || !product) {
+      console.error(`[CACHE ERROR] product-detail query failed for id=${id}:`, error?.message || 'not found')
+      throw new Error('Product not found')
+    }
+
+    console.log(`[CACHE STORE] product-detail - id=${id} cached`)
+    return product
+  },
+  ['product-detail'],
+  { tags: ['products'], revalidate: 1800 }
+)
 
 export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const supabase = await createClient()
-
-    const { data: product, error } = await supabase
-      .from('products')
-      .select('*, category:categories(name, slug)')
-      .eq('id', params.id)
-      .single()
-
-    if (error || !product) {
-      return Response.json({ error: 'Product not found' }, { status: 404 })
-    }
-
+    const product = await getCachedProduct(params.id)
+    console.log('[CACHE HIT] product-detail - served from cache')
     return Response.json({ product }, { status: 200 })
-  } catch {
-    return Response.json({ error: 'Failed to fetch product' }, { status: 500 })
+  } catch (err) {
+    console.error('[CACHE ERROR] product-detail route failed:', err instanceof Error ? err.message : String(err))
+    return Response.json({ error: 'Product not found' }, { status: 404 })
   }
 }
 
@@ -74,6 +90,9 @@ export async function PATCH(
       return Response.json({ error: error.message }, { status: 500 })
     }
 
+    revalidateTag('products')
+    revalidateTag('products-list')
+
     return Response.json({ product }, { status: 200 })
   } catch {
     return Response.json({ error: 'Failed to update product' }, { status: 500 })
@@ -100,6 +119,9 @@ export async function DELETE(
     if (error) {
       return Response.json({ error: error.message }, { status: 500 })
     }
+
+    revalidateTag('products-list')
+    revalidateTag('categories')
 
     return Response.json({ message: 'Product deleted' }, { status: 200 })
   } catch {
