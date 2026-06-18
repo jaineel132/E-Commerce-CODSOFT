@@ -76,43 +76,48 @@ export default function CheckoutPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
+      <div className="mb-10 pb-6 border-b border-border flex items-center justify-between">
+        <div>
+          <h1 className="display-md text-foreground">
+            Checkout
+          </h1>
+        </div>
         <Link
           href="/cart"
-          className="mb-4 inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="inline-flex items-center gap-2 text-[14px] font-medium text-foreground-muted hover:text-foreground transition-colors bg-secondary px-4 py-2 rounded-full"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to cart
         </Link>
-        <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground">
-          Checkout
-        </h1>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+      <div className="grid gap-12 lg:grid-cols-3">
+        <div className="space-y-8 lg:col-span-2">
+          <div className="rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+            <h2 className="mb-6 text-[18px] font-semibold text-foreground">
+              Shipping Address
+            </h2>
             <AddressPicker
               selectedId={addressId}
               onSelect={setAddressId}
             />
           </div>
 
-          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-            <h2 className="mb-4 font-serif text-lg font-semibold text-foreground">
-              Order Summary
+          <div className="rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+            <h2 className="mb-6 text-[18px] font-semibold text-foreground">
+              Order Items
             </h2>
 
             <div className="divide-y divide-border">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[12px] bg-muted ring-1 ring-inset ring-border/50">
                     {item.product.image_url ? (
                       <Image
                         src={item.product.image_url}
                         alt={item.product.name}
                         fill
-                        sizes="64px"
+                        sizes="80px"
                         className="object-cover"
                       />
                     ) : (
@@ -123,16 +128,16 @@ export default function CheckoutPage() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-1 justify-between">
+                  <div className="flex flex-1 justify-between items-start">
                     <div>
-                      <p className="text-sm font-medium text-card-foreground">
+                      <p className="text-[15px] font-medium text-foreground">
                         {item.product.name}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-[13px] text-foreground-muted mt-1">
                         Qty: {item.quantity}
                       </p>
                     </div>
-                    <p className="text-sm font-medium text-card-foreground">
+                    <p className="text-[15px] font-medium text-foreground tabular-nums">
                       {formatPrice(item.product.price * item.quantity)}
                     </p>
                   </div>
@@ -143,34 +148,34 @@ export default function CheckoutPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-xl border border-border bg-card p-6 shadow-sm">
-            <h2 className="font-serif text-lg font-semibold text-foreground">
+          <div className="sticky top-24 rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+            <h2 className="text-[18px] font-semibold text-foreground">
               Payment Details
             </h2>
 
-            <div className="mt-4 space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-medium text-card-foreground">
+            <div className="mt-6 space-y-4">
+              <div className="flex justify-between text-[14px]">
+                <span className="text-foreground-muted">Subtotal</span>
+                <span className="font-medium text-foreground tabular-nums">
                   {formatPrice(cartTotal)}
                 </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Shipping</span>
-                <span className="font-medium text-card-foreground">
+              <div className="flex justify-between text-[14px]">
+                <span className="text-foreground-muted">Shipping</span>
+                <span className="font-medium text-foreground tabular-nums">
                   {shipping === 0 ? 'Free' : formatPrice(shipping)}
                 </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Tax (est.)</span>
-                <span className="font-medium text-card-foreground">
+              <div className="flex justify-between text-[14px]">
+                <span className="text-foreground-muted">Tax (est.)</span>
+                <span className="font-medium text-foreground tabular-nums">
                   {formatPrice(tax)}
                 </span>
               </div>
-              <div className="border-t border-border pt-3">
-                <div className="flex justify-between">
-                  <span className="text-base font-bold text-foreground">Total</span>
-                  <span className="text-base font-bold text-foreground">
+              <div className="border-t border-border pt-4 mt-6">
+                <div className="flex justify-between items-center">
+                  <span className="text-[16px] font-medium text-foreground">Total</span>
+                  <span className="text-[24px] font-semibold tracking-tight text-foreground tabular-nums">
                     {formatPrice(total)}
                   </span>
                 </div>
@@ -178,7 +183,7 @@ export default function CheckoutPage() {
             </div>
 
             {error && (
-              <div className="mt-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
+              <div className="mt-6 rounded-[12px] bg-destructive/10 p-4 text-[14px] text-destructive ring-1 ring-inset ring-destructive/20">
                 {error}
               </div>
             )}
@@ -186,27 +191,35 @@ export default function CheckoutPage() {
             <button
               onClick={handlePayNow}
               disabled={loading || cartItems.length === 0}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-8 relative flex w-full overflow-hidden items-center justify-center gap-2 rounded-full bg-primary px-4 py-4 text-[15px] font-medium text-primary-foreground transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-primary/25 disabled:cursor-not-allowed disabled:opacity-50 group"
             >
+              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-shimmer" />
               {loading ? (
                 <>
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
                   Redirecting to Stripe...
                 </>
               ) : (
                 <>
-                  <CreditCard className="h-4 w-4" />
+                  <Lock className="h-5 w-5" />
                   Pay {formatPrice(total)}
                 </>
               )}
             </button>
 
-            <div className="mt-4 flex items-center justify-center gap-1 text-xs text-muted-foreground">
-              <Lock className="h-3 w-3" />
-              Secure checkout powered by Stripe
+            <div className="mt-6 border-t border-border pt-6 flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 text-[12px] font-medium text-success bg-success/10 px-3 py-1.5 rounded-full">
+                <Lock className="h-3.5 w-3.5" />
+                256-bit SSL Encrypted
+              </div>
+              <div className="flex gap-2 opacity-60 grayscale">
+                <div className="h-6 w-10 rounded border border-border flex items-center justify-center text-[10px] font-bold">VISA</div>
+                <div className="h-6 w-10 rounded border border-border flex items-center justify-center text-[10px] font-bold">MC</div>
+                <div className="h-6 w-10 rounded border border-border flex items-center justify-center text-[10px] font-bold">AMEX</div>
+              </div>
             </div>
 
-            <p className="mt-3 text-center text-xs text-muted-foreground">
+            <p className="mt-6 text-center text-[12px] text-foreground-muted">
               Test mode — use card 4242 4242 4242 4242
             </p>
           </div>
