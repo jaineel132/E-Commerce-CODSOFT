@@ -1,3 +1,4 @@
+-- migrate:up
 -- Enable UUID generation
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -96,3 +97,6 @@ CREATE TABLE wishlist_items (
   created_at  timestamptz DEFAULT now(),
   UNIQUE(user_id, product_id)
 );
+
+
+-- migrate:down

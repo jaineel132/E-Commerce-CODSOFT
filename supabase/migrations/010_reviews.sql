@@ -1,3 +1,4 @@
+-- migrate:up
 -- =============================================
 -- REVIEWS
 -- =============================================
@@ -33,3 +34,6 @@ CREATE POLICY "Users can update own reviews"
 CREATE POLICY "Users can delete own reviews"
   ON reviews FOR DELETE
   USING (auth.uid() = user_id);
+
+
+-- migrate:down

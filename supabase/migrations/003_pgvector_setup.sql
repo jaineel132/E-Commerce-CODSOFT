@@ -1,3 +1,4 @@
+-- migrate:up
 -- Enable pgvector extension (must also be enabled in Dashboard → Database → Extensions)
 CREATE EXTENSION IF NOT EXISTS vector;
 
@@ -44,3 +45,6 @@ BEGIN
   LIMIT match_count;
 END;
 $$;
+
+
+-- migrate:down

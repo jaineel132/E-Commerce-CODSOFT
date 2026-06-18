@@ -1,3 +1,4 @@
+-- migrate:up
 -- Batch stock decrement for Stripe webhook
 -- Replaces N sequential RPC calls with a single call
 
@@ -12,3 +13,6 @@ BEGIN
   WHERE p.id = (item->>'pid')::uuid;
 END;
 $$;
+
+
+-- migrate:down

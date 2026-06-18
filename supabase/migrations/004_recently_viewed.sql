@@ -1,3 +1,4 @@
+-- migrate:up
 -- =============================================
 -- RECENTLY VIEWED
 -- =============================================
@@ -17,3 +18,6 @@ ALTER TABLE recently_viewed ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Own recently viewed only"
   ON recently_viewed FOR ALL
   USING (auth.uid() = user_id);
+
+
+-- migrate:down

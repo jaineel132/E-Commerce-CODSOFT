@@ -1,3 +1,4 @@
+-- migrate:up
 -- Allow admins to read all profiles (needed for order management to show customer info)
 CREATE POLICY "Admin reads all profiles"
   ON profiles FOR SELECT
@@ -7,3 +8,6 @@ CREATE POLICY "Admin reads all profiles"
 CREATE POLICY "Admin reads all addresses"
   ON addresses FOR SELECT
   USING (is_admin());
+
+
+-- migrate:down

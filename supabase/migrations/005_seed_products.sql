@@ -1,3 +1,4 @@
+-- migrate:up
 -- Seed products (embeddings will be generated in Phase 6)
 INSERT INTO products (name, description, price, category, image_url, stock_count) VALUES
 -- Electronics
@@ -100,3 +101,6 @@ INSERT INTO products (name, description, price, category, image_url, stock_count
   NULL,
   30
 );
+
+
+-- migrate:down

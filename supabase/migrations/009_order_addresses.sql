@@ -1,3 +1,4 @@
+-- migrate:up
 -- =============================================
 -- Add shipping/tracking fields to orders
 -- =============================================
@@ -42,3 +43,6 @@ BEGIN
   RETURN true;
 END;
 $$;
+
+
+-- migrate:down

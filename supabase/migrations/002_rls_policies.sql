@@ -1,3 +1,4 @@
+-- migrate:up
 -- =============================================
 -- Helper function: check if current user is admin
 -- =============================================
@@ -99,3 +100,6 @@ ALTER TABLE wishlist_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Own wishlist only"
   ON wishlist_items FOR ALL
   USING (auth.uid() = user_id);
+
+
+-- migrate:down

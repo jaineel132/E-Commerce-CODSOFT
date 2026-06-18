@@ -1,3 +1,4 @@
+-- migrate:up
 -- Gemini embedding models output 3072-dimensional vectors
 -- pgvector IVFFlat/HNSW indexes cap at 2000 dims, so no index is possible
 -- at this dimensionality. Index should be added when a 768-dim model is used.
@@ -51,3 +52,6 @@ $$;
 -- NOTE: Once pgvector supports >2000-dim HNSW on this Supabase project,
 -- or if you switch to a 768-dim model, add:
 -- CREATE INDEX products_embedding_idx ON products USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+
+
+-- migrate:down

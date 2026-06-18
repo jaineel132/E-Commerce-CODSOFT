@@ -1,3 +1,4 @@
+-- migrate:up
 -- Add missing foreign key indexes for query performance
 -- These columns are used in JOINs, WHERE filters, and RLS policies
 
@@ -12,3 +13,6 @@ CREATE INDEX IF NOT EXISTS idx_order_items_product_id ON order_items(product_id)
 CREATE INDEX IF NOT EXISTS idx_reviews_product_id ON reviews(product_id);
 
 CREATE INDEX IF NOT EXISTS idx_profiles_role ON profiles(role);
+
+
+-- migrate:down

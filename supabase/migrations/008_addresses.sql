@@ -1,3 +1,4 @@
+-- migrate:up
 -- =============================================
 -- ADDRESSES
 -- =============================================
@@ -28,3 +29,6 @@ ALTER TABLE addresses ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Own addresses only"
   ON addresses FOR ALL
   USING (auth.uid() = user_id);
+
+
+-- migrate:down

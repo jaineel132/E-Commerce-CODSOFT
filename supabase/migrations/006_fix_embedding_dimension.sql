@@ -1,3 +1,4 @@
+-- migrate:up
 -- Change embedding column from vector(1536) to vector(3072) for Gemini compatibility
 ALTER TABLE products
   ALTER COLUMN embedding TYPE vector(3072) USING embedding::vector(3072);
@@ -41,3 +42,6 @@ BEGIN
   LIMIT match_count;
 END;
 $$;
+
+
+-- migrate:down
