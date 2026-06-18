@@ -1,6 +1,7 @@
 'use client'
 
 import { ShoppingCart } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { useCartContext } from '@/context/CartContext'
 import { CartItem } from '@/components/cart/CartItem'
@@ -53,9 +54,21 @@ export default function CartPage() {
 
       <div className="grid gap-12 lg:grid-cols-3">
         <div className="lg:col-span-2">
+          <AnimatePresence mode="popLayout">
             {cartItems.map((item) => (
-              <CartItem key={item.id} item={item} />
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="mb-4"
+              >
+                <CartItem item={item} />
+              </motion.div>
             ))}
+          </AnimatePresence>
         </div>
 
         <div className="lg:col-span-1">

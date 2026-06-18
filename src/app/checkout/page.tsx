@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useCartContext } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
 import { AddressPicker } from '@/components/address/AddressPicker'
-import { CreditCard, ArrowLeft, Lock, ShoppingCart } from 'lucide-react'
+import { ArrowLeft, Lock, ShoppingCart } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 export default function CheckoutPage() {

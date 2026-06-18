@@ -37,7 +37,7 @@ export function CategoryCards() {
             Browse by Category
           </h2>
           <p className="mt-3 text-[16px] text-foreground-muted max-w-2xl">
-            Find exactly what you're looking for by exploring our curated collections
+            Find exactly what you&apos;re looking for by exploring our curated collections
           </p>
         </div>
 

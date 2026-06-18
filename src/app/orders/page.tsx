@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { Package, MapPin } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
-import { Skeleton } from 'boneyard-js/react'
+import { Skeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Pagination } from '@/components/products/Pagination'
 import type { Address, OrderItem } from '@/types'

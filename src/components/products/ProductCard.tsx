@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { memo, useState } from 'react'
-
+import { motion } from 'framer-motion'
 import { ShoppingCart, Check, Heart } from 'lucide-react'
 import { StockBadge } from './StockBadge'
 import { ReviewBadge } from './ReviewBadge'
@@ -34,7 +34,7 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
     if (isInWishlist) {
       removeFromWishlist(product.id)
     } else {
-      addToWishlist(product)
+      addToWishlist(product.id)
     }
   }
 
@@ -44,7 +44,13 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
   }
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-[20px] bg-card text-card-foreground shadow-sm ring-1 ring-border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:ring-primary/20">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-20px" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="group relative flex flex-col overflow-hidden rounded-[20px] bg-card text-card-foreground shadow-sm ring-1 ring-border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:ring-primary/20"
+    >
       <div className="relative aspect-square overflow-hidden bg-muted">
         <Link href={`/products/${product.id}`} className="absolute inset-0 z-0">
           {product.image_url && !imageError ? (
@@ -138,6 +144,6 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
           </FlyToCart>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 })

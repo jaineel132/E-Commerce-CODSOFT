@@ -32,7 +32,7 @@ export function WhyShopSection() {
             Why Shop With Verdant
           </h2>
           <p className="mt-4 text-[16px] text-foreground-muted">
-            We're committed to providing you with the best shopping experience possible, from secure checkout to lightning-fast delivery.
+            We&apos;re committed to providing you with the best shopping experience possible, from secure checkout to lightning-fast delivery.
           </p>
         </div>
 

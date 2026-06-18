@@ -9,6 +9,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X, LayoutDashboard, Package, ShoppingCart as CartIcon, User, Search } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export function Navbar() {
   const { user, loading } = useAuth()
@@ -99,9 +100,18 @@ export function Navbar() {
                   <Link id="cart-icon-desktop" href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                     <ShoppingCart className="h-5 w-5" />
                     {cartCount > 0 && (
-                      <span className="badge-enter absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                        {cartCount > 99 ? '99+' : cartCount}
-                      </span>
+                      <AnimatePresence mode="wait">
+                        <motion.span 
+                          key={cartCount}
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                          className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                        >
+                          {cartCount > 99 ? '99+' : cartCount}
+                        </motion.span>
+                      </AnimatePresence>
                     )}
                   </Link>
                   <Link href="/wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
@@ -145,9 +155,18 @@ export function Navbar() {
             <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="badge-enter absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  {cartCount > 99 ? '99+' : cartCount}
-                </span>
+                <AnimatePresence mode="wait">
+                  <motion.span 
+                    key={cartCount}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.5, opacity: 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground"
+                  >
+                    {cartCount > 99 ? '99+' : cartCount}
+                  </motion.span>
+                </AnimatePresence>
               )}
             </Link>
           )}
