@@ -42,10 +42,10 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
       <button
         onClick={handleAddToCart}
         disabled={isOutOfStock || added}
-        className={`flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+        className={`flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-[15px] font-medium transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${
           added
-            ? 'bg-primary text-primary-foreground'
-            : 'bg-primary text-primary-foreground hover:bg-primary/90'
+            ? 'bg-success text-success-foreground'
+            : 'bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-primary/25 hover:shadow-lg'
         }`}
       >
         {added ? (
@@ -64,14 +64,14 @@ export function AddToCartButton({ productId, isOutOfStock }: AddToCartButtonProp
       <button
         onClick={handleWishlistToggle}
         disabled={wishlistLoading}
-        className={`flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+        className={`flex w-full items-center justify-center gap-2 rounded-full bg-transparent px-8 py-4 text-[15px] font-medium transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${
           inWishlist
-            ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-950'
-            : 'text-card-foreground hover:bg-muted'
+            ? 'text-red-500 hover:bg-red-500/10'
+            : 'text-foreground hover:bg-secondary'
         }`}
       >
-        <Heart className={`h-5 w-5 ${inWishlist ? 'fill-current' : ''}`} />
-        {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+        <Heart className={`h-5 w-5 transition-transform ${inWishlist ? 'fill-current scale-110' : 'scale-100'}`} />
+        {inWishlist ? 'Saved to Wishlist' : 'Add to Wishlist'}
       </button>
     </div>
   )
