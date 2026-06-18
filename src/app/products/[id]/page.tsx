@@ -83,13 +83,14 @@ async function getSimilarProducts(productId: string): Promise<Product[]> {
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = await getProduct(params.id)
+  const [product, similarProducts] = await Promise.all([
+    getProduct(params.id),
+    getSimilarProducts(params.id),
+  ])
 
   if (!product) {
     notFound()
   }
-
-  const similarProducts = await getSimilarProducts(product.id)
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

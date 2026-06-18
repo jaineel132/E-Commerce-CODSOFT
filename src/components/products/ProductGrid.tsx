@@ -1,5 +1,3 @@
-'use client'
-
 import { ProductCard } from './ProductCard'
 import type { Product } from '@/types'
 import type { ReviewStatsMap } from '@/lib/reviews'

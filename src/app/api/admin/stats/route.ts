@@ -12,19 +12,29 @@ export async function GET() {
     const rateLimitResponse = await checkUserRateLimit(user.id)
     if (rateLimitResponse) return rateLimitResponse
 
+    const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString()
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-    // Total revenue and order count from all time
+    // Total revenue and order count from last 365 days
     const { data: totals, error: totalsError } = await supabase
       .from('orders')
-      .select('total_amount, created_at')
+      .select('total_amount')
+      .gte('created_at', oneYearAgo)
 
     if (totalsError) {
       return Response.json({ error: totalsError.message }, { status: 500 })
     }
 
     const totalRevenue = totals?.reduce((sum, o) => sum + Number(o.total_amount), 0) || 0
-    const totalOrders = totals?.length || 0
+
+    // Total order count (lightweight head query)
+    const { count: totalOrders, error: countError } = await supabase
+      .from('orders')
+      .select('id', { count: 'exact', head: true })
+
+    if (countError) {
+      return Response.json({ error: countError.message }, { status: 500 })
+    }
 
     // Orders by day (last 30 days) — filter at DB level
     const { data: recentOrders, error: recentError } = await supabase

@@ -49,21 +49,21 @@ async function getProducts(searchParams: { [key: string]: string | string[] | un
     dataQuery = dataQuery.lte('price', parseFloat(maxPrice))
   }
 
-  const { count, error: countError } = await countQuery
-  if (countError) {
-    console.error('Error counting products:', countError)
-    return { products: [], total: 0, page: 1, limit, totalPages: 0 }
-  }
-
   const from = (page - 1) * limit
   const to = from + limit - 1
 
   const allowedSorts = ['created_at', 'price', 'name']
   const actualSortBy = allowedSorts.includes(sortBy) ? sortBy : 'created_at'
 
-  const { data: products, error } = await dataQuery
-    .order(actualSortBy, { ascending: sortOrder === 'asc' })
-    .range(from, to)
+  const [{ count, error: countError }, { data: products, error }] = await Promise.all([
+    countQuery,
+    dataQuery.order(actualSortBy, { ascending: sortOrder === 'asc' }).range(from, to),
+  ])
+
+  if (countError) {
+    console.error('Error counting products:', countError)
+    return { products: [], total: 0, page: 1, limit, totalPages: 0 }
+  }
 
   if (error) {
     console.error('Error fetching products:', error)
