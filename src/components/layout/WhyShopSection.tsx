@@ -1,53 +1,61 @@
-import { Truck, Shield, Star } from 'lucide-react'
+import { Truck, Shield, Star, RefreshCw } from 'lucide-react'
 
 const features = [
   {
     icon: Truck,
     title: 'Free Shipping',
-    description: 'On orders over $50. Fast delivery to your doorstep.',
+    description: 'Enjoy free and fast delivery on all orders over $50.',
   },
   {
     icon: Shield,
     title: 'Secure Payment',
-    description: 'Your payment info is encrypted and protected.',
+    description: 'Your payment information is encrypted and fully protected.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Easy Returns',
+    description: 'Not satisfied? Return it within 30 days for a full refund.',
   },
   {
     icon: Star,
-    title: 'Quality Products',
-    description: 'Curated selection of premium items you can trust.',
+    title: 'Premium Quality',
+    description: 'We carefully curate our selection to ensure top-tier quality.',
   },
 ]
 
 export function WhyShopSection() {
   return (
-    <section className="w-full bg-muted/50 py-16">
+    <section className="w-full bg-background-cream py-24 border-y border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 text-center">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-foreground">
-            Why Shop With Us
+        <div className="mb-16 text-center max-w-2xl mx-auto">
+          <h2 className="display-md text-foreground">
+            Why Shop With Verdant
           </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            We make shopping easy and enjoyable
+          <p className="mt-4 text-[16px] text-foreground-muted">
+            We're committed to providing you with the best shopping experience possible, from secure checkout to lightning-fast delivery.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => {
             const Icon = feature.icon
             return (
               <div
                 key={feature.title}
-                className="flex flex-col items-center gap-4 rounded-xl bg-card p-8 text-center shadow-sm border border-border"
+                className="flex flex-col items-start gap-4"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Icon className="h-6 w-6" />
+                <div className="relative flex h-14 w-14 items-center justify-center rounded-[12px] bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                  <Icon className="h-6 w-6 relative z-10" />
+                  <div className="absolute -inset-1 rounded-[16px] bg-primary/20 blur-sm"></div>
                 </div>
-                <h3 className="font-serif text-lg font-medium text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
+                <div>
+                  <h3 className="heading-sm text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-relaxed text-foreground-muted">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             )
           })}

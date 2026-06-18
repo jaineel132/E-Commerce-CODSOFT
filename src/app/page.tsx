@@ -39,22 +39,22 @@ export default async function Home() {
     <div className="flex min-h-screen flex-col">
       <HeroBanner />
 
-      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 bg-background">
         <ScrollReveal>
-          <div className="flex items-center justify-between">
+          <div className="flex items-end justify-between mb-10 border-b border-border pb-6">
             <div>
-              <h2 className="font-serif text-2xl font-semibold tracking-tight text-foreground">
+              <h2 className="display-md text-foreground">
                 Featured Products
               </h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Check out our latest arrivals
+              <p className="mt-2 text-[16px] text-foreground-muted">
+                Our latest arrivals and most popular choices
               </p>
             </div>
             <Link
               href="/products"
-              className="text-sm font-medium text-primary hover:text-primary/80"
+              className="text-[14px] font-medium text-primary hover:text-primary-hover transition-colors hidden sm:block"
             >
-              View all →
+              View all products &rarr;
             </Link>
           </div>
         </ScrollReveal>
@@ -72,11 +72,16 @@ export default async function Home() {
             <p className="text-sm text-muted-foreground">No products available yet.</p>
           </div>
         )}
+        
+        <div className="mt-8 sm:hidden flex justify-center">
+          <Link
+            href="/products"
+            className="text-[14px] font-medium text-primary hover:text-primary-hover transition-colors"
+          >
+            View all products &rarr;
+          </Link>
+        </div>
       </section>
-
-      <Suspense fallback={null}>
-        <RecentlyViewedSection />
-      </Suspense>
 
       <ScrollReveal>
         <Suspense fallback={null}>
@@ -84,11 +89,30 @@ export default async function Home() {
         </Suspense>
       </ScrollReveal>
 
+      <Suspense fallback={null}>
+        <RecentlyViewedSection />
+      </Suspense>
+
       <ScrollReveal>
         <Suspense fallback={null}>
           <WhyShopSection />
         </Suspense>
       </ScrollReveal>
+
+      <div className="border-t border-border bg-background py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-wider text-foreground-muted mb-8">
+            Trusted by modern teams and shoppers worldwide
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-40 grayscale">
+            {/* Simple geometric shapes mimicking logos for now since we don't have actual logos */}
+            <div className="flex items-center gap-2 font-bold text-xl"><div className="h-6 w-6 rounded bg-foreground"></div> ACME Corp</div>
+            <div className="flex items-center gap-2 font-bold text-xl"><div className="h-6 w-6 rounded-full border-4 border-foreground"></div> Globalia</div>
+            <div className="flex items-center gap-2 font-bold text-xl"><div className="h-0 w-0 border-l-[12px] border-r-[12px] border-b-[20px] border-l-transparent border-r-transparent border-b-foreground"></div> Apex</div>
+            <div className="flex items-center gap-2 font-bold text-xl"><div className="h-6 w-6 rotate-45 bg-foreground"></div> Vertex</div>
+          </div>
+        </div>
+      </div>
 
       <div className="mt-auto">
         <Footer />
