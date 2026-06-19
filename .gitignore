@@ -37,6 +37,7 @@ next-env.d.ts
 
 # screenshots
 *.png
+!public/screenshots/*.png
 
 # planning & design docs (not part of source)
 prd.md
