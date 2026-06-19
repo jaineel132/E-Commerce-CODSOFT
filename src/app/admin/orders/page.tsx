@@ -47,12 +47,12 @@ interface AdminOrder {
 }
 
 const STATUS_CONFIG: Record<OrderStatus, { label: string; color: string; icon: React.ComponentType<{ className?: string }> }> = {
-  pending:    { label: 'Pending',    color: 'bg-amber-500/10 text-amber-500 ring-amber-500/20', icon: Clock },
-  processing: { label: 'Processing', color: 'bg-indigo-500/10 text-indigo-500 ring-indigo-500/20', icon: Package },
-  shipped:    { label: 'Shipped',    color: 'bg-blue-500/10 text-blue-500 ring-blue-500/20',   icon: Truck },
-  delivered:  { label: 'Delivered',  color: 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20', icon: CheckCircle },
-  cancelled:  { label: 'Cancelled',  color: 'bg-red-500/10 text-red-500 ring-red-500/20',        icon: Ban },
-  refunded:   { label: 'Refunded',   color: 'bg-purple-500/10 text-purple-500 ring-purple-500/20', icon: RotateCcw },
+  pending:    { label: 'Pending',    color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 ring-amber-500/20', icon: Clock },
+  processing: { label: 'Processing', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 ring-blue-500/20', icon: Package },
+  shipped:    { label: 'Shipped',    color: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 ring-indigo-500/20', icon: Truck },
+  delivered:  { label: 'Delivered',  color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20', icon: CheckCircle },
+  cancelled:  { label: 'Cancelled',  color: 'bg-red-500/10 text-red-600 dark:text-red-400 ring-red-500/20', icon: Ban },
+  refunded:   { label: 'Refunded',   color: 'bg-gray-500/10 text-gray-600 dark:text-gray-400 ring-gray-500/20', icon: RotateCcw },
 }
 
 const ALL_STATUSES: (OrderStatus | '')[] = ['', 'pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded']
@@ -399,7 +399,7 @@ function OrderDetailModal({
                   type="text"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
-                  className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all"
+                  className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all"
                   placeholder="e.g. 1Z999AA10123456784"
                 />
               </div>
@@ -408,7 +408,7 @@ function OrderDetailModal({
                 <select
                   value={trackingCarrier}
                   onChange={(e) => setTrackingCarrier(e.target.value)}
-                  className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all appearance-none"
+                  className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all appearance-none"
                 >
                   <option value="">Select carrier</option>
                   <option value="UPS">UPS</option>
@@ -425,7 +425,7 @@ function OrderDetailModal({
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all resize-none"
+                className="w-full rounded-xl border-0 bg-background px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all resize-none"
                 placeholder="Internal notes about this order..."
               />
             </div>

@@ -23,7 +23,7 @@ export default function RecentlyViewedPage() {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+            <div key={i} className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
               <div className="aspect-square skeleton-shimmer" />
               <div className="p-4 space-y-3">
                 <div className="h-4 w-3/4 skeleton-shimmer rounded" />
@@ -64,7 +64,7 @@ export default function RecentlyViewedPage() {
           <Link
             key={item.id}
             href={`/products/${item.product_id}`}
-            className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+            className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
           >
             <div className="relative aspect-square overflow-hidden bg-muted">
               {item.product.image_url ? (

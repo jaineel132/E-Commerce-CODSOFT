@@ -5,21 +5,20 @@ import { useAuth } from '@/context/AuthContext'
 import { useCartContext } from '@/context/CartContext'
 import { useWishlistContext } from '@/context/WishlistContext'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ShoppingCart, Heart, LogOut, Menu, X, LayoutDashboard, Package, ShoppingCart as CartIcon, User, Search } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export function Navbar() {
-  const { user, loading } = useAuth()
+  const { user, profile, loading } = useAuth()
   const { cartCount } = useCartContext()
   const { wishlistItems } = useWishlistContext()
   const router = useRouter()
-  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const isAdminPage = pathname.startsWith('/admin')
+  const isAdmin = profile?.role === 'admin'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,7 +53,7 @@ export function Navbar() {
             Verdant
           </Link>
           
-          {!isAdminPage && (
+          {!isAdmin && (
             <div className="hidden md:block w-64 relative group">
               <form onSubmit={handleSearchSubmit}>
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
@@ -71,7 +70,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-6 md:flex">
-          {isAdminPage ? (
+          {isAdmin ? (
             <>
               <Link href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                 <LayoutDashboard className="h-4 w-4" />
@@ -95,7 +94,7 @@ export function Navbar() {
           <ThemeToggle />
           {loading ? null : user ? (
             <>
-              {!isAdminPage && (
+          {!isAdmin && (
                 <>
                   <Link id="cart-icon-desktop" href="/cart" aria-label="Shopping cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                     <ShoppingCart className="h-5 w-5" />
@@ -139,7 +138,7 @@ export function Navbar() {
               </button>
             </>
           ) : (
-            !isAdminPage && (
+              !isAdmin && (
               <Link
                 href="/login"
                 className="rounded-full bg-primary px-5 py-2 text-[13px] font-medium text-primary-foreground hover:bg-primary/90 transition-all duration-200 hover:shadow-md"
@@ -151,7 +150,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
-          {!isAdminPage && (
+                {!isAdmin && (
             <Link href="/cart" aria-label="Shopping cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
@@ -185,7 +184,7 @@ export function Navbar() {
       {menuOpen && (
         <div className="absolute top-full left-0 right-0 border-b border-border bg-background/95 p-4 backdrop-blur-md md:hidden shadow-lg animate-fade-in-up">
           <div className="flex flex-col gap-6">
-            {!isAdminPage && (
+            {!isAdmin && (
               <form onSubmit={handleSearchSubmit} className="relative">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
@@ -199,7 +198,7 @@ export function Navbar() {
 
             <div className="space-y-3">
               <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Navigation</div>
-              {isAdminPage ? (
+              {isAdmin ? (
                 <>
                   <Link href="/admin" className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors p-2 rounded-md hover:bg-muted" onClick={() => setMenuOpen(false)}>
                     <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
@@ -229,7 +228,7 @@ export function Navbar() {
             {loading ? null : user ? (
               <div className="space-y-3 pt-3 border-t border-border">
                 <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">My Account</div>
-                {!isAdminPage && (
+              {!isAdmin && (
                   <>
                     <Link href="/wishlist" className="flex items-center gap-3 text-sm font-medium text-foreground hover:text-primary transition-colors p-2 rounded-md hover:bg-muted" onClick={() => setMenuOpen(false)}>
                       <Heart className="h-4 w-4 text-muted-foreground" />
@@ -251,7 +250,7 @@ export function Navbar() {
                 </button>
               </div>
             ) : (
-              !isAdminPage && (
+            !isAdmin && (
                 <div className="pt-3 border-t border-border">
                   <Link href="/login" className="flex w-full items-center justify-center rounded-full bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => setMenuOpen(false)}>
                     Sign In

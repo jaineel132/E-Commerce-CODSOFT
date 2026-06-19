@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react'
 
 export function HeroBanner() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#f5f5f5] to-[#e0e0e0] dark:from-zinc-900 dark:to-zinc-950 min-h-[600px] flex items-center">
+    <section className="relative overflow-hidden bg-gradient-to-br from-muted to-border min-h-[600px] flex items-center">
       {/* Huge Background Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0">
         <h1 className="text-[10rem] md:text-[14rem] font-bold text-white/70 dark:text-white/5 tracking-tighter select-none whitespace-nowrap">
@@ -17,14 +17,14 @@ export function HeroBanner() {
       <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between z-10">
         {/* Left Content */}
         <div className="flex-1 space-y-4 text-center md:text-left mb-12 md:mb-0">
-          <h2 className="text-5xl md:text-7xl font-black text-black dark:text-white tracking-tight leading-tight">
+          <h2 className="text-5xl md:text-7xl font-black text-foreground tracking-tight leading-tight">
             Curated For Your <br className="hidden md:block" />
-            <span className="text-[#ef4444]">Modern Lifestyle</span>
+            <span className="text-primary">Modern Lifestyle</span>
           </h2>
           <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link
               href="/products"
-              className="inline-flex items-center justify-center rounded-full bg-[#ef4444] hover:bg-red-700 px-8 py-3.5 text-[15px] font-medium text-white shadow-lg transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center justify-center rounded-full bg-primary hover:bg-primary-hover px-8 py-3.5 text-[15px] font-medium text-primary-foreground shadow-lg transition-transform hover:-translate-y-0.5"
             >
               Shop Now
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -47,8 +47,8 @@ export function HeroBanner() {
         {/* Right Content */}
         <div className="flex-1 flex flex-col items-center md:items-end text-center md:text-right mt-12 md:mt-0">
           <div className="max-w-[280px]">
-            <h3 className="text-lg font-bold text-black dark:text-white mb-3">About the collection</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            <h3 className="text-lg font-bold text-foreground mb-3">About the collection</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
               Shop the latest trends across Electronics, Clothing, Books, and Home
               &amp; Kitchen. Experience quality products at unbeatable prices.
             </p>

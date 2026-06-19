@@ -28,7 +28,7 @@ export default function WishlistPage() {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="overflow-hidden rounded-[20px] border border-border bg-card shadow-sm">
+            <div key={i} className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
               <div className="aspect-square skeleton-shimmer" />
               <div className="p-5 space-y-3">
                 <div className="h-4 w-3/4 skeleton-shimmer rounded" />
@@ -68,7 +68,7 @@ export default function WishlistPage() {
           {wishlistItems.map((item) => (
             <div
               key={item.id}
-              className="animate-fade-in-up group relative flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-sm ring-1 ring-inset ring-border/50 transition-shadow hover:shadow-md"
+              className="animate-fade-in-up group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm ring-1 ring-inset ring-border/50 transition-shadow hover:shadow-md"
             >
               <Link href={`/products/${item.product_id}`} className="relative aspect-square overflow-hidden bg-muted">
                 {item.product.image_url ? (

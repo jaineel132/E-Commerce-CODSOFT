@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+          <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
               <Mail className="h-6 w-6 text-primary" />
             </div>
@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
             </p>
             <Link
               href="/login"
-              className="mt-6 inline-flex items-center gap-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="mt-6 inline-flex items-center gap-1 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to login
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
       <div className="w-full max-w-md">
-        <div className="rounded-xl border border-border bg-card p-8 shadow-sm">
+        <div className="rounded-3xl border border-border bg-card p-8 shadow-sm">
           <Link
             href="/login"
             className="mb-6 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
+                className="mt-1 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
                 required
               />
             </div>
@@ -95,7 +95,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
             >
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               {loading ? 'Sending...' : 'Send reset link'}

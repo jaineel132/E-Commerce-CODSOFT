@@ -48,7 +48,7 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="group relative flex flex-col overflow-hidden rounded-3xl bg-white dark:bg-zinc-900 text-black dark:text-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+      className="group relative flex flex-col overflow-hidden rounded-3xl bg-card text-card-foreground shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
         <Link href={`/products/${product.id}`} className="absolute inset-0 z-0">
@@ -92,7 +92,7 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
 
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-3 flex items-center justify-between">
-          <div className="inline-flex items-center rounded-full bg-black/5 dark:bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black dark:text-white">
+          <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground">
             {product.category?.name ?? 'Uncategorized'}
           </div>
           <p className="tabular-text font-bold text-foreground">
@@ -101,7 +101,7 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
         </div>
         
         <Link href={`/products/${product.id}`} className="z-10 mt-2">
-          <h3 className="line-clamp-2 text-lg font-black leading-snug text-black dark:text-white transition-colors group-hover:text-[#ef4444]">
+          <h3 className="line-clamp-2 text-lg font-black leading-snug text-foreground transition-colors group-hover:text-primary">
             {product.name}
           </h3>
         </Link>
@@ -125,8 +125,8 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
               disabled={isOutOfStock || added}
               className={`flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-[14px] font-bold transition-all duration-300 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${
                 added
-                  ? 'bg-green-500 text-white shadow-md'
-                  : 'bg-[#ef4444] text-white shadow-md hover:shadow-xl hover:bg-red-600'
+                  ? 'bg-success text-white shadow-md'
+                  : 'bg-primary text-primary-foreground shadow-md hover:shadow-xl hover:bg-primary-hover'
               }`}
             >
               {added ? (

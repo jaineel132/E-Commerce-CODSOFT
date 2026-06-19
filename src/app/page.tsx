@@ -49,7 +49,7 @@ export default async function Home() {
       {/* Summer Sale Banner */}
       <section className="bg-background py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl bg-[#ef4444] overflow-hidden p-12 md:p-16 flex flex-col md:flex-row items-center justify-between">
+          <div className="relative rounded-3xl bg-primary overflow-hidden p-12 md:p-16 flex flex-col md:flex-row items-center justify-between">
             {/* Background elements */}
             <div className="absolute inset-0 flex items-center justify-center opacity-10">
               <span className="text-[15rem] font-black tracking-tighter text-white select-none pointer-events-none whitespace-nowrap">
@@ -83,7 +83,7 @@ export default async function Home() {
                 </p>
                 <Link
                   href="/products"
-                  className="inline-block rounded-full bg-white text-red-600 px-8 py-3 text-sm font-bold shadow-lg transition-transform hover:scale-105"
+                  className="inline-block rounded-full bg-white text-primary px-8 py-3 text-sm font-bold shadow-lg transition-transform hover:scale-105"
                 >
                   Shop
                 </Link>
@@ -96,10 +96,10 @@ export default async function Home() {
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 bg-background text-center border-t border-border mt-8">
         <ScrollReveal>
           <div className="mb-12">
-            <h2 className="text-4xl font-black uppercase tracking-tight text-black dark:text-white">
+            <h2 className="text-4xl font-black uppercase tracking-tight text-foreground">
               Best Seller Products
             </h2>
-            <p className="mt-4 text-[15px] text-gray-500 max-w-2xl mx-auto">
+            <p className="mt-4 text-[15px] text-muted-foreground max-w-2xl mx-auto">
               Shop the latest trends across Electronics, Clothing, Books, and Home & Kitchen.
             </p>
           </div>

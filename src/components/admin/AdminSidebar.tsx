@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Package, ShoppingCart, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Package, ShoppingCart, Menu, X, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
@@ -14,7 +14,7 @@ const links = [
 
 function SidebarContent({ pathname }: { pathname: string }) {
   return (
-    <>
+    <div className="flex h-full flex-col">
       <div className="px-4 pt-6 pb-4">
         <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground-muted">
           Admin Panel
@@ -36,12 +36,12 @@ function SidebarContent({ pathname }: { pathname: string }) {
               className={cn(
                 'group relative flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[13px] font-medium transition-all',
                 isActive
-                  ? 'bg-indigo-500/10 text-indigo-400'
+                  ? 'bg-primary/10 text-primary'
                   : 'text-foreground-muted hover:bg-secondary hover:text-foreground',
               )}
             >
               {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-indigo-400" />
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
               )}
               <Icon className="h-4 w-4" />
               {link.label}
@@ -63,12 +63,12 @@ function SidebarContent({ pathname }: { pathname: string }) {
               className={cn(
                 'group relative flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[13px] font-medium transition-all',
                 isActive
-                  ? 'bg-indigo-500/10 text-indigo-400'
+                  ? 'bg-primary/10 text-primary'
                   : 'text-foreground-muted hover:bg-secondary hover:text-foreground',
               )}
             >
               {isActive && (
-                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-indigo-400" />
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-full bg-primary" />
               )}
               <Icon className="h-4 w-4" />
               {link.label}
@@ -76,7 +76,17 @@ function SidebarContent({ pathname }: { pathname: string }) {
           )
         })}
       </div>
-    </>
+
+      <div className="mt-auto px-2 pt-4 border-t border-border mx-2">
+        <Link
+          href="/"
+          className="flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[13px] font-medium text-foreground-muted hover:text-foreground hover:bg-secondary transition-all"
+        >
+          <ExternalLink className="h-4 w-4" />
+          View Storefront
+        </Link>
+      </div>
+    </div>
   )
 }
 

@@ -123,17 +123,17 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="skeleton-shimmer mb-10 h-8 w-40 rounded" />
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-1 space-y-6">
-            <div className="skeleton-shimmer h-64 rounded-[20px]" />
-            <div className="skeleton-shimmer h-36 rounded-[20px]" />
+            <div className="skeleton-shimmer h-64 rounded-3xl" />
+            <div className="skeleton-shimmer h-36 rounded-3xl" />
           </div>
           <div className="lg:col-span-2 space-y-4">
-            <div className="skeleton-shimmer h-20 rounded-[20px]" />
-            <div className="skeleton-shimmer h-20 rounded-[20px]" />
-            <div className="skeleton-shimmer h-20 rounded-[20px]" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="lg:col-span-2 space-y-8">
-          <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
             <h3 className="mb-6 flex items-center gap-2 text-[16px] font-semibold text-foreground">
               <Edit3 className="h-5 w-5 text-primary" />
               Personal Information
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="mt-2 w-full rounded-[12px] border border-border bg-background px-4 py-3 text-[14px] text-foreground outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-[14px] text-foreground outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   placeholder="Enter your name"
                 />
               </div>

@@ -105,7 +105,7 @@ export default function OrdersPage() {
           return (
           <div
             key={order.id}
-            className="rounded-[20px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50 transition-shadow hover:shadow-md"
+            className="rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50 transition-shadow hover:shadow-md"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>

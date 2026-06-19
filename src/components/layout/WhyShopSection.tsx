@@ -28,10 +28,10 @@ export function WhyShopSection() {
     <section className="w-full bg-background py-24 border-t border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center max-w-2xl mx-auto">
-          <h2 className="text-4xl font-black uppercase tracking-tight text-black dark:text-white">
+          <h2 className="text-4xl font-black uppercase tracking-tight text-foreground">
             Why Shop With Verdant
           </h2>
-          <p className="mt-4 text-[15px] text-gray-500">
+          <p className="mt-4 text-[15px] text-muted-foreground">
             We&apos;re committed to providing you with the best shopping experience possible, from secure checkout to lightning-fast delivery.
           </p>
         </div>
@@ -44,7 +44,7 @@ export function WhyShopSection() {
                 key={feature.title}
                 className="flex flex-col items-center text-center gap-4"
               >
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-[#ef4444]/10 text-[#ef4444] transition-transform duration-300 hover:scale-110">
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-300 hover:scale-110">
                   <Icon className="h-8 w-8 relative z-10" />
                 </div>
                 <div>

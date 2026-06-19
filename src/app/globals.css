@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* Colors - Light (Stripe-inspired) */
+    /* Colors - Light */
     --background: #FFFFFF;
     --background-soft: #F6F9FC;
     --background-cream: #F5E9D4;
@@ -15,10 +15,10 @@
     --foreground-secondary: #425466;
     --foreground-muted: #64748D;
     
-    --primary: #635BFF;
-    --primary-hover: #5349E0;
-    --primary-press: #3D35C2;
-    --primary-soft: #E8E6FF;
+    --primary: #EF4444;
+    --primary-hover: #DC2626;
+    --primary-press: #B91C1C;
+    --primary-soft: #FEE2E2;
     --primary-foreground: #FFFFFF;
     
     --accent: #FF764A;
@@ -34,7 +34,7 @@
     --border-input: #A8C3DE;
     
     --input: #E3E8EE;
-    --ring: #635BFF;
+    --ring: #EF4444;
     
     --destructive: #DF1B41;
     --success: #30B130;
@@ -48,7 +48,7 @@
     --secondary: #F6F9FC;
     --secondary-foreground: #0A2540;
     
-    --chart-1: #635BFF;
+    --chart-1: #EF4444;
     --chart-2: #FF764A;
     --chart-3: #30B130;
     --chart-4: #F5A623;
@@ -56,12 +56,12 @@
     
     --sidebar: #FFFFFF;
     --sidebar-foreground: #0A2540;
-    --sidebar-primary: #635BFF;
+    --sidebar-primary: #EF4444;
     --sidebar-primary-foreground: #FFFFFF;
     --sidebar-secondary: #F6F9FC;
     --sidebar-secondary-foreground: #0A2540;
     --sidebar-border: #E3E8EE;
-    --sidebar-ring: #635BFF;
+    --sidebar-ring: #EF4444;
 
     /* Border Radius Scale */
     --radius-xs: 4px;
@@ -86,19 +86,19 @@
   }
   
   .dark {
-    /* Colors - Dark (Linear-inspired) */
+    /* Colors - Dark */
     --background: #0A0A0B;
     --background-soft: #111113;
-    --background-cream: #18181B; /* Fallback for dark mode */
+    --background-cream: #18181B;
     
     --foreground: #F7F8F8;
     --foreground-secondary: #D0D6E0;
     --foreground-muted: #8A8F98;
     
-    --primary: #635BFF;
-    --primary-hover: #7B73FF;
-    --primary-press: #4B43C0;
-    --primary-soft: #1E1B4B;
+    --primary: #EF4444;
+    --primary-hover: #F87171;
+    --primary-press: #DC2626;
+    --primary-soft: #1E1B1B;
     --primary-foreground: #FFFFFF;
     
     --accent: #FF8B6A;
@@ -114,7 +114,7 @@
     --border-input: #34343A;
     
     --input: #23252A;
-    --ring: #7B73FF;
+    --ring: #F87171;
     
     --destructive: #FF4D6A;
     --success: #27A644;
@@ -128,7 +128,7 @@
     --secondary: #1A1A1D;
     --secondary-foreground: #F7F8F8;
 
-    --chart-1: #7B73FF;
+    --chart-1: #F87171;
     --chart-2: #FF8B6A;
     --chart-3: #27A644;
     --chart-4: #FFBE1A;
@@ -136,12 +136,12 @@
 
     --sidebar: #0A0A0B;
     --sidebar-foreground: #F7F8F8;
-    --sidebar-primary: #7B73FF;
+    --sidebar-primary: #F87171;
     --sidebar-primary-foreground: #FFFFFF;
     --sidebar-secondary: #1A1A1D;
     --sidebar-secondary-foreground: #F7F8F8;
     --sidebar-border: #23252A;
-    --sidebar-ring: #7B73FF;
+    --sidebar-ring: #F87171;
   }
   
   * {
@@ -379,8 +379,8 @@
     90deg, 
     var(--background-cream) 0%, 
     #FFB366 20%, 
-    #C5B3FF 40%, 
-    #635BFF 60%, 
+    #FCA5A5 40%, 
+    #EF4444 60%, 
     #FF6B8A 80%, 
     #E855D4 100%
   );
@@ -393,8 +393,8 @@
     90deg, 
     var(--background-soft) 0%, 
     rgba(255, 179, 102, 0.4) 20%, 
-    rgba(197, 179, 255, 0.4) 40%, 
-    rgba(123, 115, 255, 0.4) 60%, 
+    rgba(252, 165, 165, 0.4) 40%, 
+    rgba(239, 68, 68, 0.4) 60%, 
     rgba(255, 107, 138, 0.4) 80%, 
     rgba(232, 85, 212, 0.4) 100%
   );

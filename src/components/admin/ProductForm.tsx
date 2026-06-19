@@ -175,7 +175,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                 Product Image
               </label>
               <div 
-                className={`relative flex aspect-square w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-colors ${imageUrl ? 'border-border/0' : 'border-border hover:border-indigo-500 hover:bg-indigo-500/5'}`}
+                className={`relative flex aspect-square w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed transition-colors ${imageUrl ? 'border-border/0' : 'border-border hover:border-primary hover:bg-primary/5'}`}
                 onClick={() => fileInputRef.current?.click()}
               >
                 {imageUrl ? (
@@ -188,7 +188,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                 ) : (
                   <div className="flex flex-col items-center gap-2 text-foreground-muted">
                     {uploading ? (
-                      <Loader2 className="h-6 w-6 animate-spin text-indigo-500" />
+                      <Loader2 className="h-6 w-6 animate-spin text-primary" />
                     ) : (
                       <>
                         <ImageIcon className="h-8 w-8 opacity-50" />
@@ -220,7 +220,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all placeholder:text-foreground-muted/50"
+                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all placeholder:text-foreground-muted/50"
                   placeholder="e.g. Minimalist Keyboard"
                   required
                 />
@@ -234,7 +234,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
-                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all resize-none placeholder:text-foreground-muted/50"
+                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all resize-none placeholder:text-foreground-muted/50"
                   placeholder="Describe the product..."
                 />
               </div>
@@ -252,7 +252,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                       onChange={(e) => setPrice(e.target.value)}
                       min="0"
                       step="0.01"
-                      className="w-full rounded-xl border-0 bg-secondary/50 pl-8 pr-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all tabular-nums"
+                      className="w-full rounded-xl border-0 bg-secondary/50 pl-8 pr-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all tabular-nums"
                       placeholder="0.00"
                       required
                     />
@@ -268,7 +268,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                     value={stockCount}
                     onChange={(e) => setStockCount(e.target.value)}
                     min="0"
-                    className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all tabular-nums"
+                    className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all tabular-nums"
                     placeholder="0"
                   />
                 </div>
@@ -281,7 +281,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-indigo-500 outline-none transition-all appearance-none"
+                  className="w-full rounded-xl border-0 bg-secondary/50 px-4 py-2.5 text-sm text-foreground ring-1 ring-inset ring-border/50 focus:ring-2 focus:ring-inset focus:ring-primary outline-none transition-all appearance-none"
                 >
                   <option value="">Select a category</option>
                   {categories.map((cat) => (
@@ -296,7 +296,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
                   role="switch"
                   aria-checked={isActive}
                   onClick={() => setIsActive(!isActive)}
-                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-background ${isActive ? 'bg-indigo-500' : 'bg-secondary'}`}
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background ${isActive ? 'bg-primary' : 'bg-secondary'}`}
                 >
                   <span className="sr-only">Active Status</span>
                   <span aria-hidden="true" className={`pointer-events-none absolute left-0 inline-block h-5 w-5 transform rounded-full border border-border/10 bg-white shadow ring-0 transition-transform ${isActive ? 'translate-x-4' : 'translate-x-0'}`} />

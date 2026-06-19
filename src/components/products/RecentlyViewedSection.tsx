@@ -28,16 +28,16 @@ export function RecentlyViewedSection() {
       <ScrollReveal>
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div className="text-center md:text-left mb-4 md:mb-0">
-            <h2 className="text-4xl font-black uppercase tracking-tight text-black dark:text-white">
+            <h2 className="text-4xl font-black uppercase tracking-tight text-foreground">
               Recently Viewed
             </h2>
-            <p className="mt-2 text-[15px] text-gray-500">
+            <p className="mt-2 text-[15px] text-muted-foreground">
               Pick up where you left off
             </p>
           </div>
           <Link
             href="/recently-viewed"
-            className="inline-flex items-center justify-center rounded-full bg-black dark:bg-white text-white dark:text-black px-6 py-2.5 text-sm font-bold shadow-md transition-transform hover:scale-105"
+            className="inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground px-6 py-2.5 text-sm font-bold shadow-md transition-transform hover:scale-105"
           >
             View all
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -50,7 +50,7 @@ export function RecentlyViewedSection() {
           <ScrollReveal key={item.id} delay={i * 60}>
             <Link
               href={`/products/${item.product_id}`}
-              className="group flex flex-col overflow-hidden rounded-3xl bg-white dark:bg-zinc-900 text-black dark:text-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+              className="group flex flex-col overflow-hidden rounded-3xl bg-card text-card-foreground shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
             >
               <div className="relative aspect-square overflow-hidden bg-muted">
                 {item.product.image_url ? (
@@ -68,10 +68,10 @@ export function RecentlyViewedSection() {
                 )}
               </div>
               <div className="flex flex-1 flex-col p-4">
-                <h3 className="line-clamp-2 text-sm font-black leading-snug text-black dark:text-white transition-colors group-hover:text-[#ef4444]">
+                <h3 className="line-clamp-2 text-sm font-black leading-snug text-foreground transition-colors group-hover:text-primary">
                   {item.product.name}
                 </h3>
-                <p className="mt-auto pt-2 text-sm font-bold text-black dark:text-white">
+                <p className="mt-auto pt-2 text-sm font-bold text-foreground">
                   {formatPrice(item.product.price)}
                 </p>
               </div>

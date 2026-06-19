@@ -71,7 +71,7 @@ export default function AdminProductsPage() {
           </button>
         </div>
 
-        <div className="overflow-x-auto rounded-[24px] border border-border/50 bg-card shadow-sm ring-1 ring-inset ring-border/10">
+        <div className="overflow-x-auto rounded-3xl border border-border/50 bg-card shadow-sm ring-1 ring-inset ring-border/10">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border/50 bg-secondary/20">

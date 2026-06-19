@@ -17,7 +17,7 @@ const getCachedProducts = unstable_cache(
     sortOrder: string,
     isAdmin: boolean,
   ) => {
-    console.log(`[CACHE MISS] products-list - fetching (page=${page}, category=${categoryId})`)
+    if (process.env.NODE_ENV === 'development') console.log(`[CACHE MISS] products-list - fetching (page=${page}, category=${categoryId})`)
     const supabase = createPublicClient()
 
     let countQuery = supabase.from('products').select('id', { count: 'exact', head: true })
@@ -61,7 +61,7 @@ const getCachedProducts = unstable_cache(
       throw new Error(error.message)
     }
 
-    console.log(`[CACHE STORE] products-list - ${products?.length || 0} products cached`)
+    if (process.env.NODE_ENV === 'development') console.log(`[CACHE STORE] products-list - ${products?.length || 0} products cached`)
     return { products: products || [], total: count ?? 0 }
   },
   ['products-list'],
@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
     const { products, total } = await getCachedProducts(
       categoryId, minPrice, maxPrice, page, limit, sortBy, sortOrder, isAdmin
     )
-    console.log('[CACHE HIT] products-list - served from cache')
+    if (process.env.NODE_ENV === 'development') console.log('[CACHE HIT] products-list - served from cache')
 
     return Response.json({
       products,

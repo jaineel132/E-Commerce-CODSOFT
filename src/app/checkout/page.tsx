@@ -93,7 +93,7 @@ export default function CheckoutPage() {
 
       <div className="grid gap-12 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2">
-          <div className="rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
             <h2 className="mb-6 text-[18px] font-semibold text-foreground">
               Shipping Address
             </h2>
@@ -103,7 +103,7 @@ export default function CheckoutPage() {
             />
           </div>
 
-          <div className="rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
             <h2 className="mb-6 text-[18px] font-semibold text-foreground">
               Order Items
             </h2>
@@ -148,7 +148,7 @@ export default function CheckoutPage() {
         </div>
 
         <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-[24px] border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+          <div className="sticky top-24 rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
             <h2 className="text-[18px] font-semibold text-foreground">
               Payment Details
             </h2>
