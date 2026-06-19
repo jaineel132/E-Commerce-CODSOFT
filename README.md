@@ -16,12 +16,20 @@
 </p>
 
 <p align="center">
+  🌐 <a href="#live-demo"><strong>Live Demo</strong></a> •
   <a href="#screenshots">Screenshots</a> •
   <a href="#features">Features</a> •
   <a href="#tech-stack">Stack</a> •
   <a href="#quick-start">Quick Start</a> •
   <a href="#docs">Docs</a>
 </p>
+
+---
+
+## Live Demo
+
+<!-- Add your deployed URL here -->
+<!-- Example: [Verdant Live](https://verdant.vercel.app) -->
 
 ---
 

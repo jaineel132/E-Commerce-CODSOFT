@@ -4,6 +4,133 @@ PostgreSQL 16 managed via Supabase. pgvector extension enabled for semantic sear
 
 **10 tables** with Row Level Security, **4 RPC functions**, **11 indexes**, **3 triggers**.
 
+```mermaid
+erDiagram
+    profiles {
+        uuid id PK
+        text email
+        text full_name
+        text avatar_url
+        text role "customer | admin"
+        timestamptz created_at
+    }
+
+    categories {
+        uuid id PK
+        text name
+        text slug UK
+        text description
+        text image_url
+        bool is_active
+        timestamptz created_at
+    }
+
+    products {
+        uuid id PK
+        text name
+        text description
+        numeric price ">= 0"
+        uuid category_id FK
+        text image_url
+        int stock_count ">= 0"
+        bool is_active
+        vector embedding "(3072)"
+        timestamptz created_at
+    }
+
+    cart_items {
+        uuid id PK
+        uuid user_id FK
+        uuid product_id FK
+        int quantity "> 0"
+        timestamptz created_at
+    }
+
+    orders {
+        uuid id PK
+        uuid user_id FK
+        text stripe_session
+        numeric total_amount ">= 0"
+        text status
+        uuid shipping_address_id FK
+        numeric shipping_amount
+        numeric tax_amount
+        text tracking_number
+        text tracking_carrier
+        timestamptz shipped_at
+        timestamptz delivered_at
+        timestamptz cancelled_at
+        text notes
+        timestamptz created_at
+    }
+
+    order_items {
+        uuid id PK
+        uuid order_id FK
+        uuid product_id FK
+        int quantity "> 0"
+        numeric unit_price ">= 0"
+    }
+
+    wishlist_items {
+        uuid id PK
+        uuid user_id FK
+        uuid product_id FK
+        timestamptz created_at
+    }
+
+    recently_viewed {
+        uuid id PK
+        uuid user_id FK
+        uuid product_id FK
+        timestamptz viewed_at
+    }
+
+    addresses {
+        uuid id PK
+        uuid user_id FK
+        text label
+        text full_name
+        text street
+        text city
+        text state
+        text zip_code
+        text country
+        text phone
+        bool is_default
+        timestamptz created_at
+    }
+
+    reviews {
+        uuid id PK
+        uuid product_id FK
+        uuid user_id FK
+        int rating "1-5"
+        text title
+        text body
+        bool is_verified_purchase
+        timestamptz created_at
+    }
+
+    profiles ||--o{ cart_items : "has"
+    profiles ||--o{ orders : "places"
+    profiles ||--o{ wishlist_items : "saves"
+    profiles ||--o{ recently_viewed : "views"
+    profiles ||--o{ addresses : "owns"
+    profiles ||--o{ reviews : "writes"
+
+    categories ||--o{ products : "contains"
+
+    products ||--o{ cart_items : "added to"
+    products ||--o{ order_items : "ordered in"
+    products ||--o{ wishlist_items : "wished"
+    products ||--o{ recently_viewed : "visited"
+    products ||--o{ reviews : "reviewed"
+
+    orders ||--o{ order_items : "includes"
+    orders ||--o| addresses : "shipped to"
+```
+
 ---
 
 ## Tables
@@ -191,10 +318,17 @@ Batch version for webhook processing. Takes `[{ pid, qty }]` JSON array.
 
 ## Order Status Flow
 
-```
-pending → processing → shipped → delivered
-    ↓          ↓
-cancelled   refunded
+```mermaid
+stateDiagram-v2
+    [*] --> pending
+    pending --> processing
+    pending --> cancelled
+    processing --> shipped
+    processing --> refunded
+    shipped --> delivered
+    delivered --> [*]
+    cancelled --> [*]
+    refunded --> [*]
 ```
 
 ---
