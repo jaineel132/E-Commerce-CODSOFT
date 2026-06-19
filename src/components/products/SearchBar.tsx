@@ -78,6 +78,14 @@ export function SearchBar({ onResults, onClear, onQueryChange, className, placeh
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
+  useEffect(() => {
+    if (initialQuery !== undefined && initialQuery !== query) {
+      setQuery(initialQuery)
+      performSearch(initialQuery)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery])
+
   const handleClear = () => {
     setQuery('')
     onClear()

@@ -95,9 +95,9 @@
     --foreground-secondary: #D0D6E0;
     --foreground-muted: #8A8F98;
     
-    --primary: #7B73FF;
-    --primary-hover: #9B94FF;
-    --primary-press: #5B53DF;
+    --primary: #635BFF;
+    --primary-hover: #7B73FF;
+    --primary-press: #4B43C0;
     --primary-soft: #1E1B4B;
     --primary-foreground: #FFFFFF;
     
@@ -246,6 +246,11 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -264,11 +269,6 @@
 @keyframes slide-in-right {
   from { opacity: 0; transform: translateX(-20px); }
   to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes confetti-fall {
-  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
 
 .ai-search-glow {
@@ -317,6 +317,10 @@
   opacity: 1 !important;
 }
 
+.animate-page-in {
+  animation: page-in 0.3s ease-out;
+}
+
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
@@ -347,6 +351,26 @@
 
 .badge-exit {
   animation: scale-in 0.15s ease-in reverse forwards;
+}
+
+/* Missing utility classes */
+.text-display-sm {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Gradient Mesh Classes */

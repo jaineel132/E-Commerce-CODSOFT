@@ -54,8 +54,7 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      const result = await res.json()
-      if (!res.ok) throw new Error(result.error)
+      if (!res.ok) throw new Error((await res.json()).error)
       toast.success('Address updated!')
     } else {
       const res = await fetch('/api/addresses', {
@@ -63,8 +62,7 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      const result = await res.json()
-      if (!res.ok) throw new Error(result.error)
+      if (!res.ok) throw new Error((await res.json()).error)
       toast.success('Address added!')
     }
     setEditingAddress(null)

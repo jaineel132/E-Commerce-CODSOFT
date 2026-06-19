@@ -143,7 +143,7 @@ export default function AdminOrdersPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-[24px] border border-border/50 bg-surface-1 shadow-sm ring-1 ring-inset ring-border/10">
+        <div className="overflow-x-auto rounded-[24px] border border-border/50 bg-card shadow-sm ring-1 ring-inset ring-border/10">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border/50 bg-secondary/20">
@@ -259,7 +259,7 @@ function OrderDetailModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl rounded-[24px] border border-border/50 bg-surface-1 p-6 shadow-2xl ring-1 ring-inset ring-border/10 animate-scale-in"
+        className="w-full max-w-2xl rounded-[24px] border border-border/50 bg-card p-6 shadow-2xl ring-1 ring-inset ring-border/10 animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-8">

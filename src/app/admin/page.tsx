@@ -30,7 +30,7 @@ const StatCard = memo(function StatCard({ label, value, icon: Icon, colorBase }:
   }
   const c = colors[colorBase]
   return (
-    <div className="relative overflow-hidden rounded-[20px] border border-border/50 bg-surface-1 p-6 shadow-sm ring-1 ring-inset ring-border/10 transition-all hover:shadow-md">
+    <div className="relative overflow-hidden rounded-[20px] border border-border/50 bg-card p-6 shadow-sm ring-1 ring-inset ring-border/10 transition-all hover:shadow-md">
       <div className={`absolute left-0 top-0 bottom-0 w-1 ${c.border}`} />
       <div className="flex items-center justify-between">
         <p className="text-[13px] font-medium text-foreground-muted">{label}</p>
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[24px] border border-border/50 bg-surface-1 p-6 shadow-sm ring-1 ring-inset ring-border/10">
+          <div className="rounded-[24px] border border-border/50 bg-card p-6 shadow-sm ring-1 ring-inset ring-border/10">
             <h2 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground-muted">
               Orders Per Day
             </h2>
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
             )}
           </div>
 
-          <div className="rounded-[24px] border border-border/50 bg-surface-1 p-6 shadow-sm ring-1 ring-inset ring-border/10">
+          <div className="rounded-[24px] border border-border/50 bg-card p-6 shadow-sm ring-1 ring-inset ring-border/10">
             <h2 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground-muted">
               Top Products
             </h2>

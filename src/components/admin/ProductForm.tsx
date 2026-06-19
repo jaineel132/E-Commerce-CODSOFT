@@ -147,7 +147,7 @@ export function ProductForm({ product, onClose, onSaved }: ProductFormProps) {
       onClick={onClose}
     >
       <div
-        className="animate-scale-in w-full max-w-2xl rounded-[24px] border border-border/50 bg-surface-1 p-6 sm:p-8 shadow-2xl ring-1 ring-inset ring-border/10"
+        className="animate-scale-in w-full max-w-2xl rounded-[24px] border border-border/50 bg-card p-6 sm:p-8 shadow-2xl ring-1 ring-inset ring-border/10"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-8">

@@ -77,17 +77,9 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
     router.push(`/products?${params.toString()}`)
   }
 
-  const handleSortChange = (sortBy: string) => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('sortBy', sortBy)
-    params.delete('page')
-    router.push(`/products?${params.toString()}`)
-  }
-
   const products = searchResults ?? initialProducts
   const resultCount = searchResults !== null ? searchResults.length : total ?? initialProducts.length
   const isSearchEmpty = isSearchActive && resultCount === 0
-  const currentSortBy = searchParams.get('sortBy') || 'created_at'
   const displayPage = isSearchActive ? searchPage : page
   const displayTotalPages = isSearchActive ? searchTotalPages : totalPages
 
@@ -102,17 +94,6 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
           initialQuery={initialQuery}
           page={searchPage}
         />
-        {!isSearchActive && (
-          <select
-            value={currentSortBy}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-          >
-            <option value="created_at">Newest</option>
-            <option value="price">Price</option>
-            <option value="name">Name</option>
-          </select>
-        )}
       </div>
 
       {isSearchActive && !isSearchEmpty && (
@@ -156,6 +137,7 @@ export function ProductList({ initialProducts, initialQuery, total, page = 1, to
         </div>
       ) : (
         <>
+          <h2 className="sr-only">Product Grid</h2>
           <ProductGrid products={products} ratingStats={initialReviewStats} />
           <Pagination
             page={displayPage}

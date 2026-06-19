@@ -33,6 +33,7 @@ export function SortDropdown() {
 
   return (
     <select
+      aria-label="Sort products by"
       value={currentValue === 'created_at-desc' ? 'newest' : currentValue}
       onChange={handleChange}
       className="rounded-[10px] border border-input bg-background px-3 py-2 text-[13px] font-medium text-foreground shadow-sm hover:bg-secondary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors cursor-pointer"

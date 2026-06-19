@@ -9,7 +9,6 @@ import { StockBadge } from './StockBadge'
 import { ReviewBadge } from './ReviewBadge'
 import { FlyToCart } from '@/components/ui/FlyToCart'
 import { formatPrice } from '@/lib/utils'
-import { useRealtimeStock } from '@/hooks/useRealtimeStock'
 import { useWishlistContext } from '@/context/WishlistContext'
 import type { Product } from '@/types'
 
@@ -22,7 +21,7 @@ interface ProductCardProps {
 export const ProductCard = memo(function ProductCard({ product, priority, ratingStats }: ProductCardProps) {
   const [imageError, setImageError] = useState(false)
   const [added, setAdded] = useState(false)
-  const stockCount = useRealtimeStock(product.id, product.stock_count)
+  const stockCount = product.stock_count
   const isOutOfStock = stockCount <= 0
   const { wishlistItems, addToWishlist, removeFromWishlist } = useWishlistContext()
   
@@ -79,6 +78,7 @@ export const ProductCard = memo(function ProductCard({ product, priority, rating
         <div className="absolute right-3 top-3 z-10">
           <button 
             onClick={handleWishlistToggle}
+            aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
             className={`flex h-8 w-8 items-center justify-center rounded-full backdrop-blur-md transition-all sm:opacity-100 ${
               isInWishlist 
                 ? 'bg-background text-destructive shadow-sm' 

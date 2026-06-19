@@ -57,7 +57,7 @@ export function Navbar() {
           {!isAdminPage && (
             <div className="hidden md:block w-64 relative group">
               <form onSubmit={handleSearchSubmit}>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"></div>
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <input
                   type="text"
@@ -97,7 +97,7 @@ export function Navbar() {
             <>
               {!isAdminPage && (
                 <>
-                  <Link id="cart-icon-desktop" href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+                  <Link id="cart-icon-desktop" href="/cart" aria-label="Shopping cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                     <ShoppingCart className="h-5 w-5" />
                     {cartCount > 0 && (
                       <AnimatePresence mode="wait">
@@ -114,7 +114,7 @@ export function Navbar() {
                       </AnimatePresence>
                     )}
                   </Link>
-                  <Link href="/wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+                  <Link href="/wishlist" aria-label="Wishlist" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
                     <Heart className="h-5 w-5" />
                     {wishlistItems.length > 0 && (
                       <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
@@ -125,7 +125,7 @@ export function Navbar() {
                   <Link href="/orders" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200">
                     Orders
                   </Link>
-                  <Link href="/profile" className="text-muted-foreground hover:text-foreground transition-all duration-200">
+                  <Link href="/profile" aria-label="Profile" className="text-muted-foreground hover:text-foreground transition-all duration-200">
                     <User className="h-5 w-5" />
                   </Link>
                 </>
@@ -152,7 +152,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-3 md:hidden">
           {!isAdminPage && (
-            <Link href="/cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
+            <Link href="/cart" aria-label="Shopping cart" className="relative text-muted-foreground hover:text-foreground transition-all duration-200">
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
                 <AnimatePresence mode="wait">
