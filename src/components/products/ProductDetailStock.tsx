@@ -21,25 +21,13 @@ export function ProductDetailStock({ productId, initialStock }: ProductDetailSto
   }, [productId, trackView])
 
   return (
-    <>
-      <div className="mt-4 flex items-center gap-3">
+    <div className="flex flex-col gap-6 rounded-[20px] bg-card p-6 ring-1 ring-inset ring-border/50 shadow-sm">
+      <div className="flex items-center justify-between">
+        <span className="text-[14px] font-medium text-foreground">Availability</span>
         <StockBadge stockCount={stockCount} />
       </div>
 
-      <div className="mt-8">
-        <AddToCartButton productId={productId} isOutOfStock={isOutOfStock} />
-      </div>
-
-      <div className="mt-8 border-t pt-6 border-border">
-        <dl className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <dt className="text-muted-foreground">Availability</dt>
-            <dd className="mt-1 text-foreground">
-              {isOutOfStock ? 'Out of stock' : `${stockCount} in stock`}
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </>
+      <AddToCartButton productId={productId} isOutOfStock={isOutOfStock} />
+    </div>
   )
 }

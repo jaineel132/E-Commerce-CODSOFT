@@ -32,10 +32,10 @@ export async function getCachedSearch(query: string): Promise<{ products: unknow
   const key = cacheKey(query)
   const cached = await redis.get<{ products: unknown[] }>(key)
   if (cached) {
-    console.log(`[CACHE HIT] search - "${normalizeQuery(query)}"`)
+    if (process.env.NODE_ENV === 'development') console.log(`[CACHE HIT] search - "${normalizeQuery(query)}"`)
     return cached
   }
-  console.log(`[CACHE MISS] search - "${normalizeQuery(query)}"`)
+  if (process.env.NODE_ENV === 'development') console.log(`[CACHE MISS] search - "${normalizeQuery(query)}"`)
   return null
 }
 
@@ -43,5 +43,5 @@ export async function setCachedSearch(query: string, data: { products: unknown[]
   if (!redis) return
   const key = cacheKey(query)
   await redis.set(key, data, { ex: CACHE_TTL })
-  console.log(`[CACHE STORE] search - "${normalizeQuery(query)}" (TTL ${CACHE_TTL}s)`)
+  if (process.env.NODE_ENV === 'development') console.log(`[CACHE STORE] search - "${normalizeQuery(query)}" (TTL ${CACHE_TTL}s)`)
 }

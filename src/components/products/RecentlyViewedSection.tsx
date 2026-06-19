@@ -24,23 +24,23 @@ export function RecentlyViewedSection() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-border">
       <ScrollReveal>
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-foreground">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <h2 className="text-4xl font-black uppercase tracking-tight text-foreground">
               Recently Viewed
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-2 text-[15px] text-muted-foreground">
               Pick up where you left off
             </p>
           </div>
           <Link
             href="/recently-viewed"
-            className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80"
+            className="inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground px-6 py-2.5 text-sm font-bold shadow-md transition-transform hover:scale-105"
           >
             View all
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
       </ScrollReveal>
@@ -50,7 +50,7 @@ export function RecentlyViewedSection() {
           <ScrollReveal key={item.id} delay={i * 60}>
             <Link
               href={`/products/${item.product_id}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+              className="group flex flex-col overflow-hidden rounded-3xl bg-card text-card-foreground shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
             >
               <div className="relative aspect-square overflow-hidden bg-muted">
                 {item.product.image_url ? (
@@ -67,11 +67,11 @@ export function RecentlyViewedSection() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-1 flex-col p-3">
-                <h3 className="line-clamp-1 text-xs font-semibold text-card-foreground transition-colors group-hover:text-primary">
+              <div className="flex flex-1 flex-col p-4">
+                <h3 className="line-clamp-2 text-sm font-black leading-snug text-foreground transition-colors group-hover:text-primary">
                   {item.product.name}
                 </h3>
-                <p className="mt-auto pt-1 text-sm font-bold text-foreground">
+                <p className="mt-auto pt-2 text-sm font-bold text-foreground">
                   {formatPrice(item.product.price)}
                 </p>
               </div>

@@ -59,11 +59,11 @@ export default function CheckoutSuccessPage() {
         />
       ))}
 
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div className="animate-fade-in-up mx-auto max-w-md text-center">
-          <div className="mb-6 flex justify-center">
+          <div className="mb-8 flex justify-center">
             <svg
-              className="h-16 w-16 text-primary checkmark-svg"
+              className="h-20 w-20 text-success checkmark-svg"
               viewBox="0 0 52 52"
             >
               <circle
@@ -87,35 +87,35 @@ export default function CheckoutSuccessPage() {
             </svg>
           </div>
 
-          <h1 className="mb-2 font-serif text-2xl font-bold text-foreground">
+          <h1 className="mb-3 display-sm text-foreground">
             Order Confirmed!
           </h1>
 
-          <p className="mb-2 text-sm text-muted-foreground">
+          <p className="mb-4 text-[15px] text-foreground-muted leading-relaxed">
             Thank you for your purchase. Your order has been placed successfully.
           </p>
 
           {sessionId && (
-            <p className="mb-8 text-xs text-muted-foreground">
-              Session ID: {sessionId.slice(0, 32)}...
+            <p className="mb-10 text-[13px] font-mono text-foreground-muted bg-secondary py-1 px-3 rounded-full inline-block">
+              ID: {sessionId.slice(0, 32)}...
             </p>
           )}
 
-          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-            <p className="mb-4 text-sm text-muted-foreground">
+          <div className="rounded-[24px] border border-border bg-card p-8 shadow-sm ring-1 ring-inset ring-border/50">
+            <p className="mb-8 text-[14px] text-foreground-muted leading-relaxed">
               You will receive an email confirmation shortly. Your order is being processed and you can track its status below.
             </p>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               <Link
                 href="/orders"
-                className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="flex w-full items-center justify-center rounded-full bg-primary py-3.5 text-[15px] font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-primary/25"
               >
                 View My Orders
               </Link>
               <Link
                 href="/products"
-                className="flex w-full items-center justify-center rounded-lg border border-border bg-muted px-4 py-3 text-sm font-medium text-card-foreground transition-colors hover:bg-muted/80"
+                className="flex w-full items-center justify-center rounded-full bg-secondary py-3.5 text-[15px] font-medium text-foreground transition-all duration-300 hover:bg-muted hover:scale-[1.02] active:scale-[0.98]"
               >
                 Continue Shopping
               </Link>

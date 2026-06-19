@@ -32,16 +32,15 @@ export const CartItem = memo(function CartItem({ item }: CartItemProps) {
   }
 
   return (
-    <div className="animate-slide-in-right flex gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground shadow-sm"
-    >
-      <Link href={`/products/${product.id}`} className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-muted">
+    <div className="animate-slide-in-right flex gap-6 py-6 border-b border-border last:border-0 group">
+      <Link href={`/products/${product.id}`} className="relative h-32 w-32 shrink-0 overflow-hidden rounded-[16px] bg-muted ring-1 ring-inset ring-border/50">
         {product.image_url && !imageError ? (
           <Image
             src={product.image_url}
             alt={product.name}
             fill
-            sizes="96px"
-            className="object-cover"
+            sizes="128px"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
             onError={() => setImageError(true)}
           />
         ) : (
@@ -54,51 +53,51 @@ export const CartItem = memo(function CartItem({ item }: CartItemProps) {
       </Link>
 
       <div className="flex flex-1 flex-col justify-between">
-        <div>
-          <Link
-            href={`/products/${product.id}`}
-            className="text-sm font-semibold text-card-foreground hover:text-primary transition-all duration-200"
+        <div className="flex justify-between items-start">
+          <div>
+            <Link
+              href={`/products/${product.id}`}
+              className="text-[16px] font-medium text-foreground hover:text-primary transition-colors"
+            >
+              {product.name}
+            </Link>
+            <p className="mt-1 text-[14px] text-foreground-muted tabular-nums">
+              {formatPrice(product.price)} each
+            </p>
+          </div>
+          <button
+            onClick={handleRemove}
+            className="text-foreground-muted transition-colors hover:text-destructive p-2 -mr-2 rounded-full hover:bg-destructive/10"
+            aria-label="Remove item"
           >
-            {product.name}
-          </Link>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            {formatPrice(product.price)} each
-          </p>
+            <Trash2 className="h-5 w-5" />
+          </button>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center gap-1 bg-secondary rounded-full p-1 ring-1 ring-inset ring-border/50">
             <button
               onClick={() => handleUpdateQuantity(item.quantity - 1)}
               disabled={item.quantity <= 1 || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background text-foreground transition-all hover:bg-card hover:shadow-sm active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <Minus className="h-3 w-3" />
+              <Minus className="h-4 w-4" />
             </button>
-            <span className="w-10 text-center text-sm font-medium">
+            <span className="w-10 text-center text-[14px] font-medium tabular-nums">
               {updating ? '...' : item.quantity}
             </span>
             <button
               onClick={() => handleUpdateQuantity(item.quantity + 1)}
               disabled={item.quantity >= maxStock || updating}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-muted text-card-foreground transition-all duration-200 hover:bg-accent hover:text-accent-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background text-foreground transition-all hover:bg-card hover:shadow-sm active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <Plus className="h-3 w-3" />
+              <Plus className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
-            <p className="text-sm font-bold text-card-foreground">
-              {formatPrice(product.price * item.quantity)}
-            </p>
-            <button
-              onClick={handleRemove}
-              className="text-muted-foreground transition-all duration-200 hover:text-destructive active:scale-90"
-              aria-label="Remove item"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
-          </div>
+          <p className="text-[18px] font-semibold text-foreground tabular-nums">
+            {formatPrice(product.price * item.quantity)}
+          </p>
         </div>
       </div>
     </div>

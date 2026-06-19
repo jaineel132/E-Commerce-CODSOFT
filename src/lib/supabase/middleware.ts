@@ -30,6 +30,7 @@ export async function updateSession(request: NextRequest) {
   const isProtected = protectedRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   )
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone()
@@ -37,24 +38,36 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    if (!user) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      return NextResponse.redirect(url)
-    }
-
+  // Check role when needed (admin routes or admin-on-user-page redirects)
+  let isAdmin = false
+  if (user && (isAdminRoute || isProtected)) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
+    isAdmin = profile?.role === 'admin'
+  }
 
-    if (profile?.role !== 'admin') {
+  // Admin route protection - non-admins redirected from /admin/*
+  if (isAdminRoute) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+    if (!isAdmin) {
       const url = request.nextUrl.clone()
       url.pathname = '/'
       return NextResponse.redirect(url)
     }
+  }
+
+  // Admin restricted routes - admins redirected from user pages
+  if (isProtected && isAdmin) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/admin'
+    return NextResponse.redirect(url)
   }
 
   return supabaseResponse

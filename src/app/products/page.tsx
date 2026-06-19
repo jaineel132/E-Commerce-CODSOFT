@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { ProductList } from '@/components/products/ProductList'
 import { ProductFilter } from '@/components/products/ProductFilter'
+import { SortDropdown } from '@/components/products/SortDropdown'
 import { getReviewStats } from '@/lib/reviews'
 import type { Product } from '@/types'
 import type { Metadata } from 'next'
@@ -94,33 +95,48 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const ratingStats = await getReviewStats(productIds)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          All Products
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Search with AI or browse with filters
-        </p>
+    <div className="flex flex-col min-h-screen">
+      {/* Mini-Hero Band */}
+      <div className="bg-gradient-mesh border-b border-border py-12 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="display-md text-foreground">
+            All Products
+          </h1>
+          <p className="mt-2 text-[16px] text-foreground-muted">
+            Search with AI or browse our curated collections using filters
+          </p>
+        </div>
       </div>
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        <aside className="w-full lg:w-64 lg:shrink-0">
-          <div className="sticky top-24 rounded-xl bg-card border border-border p-4 shadow-sm">
-            <ProductFilter />
-          </div>
-        </aside>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 w-full flex-1">
+        <div className="flex flex-col gap-8 lg:flex-row">
+          <aside className="w-full lg:w-64 lg:shrink-0">
+            <div className="sticky top-24 rounded-[16px] bg-card border border-border p-5 shadow-sm">
+              <ProductFilter />
+            </div>
+          </aside>
 
-        <div className="flex-1">
-          <ProductList
-            key={filterKey}
-            initialProducts={products}
-            initialQuery={q}
-            total={total}
-            page={page}
-            totalPages={totalPages}
-            initialReviewStats={ratingStats}
-          />
+          <div className="flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+              <p className="text-[14px] font-medium text-foreground-muted">
+                Showing <span className="text-foreground">{total}</span> results
+              </p>
+              <div className="flex items-center gap-3">
+                <span className="text-[13px] font-medium text-foreground-muted">Sort by:</span>
+                <SortDropdown />
+              </div>
+            </div>
+
+            <ProductList
+              key={filterKey}
+              initialProducts={products}
+              initialQuery={q}
+              total={total}
+              page={page}
+              totalPages={totalPages}
+              initialReviewStats={ratingStats}
+            />
+          </div>
         </div>
       </div>
     </div>

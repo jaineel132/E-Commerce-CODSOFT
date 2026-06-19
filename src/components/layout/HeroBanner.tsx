@@ -1,41 +1,61 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowRight } from 'lucide-react'
 
 export function HeroBanner() {
   return (
-    <section className="animate-fade-in relative overflow-hidden bg-primary text-primary-foreground">
-      <div
-        className="absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full opacity-15 animate-gradient-blob"
-        style={{ background: 'linear-gradient(135deg, var(--primary), var(--accent))' }}
-      />
+    <section className="relative overflow-hidden bg-gradient-to-br from-muted to-border min-h-[600px] flex items-center">
+      {/* Huge Background Text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-0">
+        <h1 className="text-[10rem] md:text-[14rem] font-bold text-white/70 dark:text-white/5 tracking-tighter select-none whitespace-nowrap">
+          VERDANT
+        </h1>
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-32 sm:px-6 sm:py-40 lg:px-8">
-        <div className="max-w-3xl">
-          <h1 className="animate-fade-in-up delay-200 font-serif text-5xl font-bold tracking-tighter md:text-6xl lg:text-7xl">
-            Discover Something{' '}
-            <span className="text-accent">Amazing</span>
-          </h1>
-          <p className="animate-fade-in-up delay-400 mt-6 text-lg leading-8 text-primary-foreground/80">
-            Shop the latest trends across Electronics, Clothing, Books, and Home
-            &amp; Kitchen. Quality products at unbeatable prices.
-          </p>
-          <div className="animate-fade-in-up delay-600 mt-10 flex items-center gap-x-6">
+      <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between z-10">
+        {/* Left Content */}
+        <div className="flex-1 space-y-4 text-center md:text-left mb-12 md:mb-0">
+          <h2 className="text-5xl md:text-7xl font-black text-foreground tracking-tight leading-tight">
+            Curated For Your <br className="hidden md:block" />
+            <span className="text-primary">Modern Lifestyle</span>
+          </h2>
+          <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link
               href="/products"
-              className="rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
+              className="inline-flex items-center justify-center rounded-full bg-primary hover:bg-primary-hover px-8 py-3.5 text-[15px] font-medium text-primary-foreground shadow-lg transition-transform hover:-translate-y-0.5"
             >
               Shop Now
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
-            <Link
-              href="/products"
-              className="text-sm font-semibold leading-6 text-primary-foreground/70 hover:text-primary-foreground"
-            >
-              Browse Catalog →
-            </Link>
+          </div>
+        </div>
+
+        {/* Center Image */}
+        <div className="flex-1 flex justify-center w-full max-w-md md:max-w-none relative animate-fade-in-up">
+          <Image
+            src="/headphone-removebg-preview.png"
+            alt="Featured Product"
+            width={500}
+            height={500}
+            className="object-contain drop-shadow-2xl"
+            priority
+          />
+        </div>
+
+        {/* Right Content */}
+        <div className="flex-1 flex flex-col items-center md:items-end text-center md:text-right mt-12 md:mt-0">
+          <div className="max-w-[280px]">
+            <h3 className="text-lg font-bold text-foreground mb-3">About the collection</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Shop the latest trends across Electronics, Clothing, Books, and Home
+              &amp; Kitchen. Experience quality products at unbeatable prices.
+            </p>
           </div>
         </div>
       </div>
     </section>
   )
 }
+

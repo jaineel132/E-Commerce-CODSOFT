@@ -7,7 +7,7 @@ import { parseBody, productPatchSchema } from '@/lib/validations'
 
 const getCachedProduct = unstable_cache(
   async (id: string) => {
-    console.log(`[CACHE MISS] product-detail - fetching id=${id}`)
+    if (process.env.NODE_ENV === 'development') console.log(`[CACHE MISS] product-detail - fetching id=${id}`)
     const supabase = createPublicClient()
 
     const { data: product, error } = await supabase
@@ -21,7 +21,7 @@ const getCachedProduct = unstable_cache(
       throw new Error('Product not found')
     }
 
-    console.log(`[CACHE STORE] product-detail - id=${id} cached`)
+    if (process.env.NODE_ENV === 'development') console.log(`[CACHE STORE] product-detail - id=${id} cached`)
     return product
   },
   ['product-detail'],
@@ -34,7 +34,7 @@ export async function GET(
 ) {
   try {
     const product = await getCachedProduct(params.id)
-    console.log('[CACHE HIT] product-detail - served from cache')
+    if (process.env.NODE_ENV === 'development') console.log('[CACHE HIT] product-detail - served from cache')
     return Response.json({ product }, { status: 200 })
   } catch (err) {
     console.error('[CACHE ERROR] product-detail route failed:', err instanceof Error ? err.message : String(err))

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { User, Edit3, Check, Loader2, Sparkles } from 'lucide-react'
+import { User, Edit3, Check, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/context/AuthContext'
 import { ProfileCard } from '@/components/profile/ProfileCard'
@@ -54,8 +54,7 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      const result = await res.json()
-      if (!res.ok) throw new Error(result.error)
+      if (!res.ok) throw new Error((await res.json()).error)
       toast.success('Address updated!')
     } else {
       const res = await fetch('/api/addresses', {
@@ -63,8 +62,7 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      const result = await res.json()
-      if (!res.ok) throw new Error(result.error)
+      if (!res.ok) throw new Error((await res.json()).error)
       toast.success('Address added!')
     }
     setEditingAddress(null)
@@ -125,17 +123,17 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="skeleton-shimmer mb-10 h-8 w-40 rounded" />
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-1 space-y-6">
-            <div className="skeleton-shimmer h-64 rounded-2xl" />
-            <div className="skeleton-shimmer h-36 rounded-2xl" />
+            <div className="skeleton-shimmer h-64 rounded-3xl" />
+            <div className="skeleton-shimmer h-36 rounded-3xl" />
           </div>
           <div className="lg:col-span-2 space-y-4">
-            <div className="skeleton-shimmer h-20 rounded-xl" />
-            <div className="skeleton-shimmer h-20 rounded-xl" />
-            <div className="skeleton-shimmer h-20 rounded-xl" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
+            <div className="skeleton-shimmer h-20 rounded-3xl" />
           </div>
         </div>
       </div>
@@ -144,13 +142,16 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="mb-10 flex items-center gap-3 font-serif text-3xl font-bold tracking-tight text-foreground">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg">
-          <User className="h-5 w-5 text-primary-foreground" />
+      <div className="mb-10 pb-6 border-b border-border flex items-center gap-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 ring-1 ring-inset ring-primary/20">
+          <User className="h-6 w-6 text-primary" />
         </div>
-        My Profile
-        <Sparkles className="ml-2 h-6 w-6 text-primary" />
-      </h1>
+        <div>
+          <h1 className="display-sm text-foreground">
+            My Profile
+          </h1>
+        </div>
+      </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-1 space-y-6">
@@ -160,23 +161,23 @@ export default function ProfilePage() {
         </div>
 
         <div className="lg:col-span-2 space-y-8">
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-            <h3 className="mb-6 flex items-center gap-2 font-serif text-base font-bold text-foreground">
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-sm ring-1 ring-inset ring-border/50">
+            <h3 className="mb-6 flex items-center gap-2 text-[16px] font-semibold text-foreground">
               <Edit3 className="h-5 w-5 text-primary" />
               Personal Information
             </h3>
             <div className="space-y-5">
               <div>
-                <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Email</label>
-                <p className="mt-1.5 text-sm text-foreground">{profile?.email || user?.email}</p>
+                <label className="text-[12px] font-medium uppercase tracking-wider text-foreground-muted">Email</label>
+                <p className="mt-2 text-[15px] text-foreground">{profile?.email || user?.email}</p>
               </div>
               <div>
-                <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Full Name</label>
+                <label className="text-[12px] font-medium uppercase tracking-wider text-foreground-muted">Full Name</label>
                 <input
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-[14px] text-foreground outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   placeholder="Enter your name"
                 />
               </div>
@@ -184,7 +185,7 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSaveName}
                   disabled={saving || fullName === (profile?.full_name || '')}
-                  className="flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-all duration-200 shadow-sm hover:shadow-md"
+                  className="flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-[14px] font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-all duration-300 shadow-sm hover:shadow-primary/25 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                   Save Changes

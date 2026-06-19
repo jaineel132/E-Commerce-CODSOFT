@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, X } from 'lucide-react'
+import { Search, X, Sparkles } from 'lucide-react'
 import type { Product } from '@/types'
 
 interface SearchBarProps {
@@ -78,6 +78,14 @@ export function SearchBar({ onResults, onClear, onQueryChange, className, placeh
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
+  useEffect(() => {
+    if (initialQuery !== undefined && initialQuery !== query) {
+      setQuery(initialQuery)
+      performSearch(initialQuery)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery])
+
   const handleClear = () => {
     setQuery('')
     onClear()
@@ -86,31 +94,40 @@ export function SearchBar({ onResults, onClear, onQueryChange, className, placeh
   return (
     <div className={className}>
       <div className="relative w-full focus:w-80 transition-all duration-300">
-        <div className="p-[1px] ai-search-glow rounded-xl">
-          <div className="relative bg-background rounded-[11px]">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <div className="p-[1px] ai-search-glow rounded-[12px]">
+          <div className="relative bg-background rounded-[11px] flex items-center">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={placeholder}
-              className="w-full bg-transparent rounded-[11px] py-2 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground outline-none"
+              className="w-full bg-transparent rounded-[11px] py-2.5 pl-10 pr-24 text-[14px] text-foreground placeholder:text-foreground-muted outline-none"
             />
+            
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              {!query && !searching && (
+                <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium text-foreground-muted ring-1 ring-inset ring-border/50">
+                  <Sparkles className="h-3 w-3 text-primary" />
+                  AI Search
+                </div>
+              )}
               {query && !searching && (
                 <button
                   onClick={handleClear}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="text-foreground-muted hover:text-foreground p-1 rounded-full hover:bg-secondary transition-colors"
                 >
                   <X className="h-4 w-4" />
                 </button>
               )}
-            {searching && (
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0ms' }} />
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '150ms' }} />
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '300ms' }} />
-              </div>
-            )}
+              {searching && (
+                <div className="flex items-center gap-1 px-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" style={{ animationDelay: '300ms' }} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -20,34 +20,13 @@ export interface Product {
   created_at: string
 }
 
-export interface CartItem {
+export interface CartItemWithProduct {
   id: string
   user_id: string
   product_id: string
   quantity: number
   created_at: string
-}
-
-export interface CartItemWithProduct extends CartItem {
   product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
-}
-
-export interface Order {
-  id: string
-  user_id: string
-  stripe_session: string
-  total_amount: number
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded'
-  shipping_address_id: string | null
-  shipping_amount: number
-  tax_amount: number
-  tracking_number: string | null
-  tracking_carrier: string | null
-  shipped_at: string | null
-  delivered_at: string | null
-  cancelled_at: string | null
-  notes: string | null
-  created_at: string
 }
 
 export interface OrderItem {
@@ -58,29 +37,19 @@ export interface OrderItem {
   unit_price: number
 }
 
-export interface OrderWithItems extends Order {
-  items: OrderItem[]
-}
-
-export interface WishlistItem {
+export interface WishlistItemWithProduct {
   id: string
   user_id: string
   product_id: string
   created_at: string
-}
-
-export interface WishlistItemWithProduct extends WishlistItem {
   product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
 }
 
-export interface RecentlyViewed {
+export interface RecentlyViewedWithProduct {
   id: string
   user_id: string
   product_id: string
   viewed_at: string
-}
-
-export interface RecentlyViewedWithProduct extends RecentlyViewed {
   product: Pick<Product, 'id' | 'name' | 'price' | 'image_url' | 'stock_count'>
 }
 
@@ -110,7 +79,7 @@ export interface Address {
   created_at: string
 }
 
-export interface Review {
+export interface ReviewWithUser {
   id: string
   product_id: string
   user_id: string
@@ -119,8 +88,5 @@ export interface Review {
   body: string | null
   is_verified_purchase: boolean
   created_at: string
-}
-
-export interface ReviewWithUser extends Review {
   user: Pick<Profile, 'full_name'>
 }
