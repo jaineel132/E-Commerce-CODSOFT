@@ -28,8 +28,7 @@
 
 ## Live Demo
 
-<!-- Add your deployed URL here -->
-<!-- Example: [Verdant Live](https://verdant.vercel.app) -->
+[https://verdant-mocha-six.vercel.app](https://verdant-mocha-six.vercel.app)
 
 ---
 
@@ -58,6 +57,43 @@
 **Admin** — Dashboard with revenue/chart stats (Recharts) · Product CRUD with image upload to Supabase Storage · Order management with status updates & tracking info · Triple-layer admin enforcement (middleware, server layout, API)
 
 **Performance** — `unstable_cache` + tag-based revalidation · Redis search caching (300s TTL) · Server-side pagination · 10 database indexes (B-tree, partial, composite) · Image optimization (AVIF/WebP) · Skeleton loading · Rate limiting (IP + user)
+
+---
+
+## Unique Features
+
+### 🔍 AI Semantic Search
+
+Natural language search understands intent, not just keywords. Powered by Google Gemini embeddings + pgvector cosine similarity.
+
+| You type… | It finds… |
+|-----------|-----------|
+| `"warm winter jackets"` | Leather jackets, hooded parkas, puffer coats |
+| `"cozy bedtime reads"` | Fiction books, novels, paperbacks |
+| `"wireless audio gear"` | Bluetooth headphones, earbuds, speakers |
+| `"desk setup essentials"` | Monitors, keyboards, mouse pads, lamps |
+
+Results are ranked by semantic similarity and automatically trimmed via **elbow filtering** — drops irrelevant tail results where the similarity gap between items exceeds 0.03. Search results are cached in Redis (300s TTL) for instant repeat queries.
+
+### 🧠 Vector-Based Recommendations
+
+Every product detail page shows **"You might also like"** — similar products found using the product's own embedding vector. The same `match_products()` pgvector function with a lower threshold (0.3) pulls up to 4 semantically related items.
+
+### 📦 Real-Time Stock
+
+Product detail pages show **live stock counts** via Supabase Realtime subscriptions. When stock changes (e.g., another purchase completes), the counter updates in real time without a page refresh.
+
+### 🎯 Elbow Filtering
+
+After fetching semantic search results, the API iterates through the ranked list and drops everything after a similarity gap >= 0.03. This means if results 1-3 are highly relevant (similarity 0.92, 0.90, 0.88) but result 4 drops to 0.72, only the first 3 are returned — no irrelevant clutter.
+
+### ✨ Animated UI Details
+
+- **Search bar** has a glowing animated border (`ai-search-glow` CSS) and animated loading dots during queries
+- **Add to cart** triggers a "fly to cart" animation — the product image shrinks and flies into the cart icon
+- **Page transitions** use Framer Motion with fade-in-up animations
+- **Order confirmation** page has a confetti burst animation
+- **Scroll-triggered reveals** using IntersectionObserver throughout the site
 
 ---
 
