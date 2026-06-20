@@ -38,6 +38,7 @@ next-env.d.ts
 # screenshots
 *.png
 !public/screenshots/*.png
+!public/*.png
 
 # AI agent skill files
 .agents/
