@@ -63,14 +63,20 @@
 
 ## Tech Stack
 
-| | | |
-|---|---|---|
-| **Framework** | Next.js 14.2 (App Router) | **Language** | TypeScript 5 |
-| **Styling** | Tailwind CSS 3, Framer Motion, Lucide | **Database** | PostgreSQL 16 + pgvector |
-| **Auth** | Supabase Auth (SSR, JWT, OAuth) | **Payments** | Stripe Checkout + Webhooks |
-| **AI Search** | Gemini `gemini-embedding-001` (3072d) | **Cache** | Upstash Redis |
-| **Validation** | Zod | **Charts** | Recharts |
-| **Storage** | Supabase Storage | **UI** | shadcn/ui, Sonner |
+| Category | Technology |
+|----------|-----------|
+| **Framework** | Next.js 14.2 (App Router) |
+| **Language** | TypeScript 5 |
+| **Styling** | Tailwind CSS 3, Framer Motion, Lucide |
+| **Database** | PostgreSQL 16 + pgvector |
+| **Auth** | Supabase Auth (SSR, JWT, OAuth) |
+| **Payments** | Stripe Checkout + Webhooks |
+| **AI Search** | Gemini `gemini-embedding-001` (3072d) |
+| **Cache / Rate Limit** | Upstash Redis |
+| **Validation** | Zod |
+| **Charts** | Recharts |
+| **Storage** | Supabase Storage |
+| **UI Library** | shadcn/ui, Sonner |
 
 ---
 

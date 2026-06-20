@@ -39,12 +39,19 @@ next-env.d.ts
 *.png
 !public/screenshots/*.png
 
+# AI agent skill files
+.agents/
+
 # planning & design docs (not part of source)
 /prd.md
 /ai_rules.md
 /architecture.md
 /plan.md
 /DESIGN.md
+/AGENTS.md
+/DESIGN_LINEAR.md
+/DESIGN_STRIPE.md
+/FRONTEND_REDESIGN.md
 
 # testing artifacts
 .playwright-mcp/
