@@ -7,7 +7,7 @@ Base path: `/api`
 ## Public
 
 ### GET /api/products
-Query params: `category` (slug), `minPrice`, `maxPrice`, `page` (default 1), `limit` (default 20), `sortBy` (created_at|price|name), `sortOrder` (asc|desc). Returns paginated product list with category data. Cached (300s).
+Query params: `category` (slug), `minPrice`, `maxPrice`, `page` (default 1), `limit` (default 20), `sortBy` (created_at|price|name), `sortOrder` (asc|desc). Returns paginated product list with category data. Cached (300s)
 
 ### GET /api/products/[id]
 Returns single product with category data. Cached (1800s).
